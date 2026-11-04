@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block title %}{{ t.title_watch }}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="watch-top">
+  <div>
+    <div class="tag">{{ t.w_tag }}</div>
+    <h1 class="page-title">{{ t.h1_watch }}</h1>
+  </div>
+  {# Search keeps the current filters by sending them along as hidden fields. #}
+  <form class="command watch-search" method="get" role="search">
+    <span class="command-prompt" aria-hidden="true">&gt;_</span>
+    <input name="q" type="text" value="{{ q }}" aria-label="{{ t.l_search_label }}" placeholder="{{ t.w_search_short }}">
+    <input type="hidden" name="min_risk" value="{{ min_risk }}">
+    {% if dark_only %}<input type="hidden" name="dark" value="1">{% endif %}
+    <button class="btn btn-primary" type="submit">{{ t.w_scan }}</button>
+  </form>
+</div>
+
+{# ---------- Counters ---------- #}
+<div class="counters">
+  <div class="card counter"><div class="counter-label">{{ t.c_alerts }}</div><div class="counter-value">{{ counts.alerts }}</div></div>
+  <div class="card counter text-high"><div class="counter-label">{{ t.c_high }}</div><div class="counter-value">{{ counts.high }}</div></div>
+  <div class="card counter"><div class="counter-label">{{ t.c_dark }}</div><div class="counter-value">{{ counts.dark }}</div></div>
+  <div class="card counter accent"><div class="counter-label">{{ t.c_awaiting }}</div><div class="counter-value">{{ counts.awaiting }}</div></div>
+</div>
+
+<div class="watch-grid">
+
+  {# ---------- Map ---------- #}
+  <section class="card map-card">
+    <div class="map-head">
+      <div class="tag">{{ t.w_map_tag }}</div>
+      <div class="legend">
+        <span><i class="dot dot-high"></i>{{ t.level_high }}</span>
+        <span><i class="dot dot-med"></i>{{ t.level_med }}</span>
+        <span><i class="dot dot-low"></i>{{ t.level_low }}</span>
+        <span><i class="dot dot-dark"></i>{{ t.no_ais }}</span>
+      </div>
+    </div>
+    <div id="map" class="map" role="region" aria-label="{{ t.w_map_label }}"></div>
+    <div class="small muted">{{ t.w_map_credit }}</div>
+  </section>
+
+  {# ---------- Filters: a plain GET form, so the page reloads with ?min_risk=..&dark=1 ---------- #}
+  <aside class="card filters">
+    <div class="tag">{{ t.f_tag }}</div>
+    <form id="filters" method="get">
+      {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
+      <div class="field">
+        <div class="field-row">
+          <label for="min_risk">{{ t.f_min_risk }}</label>
+          <output id="min_risk_value" for="min_risk" class="mono accent">{{ min_risk }}</output>
+        </div>
+        <input id="min_risk" name="min_risk" type="range" min="0" max="100" value="{{ min_risk }}" class="range">
+      </div>
+      <label class="check">
+        <input type="checkbox" name="dark" value="1" {% if dark_only %}checked{% endif %}>{{ t.f_dark_only }}
+      </label>
+      <button class="btn btn-secondary" type="submit">{{ t.f_apply }}</button>
+    </form>
+    <div class="filters-note">{{ t.f_note }}</div>
+  </aside>
+</div>
+
+{# ---------- Ranked table ---------- #}
+<section id="alerts" class="card ranked">
+  <div class="ranked-head">
+    <div class="tag">{{ t.r_tag }}</div>
+    <span class="small muted">{{ t.r_sorted }}</span>
+  </div>
+  {% if rows %}
+  <div class="table-scroll">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th><th>{{ t.th_vessel }}</th><th>{{ t.th_reason }}</th>
+          <th>{{ t.th_risk }}</th><th>{{ t.th_action }}</th>
+          <th><span class="sr-only">{{ t.open }}</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td class="mono muted">{{ '%02d' % loop.index }}</td>
+          <td>
+            {% if r.dark %}
+            <b>{{ r.vessel_id }}</b><div class="small muted">{{ t.radar_contact }}</div>
+            {% else %}
+            <b>{{ r.name }}</b><div class="small muted">{{ t['gear_' ~ r.gear] or r.gear }}</div>
+            {% endif %}
+          </td>
+          <td class="cell-text">{{ reason(r.reason_1) }}</td>
+          <td><span class="chip chip-{{ r.level }}">{{ r.risk }} {{ t['level_' ~ r.level] }}</span></td>
+          <td>{{ t[r.action] }}</td>
+          <td class="cell-right"><a class="link-open" href="{{ url_for('alert', lang=lang, vessel_id=r.vessel_id) }}">{{ t.open_arrow }}<span class="sr-only"> {{ r.name }}</span></a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="empty">{{ t.w_empty }}</p>
+  {% endif %}
+</section>
+
+<script>
+// Show the slider number while dragging, and reload the page when it's released.
+const slider = document.getElementById('min_risk');
+slider.addEventListener('input', () => document.getElementById('min_risk_value').value = slider.value);
+slider.addEventListener('change', () => slider.form.submit());
+document.querySelector('#filters input[type=checkbox]').addEventListener('change', e => e.target.form.submit());
+
+// ---------- Map ----------
+// `points` is the filtered list from app.py, written into the page as JSON by Jinja.
+const points = {{ points|tojson }};
+const text = {{ {'risk': t.risk, 'open': t.open_arrow, 'high': t.level_high, 'med': t.level_med, 'low': t.level_low}|tojson }};
+const alertUrl = {{ url_for('alert', lang=lang, vessel_id='__ID__')|tojson }};
+
+// Colours come from the CSS variables, so the map matches the rest of the site.
+const css = getComputedStyle(document.documentElement);
+const color = name => css.getPropertyValue(name).trim();
+const style = {
+  high: {color: color('--high'), radius: 9},
+  med:  {color: color('--med'),  radius: 7},
+  low:  {color: color('--dim'),  radius: 5},
+};
+
+const map = L.map('map', {scrollWheelZoom: false});
+// Whole Mauritius EEZ, from Agaléga in the north to south of Mauritius, east past Rodrigues.
+map.fitBounds([[-26, 52], [-9, 66]]);
+// Dark basemap. DESIGN.md asks for CARTO Dark Matter, but CARTO tiles now need an
+// API key, so this uses Esri's keyless Dark Gray Canvas instead.
+L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors',
+  maxZoom: 12,
+}).addTo(map);
+
+points.forEach(p => {
+  const s = style[p.level];
+  // Dark (no AIS) contacts get a dashed ring around the dot.
+  if (p.dark) {
+    L.circleMarker([p.lat, p.lon], {radius: s.radius + 7, color: color('--text'), weight: 2,
+      dashArray: '4 4', fill: false, interactive: false}).addTo(map);
+  }
+  const popup = document.createElement('div');
+  popup.innerHTML = '<b></b><br><span></span><br><a></a>';
+  popup.querySelector('b').textContent = p.name;
+  popup.querySelector('span').textContent = `${text.risk} ${p.risk} · ${text[p.level]}`;
+  const link = popup.querySelector('a');
+  link.textContent = text.open;
+  link.href = alertUrl.replace('__ID__', encodeURIComponent(p.id));
+  L.circleMarker([p.lat, p.lon], {radius: s.radius, color: s.color, fillColor: s.color,
+    fillOpacity: 1, weight: 0}).bindPopup(popup).addTo(map);
+});
+</script>
+{% endblock %}

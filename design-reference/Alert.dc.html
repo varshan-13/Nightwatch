@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nightwatch alert detail</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0F12}
+a{text-decoration:none}
+a:focus-visible,button:focus-visible,textarea:focus-visible{outline:2px solid #5FE0C8;outline-offset:3px}
+</style>
+</helmet>
+<div style="background:#0A0F12;color:#EAF2F2;font-family:'DM Sans',system-ui,sans-serif">
+
+<header style="border-bottom:1px solid #22313A">
+<div style="max-width:1280px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:18px">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:10px;color:#EAF2F2;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px"><span style="width:30px;height:30px;border-radius:8px;background:#5FE0C8;display:inline-flex;align-items:center;justify-content:center"><svg viewBox="0 0 40 40" width="21" height="21" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="none" stroke="#0A0F12" stroke-width="3"/><circle cx="20" cy="20" r="7" fill="none" stroke="#0A0F12" stroke-width="2" stroke-opacity=".6"/><path d="M20 20 L31 9" stroke="#0A0F12" stroke-width="3" stroke-linecap="round"/><circle cx="27" cy="25" r="3" fill="#0A0F12"/></svg></span>Nightwatch</a>
+<nav style="display:flex;flex-wrap:wrap;gap:4px;flex:1 1 480px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em">
+<a href="Watch.dc.html" style="color:#93A4AB;padding:9px 14px">WATCH</a>
+<a href="Alert.dc.html" style="background:#5FE0C8;color:#0A0F12;padding:9px 14px;border-radius:999px;font-weight:500">ALERTS</a>
+<a href="Validation.dc.html" style="color:#93A4AB;padding:9px 14px">VALIDATION</a>
+<a href="Main.dc.html" style="color:#93A4AB;padding:9px 14px">METHOD</a>
+</nav>
+<div style="display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em">
+<div role="group" aria-label="Language" style="display:flex;border:1px solid #33454F;border-radius:999px;overflow:hidden"><a href="Alert.dc.html" aria-current="page" style="background:#EAF2F2;color:#0A0F12;padding:9px 12px">EN</a><a href="Alert-fr.dc.html" lang="fr" aria-label="Français" style="color:#93A4AB;padding:9px 12px">FR</a></div>
+<span style="color:#93A4AB">COAST GUARD OPS</span>
+<span style="border:1px solid #F2BE5C;color:#F2BE5C;padding:9px 16px;border-radius:999px">PROTOTYPE</span>
+</div>
+</div>
+</header>
+
+<main style="max-width:1280px;margin:0 auto;padding:40px 28px 72px">
+<a href="Watch.dc.html" style="display:inline-flex;align-items:center;min-height:44px;color:#93A4AB;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em">← BACK TO WATCH</a>
+<div style="display:flex;flex-wrap:wrap;gap:20px 40px;align-items:flex-end;justify-content:space-between;margin-top:8px">
+<div style="min-width:0">
+<div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#93A4AB">[ ALERT #0014 · SAMPLE DATA ]</div>
+<h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(44px,6vw,84px);line-height:.95;letter-spacing:-.04em;margin:14px 0 0">Vessel 014</h1>
+<p style="margin:14px 0 0;color:#93A4AB;font-size:17px">Longliner · MMSI [MMSI] · last seen 6 hours ago</p>
+</div>
+<div style="flex:0 1 340px;min-width:0;background:#111A1E;border:1px solid #22313A;border-radius:24px;padding:22px 24px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#93A4AB">RISK SCORE</span><span style="background:#3F1F1C;color:#FF7A70;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:600">High</span></div>
+<div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:64px;letter-spacing:-.03em;color:#FF7A70;line-height:1;margin-top:8px">82<span style="font-size:24px;color:#93A4AB"> / 100</span></div>
+<div style="margin-top:14px;height:10px;border-radius:999px;background:#18232A;overflow:hidden"><div style="width:82%;height:100%;background:#FF7A70;border-radius:999px"></div></div>
+</div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:20px;margin-top:32px;align-items:flex-start">
+
+<div style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:20px">
+<section style="background:#111A1E;border:1px solid #22313A;border-radius:24px;padding:28px">
+<div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#93A4AB">[ WHY IT WAS FLAGGED ]</div>
+<ol style="list-style:none;margin:8px 0 0;padding:0">
+<li style="display:flex;gap:16px;padding:18px 0;border-bottom:1px solid #22313A"><span style="flex:none;width:28px;height:28px;border-radius:7px;background:#FF7A70;color:#0A0F12;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:14px">1</span><div style="flex:1;min-width:0"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#FF7A70">WENT DARK NEAR THE BORDER</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#93A4AB">+34 PTS</span></div><div style="margin-top:4px">AIS switched off for 31 hours, 12 km inside the EEZ edge.</div></div></li>
+<li style="display:flex;gap:16px;padding:18px 0;border-bottom:1px solid #22313A"><span style="flex:none;width:28px;height:28px;border-radius:7px;background:#FF7A70;color:#0A0F12;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:14px">2</span><div style="flex:1;min-width:0"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#FF7A70">MET A CARRIER AT SEA</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#93A4AB">+27 PTS</span></div><div style="margin-top:4px">Ran alongside a refrigerated cargo ship for 3 hours after reappearing.</div></div></li>
+<li style="display:flex;gap:16px;padding:18px 0 0"><span style="flex:none;width:28px;height:28px;border-radius:7px;background:#F2BE5C;color:#0A0F12;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:14px">3</span><div style="flex:1;min-width:0"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#F2BE5C">LONG TIME AWAY FROM PORT</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#93A4AB">+12 PTS</span></div><div style="margin-top:4px">No port visit in 40 days, longer than most longliners in this area.</div></div></li>
+</ol>
+</section>
+
+<section style="background:#111A1E;border:1px solid #22313A;border-radius:24px;padding:22px">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:center">
+<div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#93A4AB">[ TRACK · LAST 7 DAYS ]</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:#93A4AB">
+<span style="display:inline-flex;align-items:center;gap:6px"><span style="width:18px;height:3px;background:#5FE0C8"></span>AIS on</span>
+<span style="display:inline-flex;align-items:center;gap:6px"><span style="width:18px;height:0;border-top:3px dashed #FF7A70"></span>AIS off (estimated)</span>
+</div>
+</div>
+<div style="background:#0D161A;border-radius:16px;overflow:hidden;margin-top:14px">
+<svg viewBox="0 0 760 300" width="100%" style="display:block;height:auto" role="img" aria-label="Track of Vessel 014: it heads north-east, switches AIS off near the EEZ boundary for 31 hours, reappears and meets a carrier.">
+<path d="M0 75 H760 M0 150 H760 M0 225 H760 M190 0 V300 M380 0 V300 M570 0 V300" stroke="#1A262C" stroke-width="1"/>
+<path d="M600 0 C620 90 650 180 700 300" fill="none" stroke="#5FE0C8" stroke-opacity=".55" stroke-width="1.5" stroke-dasharray="7 6"/>
+<text x="618" y="22" font-family="JetBrains Mono, monospace" font-size="11" fill="#5FE0C8">EEZ EDGE</text>
+<path d="M60 250 L150 220 L240 200 L330 170 L420 150" fill="none" stroke="#5FE0C8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M420 150 L500 120 L580 110" fill="none" stroke="#FF7A70" stroke-width="3" stroke-dasharray="8 7" stroke-linecap="round"/>
+<path d="M580 110 L520 90 L460 80" fill="none" stroke="#5FE0C8" stroke-width="3" stroke-linecap="round"/>
+<circle cx="60" cy="250" r="5" fill="#EAF2F2"/>
+<text x="70" y="270" font-family="DM Sans, sans-serif" font-size="13" fill="#93A4AB">Left Port Louis</text>
+<circle cx="420" cy="150" r="7" fill="#0D161A" stroke="#FF7A70" stroke-width="3"/>
+<text x="352" y="182" font-family="DM Sans, sans-serif" font-size="13" fill="#EAF2F2">AIS off</text>
+<circle cx="580" cy="110" r="7" fill="#0D161A" stroke="#5FE0C8" stroke-width="3"/>
+<text x="540" y="146" font-family="DM Sans, sans-serif" font-size="13" fill="#EAF2F2">Back on, 31 h later</text>
+<circle cx="470" cy="82" r="9" fill="#F2BE5C"/>
+<circle cx="452" cy="74" r="6" fill="#EAF2F2"/>
+<text x="378" y="54" font-family="DM Sans, sans-serif" font-size="13" fill="#EAF2F2">Met carrier, 3 h</text>
+</svg>
+</div>
+</section>
+
+<section style="background:#111A1E;border:1px solid #22313A;border-radius:24px;padding:24px">
+<div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#93A4AB">[ RECENT ACTIVITY ]</div>
+<div style="overflow-x:auto;margin-top:10px">
+<table style="width:100%;min-width:520px;border-collapse:collapse;font-size:15px">
+<thead><tr style="text-align:left;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:#93A4AB"><th style="padding:10px 8px;font-weight:500">WHEN</th><th style="padding:10px 8px;font-weight:500">EVENT</th><th style="padding:10px 8px;font-weight:500">DETAIL</th></tr></thead>
+<tbody>
+<tr style="border-top:1px solid #22313A"><td style="padding:12px 8px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#93A4AB">01 NOV 00:10</td><td style="padding:12px 8px">Encounter</td><td style="padding:12px 8px;color:#C5D2D6">With refrigerated carrier, 3 h</td></tr>
+<tr style="border-top:1px solid #22313A"><td style="padding:12px 8px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#93A4AB">31 OCT 21:40</td><td style="padding:12px 8px">AIS back on</td><td style="padding:12px 8px;color:#C5D2D6">140 km from where it went dark</td></tr>
+<tr style="border-top:1px solid #22313A"><td style="padding:12px 8px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#93A4AB">30 OCT 14:20</td><td style="padding:12px 8px;color:#FF7A70">AIS gap starts</td><td style="padding:12px 8px;color:#C5D2D6">12 km inside the EEZ edge</td></tr>
+<tr style="border-top:1px solid #22313A"><td style="padding:12px 8px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#93A4AB">28 OCT 06:00</td><td style="padding:12px 8px">Fishing</td><td style="padding:12px 8px;color:#C5D2D6">Apparent fishing, 9 h</td></tr>
+<tr style="border-top:1px solid #22313A"><td style="padding:12px 8px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#93A4AB">22 SEP 08:30</td><td style="padding:12px 8px">Port visit</td><td style="padding:12px 8px;color:#C5D2D6">Port Louis, last recorded</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+
+<aside style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:20px">
+<section style="background:#FF7A70;color:#0A0F12;border-radius:24px;padding:26px">
+<div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em">SUGGESTED ACTION</div>
+<div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:40px;letter-spacing:-.03em;line-height:1;margin-top:10px">Send a patrol</div>
+<p style="margin:12px 0 0;line-height:1.5">Two strong signals together. Last position is 6 hours old.</p>
+</section>
+
+<section style="background:#111A1E;border:1px solid #22313A;border-radius:24px;padding:24px">
+<div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#93A4AB">[ VESSEL ]</div>
+<dl style="margin:12px 0 0;display:grid;grid-template-columns:auto 1fr;gap:12px 18px;font-size:15px">
+<dt style="color:#93A4AB">Gear</dt><dd style="margin:0">Longliner</dd>
+<dt style="color:#93A4AB">Flag</dt><dd style="margin:0">[Flag state]</dd>
+<dt style="color:#93A4AB">Licence</dt><dd style="margin:0">[Not on licence list]</dd>
+<dt style="color:#93A4AB">IOTC list</dt><dd style="margin:0">[Not listed]</dd>
+<dt style="color:#93A4AB">Name changes</dt><dd style="margin:0">None this year</dd>
+</dl>
+<p style="margin:16px 0 0;font-size:13px;color:#93A4AB;line-height:1.5">Flag is shown for context only. It does not change the score.</p>
+</section>
+
+<section style="background:#111A1E;border:1px solid #22313A;border-radius:24px;padding:24px">
+<div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#93A4AB">[ YOUR DECISION ]</div>
+<sc-if value="{{ pending }}" hint-placeholder-val="{{ true }}">
+<label for="note" style="display:block;margin-top:14px;font-size:14px;color:#93A4AB">Note (optional)</label>
+<textarea id="note" rows="3" placeholder="What did the patrol find?" style="margin-top:6px;width:100%;box-sizing:border-box;background:#18232A;color:#EAF2F2;border:1px solid #22313A;border-radius:12px;padding:12px;font:inherit;resize:vertical"></textarea>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:14px">
+<button type="button" onClick="{{ confirm }}" style="flex:1 1 120px;min-height:48px;background:#5FE0C8;color:#0A0F12;border:0;border-radius:12px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:.06em;cursor:pointer">CONFIRM</button>
+<button type="button" onClick="{{ dismiss }}" style="flex:1 1 120px;min-height:48px;background:transparent;color:#EAF2F2;border:1px solid #33454F;border-radius:12px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;letter-spacing:.06em;cursor:pointer">FALSE ALARM</button>
+</div>
+</sc-if>
+<sc-if value="{{ confirmed }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:14px;background:#123a33;color:#5FE0C8;border-radius:14px;padding:16px;font-weight:600">Marked as confirmed. Logged for validation.</div>
+<button type="button" onClick="{{ undo }}" style="margin-top:12px;min-height:44px;background:transparent;color:#93A4AB;border:1px solid #33454F;border-radius:999px;padding:0 16px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;cursor:pointer">UNDO</button>
+</sc-if>
+<sc-if value="{{ dismissed }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:14px;background:#18232A;color:#EAF2F2;border-radius:14px;padding:16px;font-weight:600">Marked as a false alarm. Logged for validation.</div>
+<button type="button" onClick="{{ undo }}" style="margin-top:12px;min-height:44px;background:transparent;color:#93A4AB;border:1px solid #33454F;border-radius:999px;padding:0 16px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;cursor:pointer">UNDO</button>
+</sc-if>
+</section>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1250}}'>
+class Component extends DCLogic {
+renderVals() {
+const d = this.state && this.state.decision;
+return {
+pending: !d,
+confirmed: d === 'confirmed',
+dismissed: d === 'dismissed',
+confirm: () => this.setState({ decision: 'confirmed' }),
+dismiss: () => this.setState({ decision: 'dismissed' }),
+undo: () => this.setState({ decision: null })
+};
+}
+}
+</script>
+</body>
+</html>

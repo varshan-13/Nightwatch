@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% block title %}{{ t.title_landing }}{% endblock %}
+
+{# The landing page replaces the app header and <main> with its own layout.
+   The shared footer (with the prototype notice) still comes from base.html. #}
+{% block page %}
+
+<div class="band">
+  <header class="container land-header">
+    <a class="logo" href="{{ url_for('landing', lang=lang) }}">
+      <span class="logo-tile">{{ m.logo_mark(22) }}</span>Nightwatch</a>
+    <nav class="land-nav mono" aria-label="{{ t.nav_label }}">
+      <a href="{{ url_for('watch', lang=lang) }}">{{ t.l_nav_map }}</a>
+      <a href="#{{ t.how_anchor }}">{{ t.l_nav_how }}</a>
+      <a href="{{ url_for('validation', lang=lang) }}">{{ t.l_nav_works }}</a>
+      <a href="#{{ t.ethics_anchor }}">{{ t.l_nav_limits }}</a>
+    </nav>
+    <div class="land-actions mono">
+      {{ m.lang_switch() }}
+      <a class="btn btn-ink btn-pill" href="{{ url_for('watch', lang=lang) }}">{{ t.l_open_dashboard }}</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="container hero">
+      <div class="hero-text">
+        <div class="mono">{{ t.l_eyebrow }}</div>
+        <h1>{{ t.l_h1 }}</h1>
+        <p class="hero-lead">{{ t.l_lead }}</p>
+
+        {# Search goes to the dashboard. The dashboard will use ?q= later. #}
+        <form class="command" action="{{ url_for('watch', lang=lang) }}" method="get" role="search">
+          <span class="command-prompt" aria-hidden="true">&gt;_</span>
+          <input name="q" type="text" aria-label="{{ t.l_search_label }}" placeholder="{{ t.l_search_placeholder }}">
+          <button class="btn btn-primary" type="submit">{{ t.l_scan }}</button>
+        </form>
+
+        <div class="hero-links">
+          <a href="{{ url_for('alert', lang=lang, vessel_id='V014') }}">{{ t.l_sample_link }}</a>
+          <span class="mono">{{ t.l_person_decides }}</span>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        {# Radar graphic. Drawn in `currentColor`, which is the ink colour of the band. #}
+        <svg viewBox="0 0 520 520" role="img" aria-label="{{ t.l_radar_label }}">
+          <circle cx="260" cy="260" r="244" fill="none" stroke="currentColor" stroke-width="3"/>
+          <circle cx="260" cy="260" r="180" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="2"/>
+          <circle cx="260" cy="260" r="112" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="2"/>
+          <path d="M260 16 V504 M16 260 H504" stroke="currentColor" stroke-opacity=".3" stroke-width="2"/>
+          <path d="M260 260 L260 16 A244 244 0 0 1 432 87 Z" fill="currentColor" fill-opacity=".16"/>
+          <path d="M260 260 L432 87" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M248 248 C258 238 274 242 278 254 C282 266 274 280 262 280 C250 280 240 262 248 248 Z" fill="currentColor"/>
+          <circle cx="150" cy="170" r="7" fill="currentColor"/>
+          <circle cx="380" cy="330" r="7" fill="currentColor"/>
+          <circle cx="190" cy="390" r="7" fill="currentColor"/>
+          <circle cx="420" cy="210" r="7" fill="currentColor" fill-opacity=".5"/>
+          <circle cx="350" cy="130" r="11" fill="currentColor"/>
+          <circle cx="350" cy="130" r="26" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="6 6"/>
+          <rect x="378" y="96" width="112" height="34" rx="8" fill="currentColor"/>
+          <text class="radar-tag" x="434" y="118" text-anchor="middle">{{ t.l_radar_tag }}</text>
+        </svg>
+      </div>
+    </section>
+
+    <div class="container">
+      <ul class="points">
+        <li><span class="num">01</span>{{ t.l_point_1 }}</li>
+        <li><span class="num">02</span>{{ t.l_point_2 }}</li>
+        <li><span class="num">03</span>{{ t.l_point_3 }}</li>
+      </ul>
+    </div>
+  </main>
+</div>
+
+{# ---------- 01 Example alert ---------- #}
+<section class="container section split">
+  <div>
+    <div class="tag">{{ t.l_ex_tag }}</div>
+    <h2>{{ t.l_ex_h2 }}</h2>
+    <p class="section-lead">{{ t.l_ex_lead }}</p>
+    <span class="badge" style="margin-top:26px">{{ t.l_sample_data }}</span>
+  </div>
+
+  <div class="card example">
+    <div class="example-head">
+      <div class="vessel-id">
+        <span class="vessel-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 15 L5 19 H19 L21 15 Z M12 4 V15 M12 6 L18 13 H12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        </span>
+        <div><b>{{ t.l_ex_vessel }}</b><div class="small muted">{{ t.l_ex_meta }}</div></div>
+      </div>
+      <span class="mono muted" style="font-size:11px">{{ t.l_ex_id }}</span>
+    </div>
+
+    <ol class="flags">
+      {% for n, level in [(1, 'high'), (2, 'high'), (3, 'med')] %}
+      <li class="flag flag-{{ level }}">
+        <span class="flag-num">{{ n }}</span>
+        <div class="flag-body">
+          <div class="flag-label">{{ t['l_ex_r%d_label' % n] }}</div>
+          <div class="flag-text">{{ t['l_ex_r%d_text' % n] }}</div>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+
+    <div class="example-foot">
+      <div>
+        <span class="mono muted">{{ t.l_ex_risk }}</span>
+        <div class="example-action">{{ t.l_ex_action }}</div>
+      </div>
+      <a class="btn btn-outline-accent" href="{{ url_for('alert', lang=lang, vessel_id='V014') }}">{{ t.l_ex_open }}</a>
+    </div>
+  </div>
+</section>
+
+{# ---------- 02 How it decides ---------- #}
+<section id="{{ t.how_anchor }}" class="container section">
+  <div class="tag">{{ t.l_how_tag }}</div>
+  <h2>{{ t.l_how_h2a }} <span class="accent">{{ t.l_how_h2b }}</span></h2>
+  <div class="card-row">
+    {% for n in range(1, 5) %}
+    <div class="card step">
+      <div class="step-num">0{{ n }}</div>
+      <h3>{{ t['l_step_%d_title' % n] }}</h3>
+      <p>{{ t['l_step_%d_text' % n] }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{# ---------- 03 Does it work ---------- #}
+<section class="container section split">
+  <div>
+    <div class="tag">{{ t.l_works_tag }}</div>
+    <h2>{{ t.l_works_h2 }}</h2>
+    <p class="section-lead">{{ t.l_works_lead }}</p>
+    <a class="btn btn-primary btn-pill" style="margin-top:28px" href="{{ url_for('validation', lang=lang) }}">{{ t.l_works_cta }}</a>
+  </div>
+  <div class="stats">
+    {# Placeholders until Phase 7 computes the real numbers. #}
+    <div class="card"><div class="stat-value accent">{{ t.l_stat_1_value }}</div><p>{{ t.l_stat_1_text }}</p></div>
+    <div class="card"><div class="stat-value">{{ t.l_stat_2_value }}</div><p>{{ t.l_stat_2_text }}</p></div>
+  </div>
+</section>
+
+{# ---------- 04 Limits ---------- #}
+<section id="{{ t.ethics_anchor }}" class="container section">
+  <div class="tag">{{ t.l_limits_tag }}</div>
+  <h2>{{ t.l_limits_h2 }}</h2>
+  <div class="card-row">
+    <div class="card limit"><span class="limit-label">{{ t.l_limit_1_title }}</span><p>{{ t.l_limit_1_text }}</p></div>
+    <div class="card limit"><span class="limit-label">{{ t.l_limit_2_title }}</span><p>{{ t.l_limit_2_text }}</p></div>
+    <div class="card card-dashed limit"><span class="limit-label outline">{{ t.l_limit_3_title }}</span><p>{{ t.l_limit_3_text }}</p></div>
+  </div>
+</section>
+
+{# ---------- Final call to action ---------- #}
+<div class="band">
+  <section class="container cta">
+    <h2>{{ t.l_cta_h2 }}</h2>
+    <p>{{ t.l_cta_lead }}</p>
+    <div class="cta-buttons">
+      <a class="btn btn-ink" href="{{ url_for('watch', lang=lang) }}">{{ t.l_cta_open }}</a>
+      <a class="btn btn-ink-outline" href="#{{ t.how_anchor }}">{{ t.l_cta_how }}</a>
+    </div>
+  </section>
+</div>
+
+{% endblock %}

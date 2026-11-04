@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="{{ lang }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Nightwatch{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% block head %}{% endblock %}
+</head>
+<body>
+
+{% import "macros.html" as m with context %}
+
+{% block page %}
+<header class="app-header">
+  <div class="container">
+    <a class="logo" href="{{ url_for('landing', lang=lang) }}">
+      <span class="logo-tile">{{ m.logo_mark() }}</span>Nightwatch</a>
+
+    <nav class="tabs mono" aria-label="{{ t.nav_label }}">
+      {% for endpoint, label, href in [
+          ('watch', t.tab_watch, url_for('watch', lang=lang)),
+          ('alert', t.tab_alerts, url_for('watch', lang=lang) ~ '#alerts'),
+          ('validation', t.tab_validation, url_for('validation', lang=lang)),
+          ('method', t.tab_method, url_for('landing', lang=lang) ~ '#' ~ t.how_anchor),
+      ] %}
+      <a class="tab{% if request.endpoint == endpoint %} active{% endif %}" href="{{ href }}"
+         {% if request.endpoint == endpoint %}aria-current="page"{% endif %}>{{ label }}</a>
+      {% endfor %}
+    </nav>
+
+    <div class="header-right mono">
+      {{ m.lang_switch() }}
+      <span class="ops-label">{{ t.ops }}</span>
+      <span class="proto-pill">{{ t.prototype }}</span>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+{% block content %}{% endblock %}
+</main>
+{% endblock %}
+
+<footer class="site-footer">
+  <div class="container">
+    <span>{{ t.footer_credit }}<br>{{ t.footer_notice }}</span>
+    <span class="footer-links">
+      <a href="{{ url_for('landing', lang=lang) }}#{{ t.ethics_anchor }}">{{ t.footer_ethics }}</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
