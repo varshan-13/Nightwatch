@@ -279,6 +279,55 @@ T = {
 }
 
 
+# Validation describes planned checks; no performance figures have been measured yet.
+T["en"]["validation"] = {
+    "tag": "Validation · Sample data", "lead": "How do we check whether the highest-ranked alerts deserve a closer look? We compare the ranking with a reference list and, once available, officer feedback.",
+    "status": "Not evaluated yet", "status_text": "This version uses sample vessel data. Real-data validation has not been run, so these cards do not report accuracy or measured results.",
+    "unavailable": "Not measured", "metrics": [
+        {"title": "IOTC list matches", "text": "Planned check: count vessels in the top 20 alerts that also appear on the Indian Ocean Tuna Commission (IOTC) illegal fishing list."},
+        {"title": "Random baseline", "text": "Planned comparison: repeat the list check on 20 randomly selected vessels from the same dataset."},
+        {"title": "Officer dismissals", "text": "Share of reviewed alerts marked as false alarms. Officer review forms and measured feedback are not available yet."},
+        {"title": "Radar coverage", "text": "Share of the Mauritius Exclusive Economic Zone imaged during the evaluation period. Coverage measurements are not connected yet."},
+    ],
+    "method": "How validation will work", "steps": [
+        {"title": "Use a real dataset", "text": "Run the ranking on Global Fishing Watch data for a documented area and time period. Sample data is only for demonstrating the interface."},
+        {"title": "Compare against a baseline", "text": "Check whether listed vessels appear more often among the highest-ranked alerts than in a random selection. Report sample sizes and the reference-list date."},
+        {"title": "Collect officer feedback", "text": "Let officers review the reasons and record their decisions. Report the number reviewed alongside the dismissal rate."},
+        {"title": "Publish measured results", "text": "Add the evaluation date, data sources, results, and limitations here after a real run. An unlisted vessel is not automatically a safe vessel."},
+    ],
+    "limits": "What these checks cannot tell us", "limitations": [
+        {"title": "A list match is not accuracy", "text": "A reference list covers only some known cases. Matches help assess ranking, but cannot establish overall accuracy or prove a current offence."},
+        {"title": "Missing signals have other explanations", "text": "Tracking signals can be lost or switched off for legitimate reasons. Radar coverage also varies, so some contacts may be missed."},
+        {"title": "Events are not complete tracks", "text": "Recorded gaps, encounters and port visits do not reveal every position or everything a vessel did between observations."},
+        {"title": "People make the decision", "text": "An unusual pattern is a reason to investigate, not a verdict. Flag country must not increase a vessel’s score."},
+    ],
+    "cta_title": "Explore the evidence behind an alert", "cta_text": "Open a vessel in Watch to see its recorded position, risk reasons and activity. The current examples use sample data.", "cta": "Go to Watch →",
+}
+T["fr"]["validation"] = {
+    "tag": "Validation · Données d’exemple", "lead": "Comment vérifier si les alertes les mieux classées méritent un examen ? Nous comparons le classement à une liste de référence et, lorsqu’ils seront disponibles, aux retours des officiers.",
+    "status": "Pas encore évalué", "status_text": "Cette version utilise des données fictives de navires. La validation sur données réelles n’a pas été effectuée : ces cartes ne présentent ni précision ni résultats mesurés.",
+    "unavailable": "Non mesuré", "metrics": [
+        {"title": "Correspondances CTOI", "text": "Vérification prévue : compter les navires du top 20 figurant aussi sur la liste de pêche illicite de la Commission des thons de l’océan Indien (CTOI)."},
+        {"title": "Référence aléatoire", "text": "Comparaison prévue : refaire cette vérification sur 20 navires tirés au hasard dans les mêmes données."},
+        {"title": "Rejets par les officiers", "text": "Part des alertes examinées classées comme fausses alertes. Le formulaire de décision et les retours mesurés ne sont pas encore disponibles."},
+        {"title": "Couverture radar", "text": "Part de la zone économique exclusive de Maurice observée pendant la période d’évaluation. Les mesures de couverture ne sont pas encore connectées."},
+    ],
+    "method": "Comment la validation sera réalisée", "steps": [
+        {"title": "Utiliser des données réelles", "text": "Exécuter le classement sur les données de Global Fishing Watch pour une zone et une période documentées. Les données fictives servent uniquement à présenter l’interface."},
+        {"title": "Comparer à une référence", "text": "Vérifier si les navires répertoriés sont plus fréquents parmi les premières alertes que dans une sélection aléatoire. Indiquer les effectifs et la date de la liste."},
+        {"title": "Recueillir les retours des officiers", "text": "Permettre aux officiers d’examiner les raisons et d’enregistrer leurs décisions. Afficher le nombre d’alertes examinées avec le taux de rejet."},
+        {"title": "Publier les résultats mesurés", "text": "Ajouter ici la date, les sources, les résultats et les limites après une évaluation réelle. Un navire absent de la liste n’est pas automatiquement sans risque."},
+    ],
+    "limits": "Ce que ces vérifications ne disent pas", "limitations": [
+        {"title": "Une correspondance n’est pas la précision", "text": "La liste de référence ne couvre que certains cas connus. Les correspondances aident à évaluer le classement, sans mesurer la précision globale ni prouver une infraction actuelle."},
+        {"title": "Un signal absent peut s’expliquer", "text": "Les signaux peuvent être perdus ou coupés pour des raisons légitimes. La couverture radar varie également : certains contacts peuvent manquer."},
+        {"title": "Des événements, pas des trajectoires complètes", "text": "Les coupures, rencontres et escales enregistrées ne révèlent pas chaque position ni toutes les activités entre deux observations."},
+        {"title": "Une personne décide", "text": "Un comportement inhabituel justifie un examen, pas un verdict. Le pays du pavillon ne doit pas augmenter le score."},
+    ],
+    "cta_title": "Explorer les éléments d’une alerte", "cta_text": "Ouvrez un navire dans Surveillance pour consulter sa position, les raisons du score et son activité. Les exemples actuels utilisent des données fictives.", "cta": "Voir la surveillance →",
+}
+
+
 # Vessel details labels. Timestamps are shown as recorded: the CSV has no timezone.
 T["en"]["detail"] = {
     "back": "← Back to Watch", "why": "Why it was flagged", "score": "Risk score",
