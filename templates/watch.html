@@ -4,6 +4,7 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='vendor/leaflet/leaflet.min.css') }}">
 <script src="{{ url_for('static', filename='vendor/leaflet/leaflet.min.js') }}"></script>
+<script src="{{ url_for('static', filename='watch-place.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -123,7 +124,7 @@
           <td class="cell-text">{{ reason(r.reason_1) or '—' }}</td>
           <td><span class="chip chip-{{ r.level }}">{{ r.risk }} {{ t['level_' ~ r.level] }}</span></td>
           <td>{{ t[r.action] }}</td>
-          <td class="cell-right"><button type="button" class="show-on-map" data-map-vessel="{{ r.vessel_id }}" aria-pressed="false" hidden>{{ t.show_on_map }}<span class="sr-only"> {{ r.vessel_id }}</span></button><a class="link-open" href="{{ url_for('alert', lang=lang, vessel_id=r.vessel_id) }}">{{ t.open_arrow }}<span class="sr-only"> {{ r.name }}</span></a></td>
+          <td class="cell-right"><button type="button" class="show-on-map" data-map-vessel="{{ r.vessel_id }}" aria-pressed="false" hidden>{{ t.show_on_map }}<span class="sr-only"> {{ r.vessel_id }}</span></button><a class="link-open" href="{{ url_for('alert', lang=lang, vessel_id=r.vessel_id, return_to=request.full_path) }}">{{ t.open_arrow }}<span class="sr-only"> {{ r.name }}</span></a></td>
         </tr>
         {% endfor %}
       </tbody>
@@ -151,7 +152,7 @@ document.querySelector('#filters input[type=checkbox]').addEventListener('change
 // `points` is the filtered list from app.py, written into the page as JSON by Jinja.
 const points = {{ points|tojson }};
 const text = {{ {'risk': t.risk, 'open': t.open_arrow, 'high': t.level_high, 'med': t.level_med, 'low': t.level_low}|tojson }};
-const alertUrl = {{ url_for('alert', lang=lang, vessel_id='__ID__')|tojson }};
+const alertUrl = {{ url_for('alert', lang=lang, vessel_id='__ID__', return_to=request.full_path)|tojson }};
 
 if (window.L) {
 // Colours come from the CSS variables, so the map matches the rest of the site.
@@ -259,6 +260,10 @@ points.forEach(p => {
   row.addEventListener('click', event => {
     if (!event.target.closest('a, button, input') && !window.getSelection().toString()) selectVessel(p.id, true);
   });
+});
+rememberWatchPlace({
+  key: 'nightwatch-place-v1:' + JSON.stringify({min: {{ min_risk }}, max: {{ max_risk }}, dark: {{ dark_only|tojson }}, q: {{ q|tojson }}}),
+  map, markers, rows: rowsById, select: selectVessel, selected: () => selectedId,
 });
 }
 </script>

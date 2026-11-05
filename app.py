@@ -1,4 +1,5 @@
 from pathlib import Path
+from urllib.parse import urlsplit, parse_qs
 from datetime import datetime, timezone
 import os
 import json
@@ -113,11 +114,21 @@ def load_validation():
 # `defaults` tells Flask which language each URL means, so the view gets `lang`
 # and url_for('watch', lang='fr') builds /fr/watch.
 
+def watch_return(lang):
+    origin = urlsplit(request.args.get("return_to", ""))
+    if not origin.scheme and not origin.netloc and origin.path in {"/watch", "/fr/watch"}:
+        query = parse_qs(origin.query)
+        args = {key: query[key][-1] for key in ("min_risk", "max_risk", "q", "dark") if key in query}
+    else:
+        args = session.get("watch_filters", {})
+    return url_for("watch", lang=lang, **args)
+
+
 def page(template, lang, **data):
     return render_template(template, lang=lang, t=T[lang],
                            reason=lambda text: translate_reason(text, lang),
                            reason_label=lambda text: reason_label(text, lang),
-                           watch_back=url_for("watch", lang=lang, **session.get("watch_filters", {})), **data)
+                           watch_back=watch_return(lang), **data)
 
 
 @app.route("/", defaults={"lang": "en"})
@@ -186,7 +197,7 @@ def alert(lang, vessel_id):
         if label not in {"confirmed", "false_alarm", "undo"} or len(note) > 2000:
             abort(400)
         save_decision(vessel_id, label, note)
-        return redirect(url_for("alert", lang=lang, vessel_id=vessel_id, saved=label), code=303)
+        return redirect(url_for("alert", lang=lang, vessel_id=vessel_id, saved=label, return_to=request.args.get("return_to")), code=303)
     vessel = matches.iloc[0].to_dict()
     events_path = DATA / "events.csv"
     events = []
