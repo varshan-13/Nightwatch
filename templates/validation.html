@@ -2,11 +2,29 @@
 {% set v = t.validation %}
 {% set p = t.phase7 %}
 {% set result = validation %}
+{% set simple = t.validation_simple %}
 {% block title %}{{ t.title_validation }}{% endblock %}
 {% block content %}
 <div class="tag">{{ p.tag }}</div>
-<h1 class="page-title">{{ t.h1_validation }}</h1>
-<p class="section-lead validation-lead">{{ p.lead }}</p>
+<h1 class="page-title">{{ simple.title }}</h1>
+<p class="section-lead validation-lead">{{ simple.intro }}</p>
+<section class="card validation-status">
+  <h2>{{ simple.meaning }}</h2>
+  <p>{{ simple.pending if not result.list_available else (simple.higher if result.top20_hits > result.random_hits else simple.inconclusive) }}</p>
+</section>
+<h2 class="validation-section-title">{{ simple.result }}</h2>
+<div class="validation-comparison">
+  {% for label, hits in [(simple.top, result.top20_hits), (simple.random, result.random_hits)] %}
+  <section class="card"><h3>{{ label }}</h3><p class="validation-value">{{ (hits ~ ' / ' ~ result.sample_size) if hits is not none else p.unavailable }}</p><p class="muted">{{ simple.matches }}</p></section>
+  {% endfor %}
+</div>
+<section class="card validation-results">
+  <h2 class="validation-section-title">{{ simple.feedback }}</h2>
+  {% if result.false_alarm_rate is not none %}<p><strong>{{ '%.1f'|format(result.false_alarm_rate * 100) }}%</strong> {{ simple.feedback_rate }}.</p><p class="muted">{{ p.reviewed }}: {{ result.reviewed_count }} · {{ p.dismissed }}: {{ result.false_alarm_count }}</p>
+  {% else %}<p class="muted">{{ simple.feedback_empty }}</p>{% endif %}
+  <a class="btn btn-primary" href="{{ url_for('alerts', lang=lang) }}">{{ simple.next }}</a>
+</section>
+<details class="card validation-results"><summary>{{ simple.details }}</summary>
 <section class="card validation-status" aria-labelledby="validation-status-title">
   <h2 id="validation-status-title">{{ p.status if result.list_available else p.pending }}</h2>
   {% if not result.list_available %}<p>{{ p.pending_text }}</p>{% endif %}
@@ -17,30 +35,9 @@
   <a class="detail-back mono" href="https://iotc.org/node/37" target="_blank" rel="noopener">{{ p.source }} ↗</a>
   {% if not result.imo_profiles_available %}<p class="validation-warning">{{ p.no_imo }}</p>{% endif %}
 </section>
-<div class="validation-metrics">
-  <section class="card">
-    <h2 class="tag">{{ p.hits }}</h2>
-    <p class="validation-value">{{ (result.top20_hits ~ ' / ' ~ result.sample_size) if result.top20_hits is not none else p.unavailable }}</p>
-    <p class="muted">{{ p.hits_text }}</p>
-  </section>
-  <section class="card">
-    <h2 class="tag">{{ p.baseline }}</h2>
-    <p class="validation-value">{{ (result.random_hits ~ ' / ' ~ result.sample_size) if result.random_hits is not none else p.unavailable }}</p>
-    <p class="muted">{{ p.baseline_text }}</p>
-  </section>
-  <section class="card">
-    <h2 class="tag">{{ p.false_alarms }}</h2>
-    <p class="validation-value">{{ ('%.1f'|format(result.false_alarm_rate * 100) ~ '%') if result.false_alarm_rate is not none else p.unavailable }}</p>
-    <p class="muted">{{ p.feedback_text }}</p>
-    <p class="small muted">{{ p.reviewed }}: {{ result.reviewed_count }} · {{ p.dismissed }}: {{ result.false_alarm_count }}</p>
-    {% if not result.reviewed_count %}<p class="small muted">{{ p.no_feedback }}</p>{% endif %}
-  </section>
-  <section class="card">
-    <h2 class="tag">{{ p.coverage }}</h2>
-    <p class="validation-value">{{ p.unavailable }}</p>
-    <p class="muted">{{ p.coverage_text }}</p>
-  </section>
-</div>
+<p class="muted">{{ p.baseline_text }}</p><p class="muted">{{ p.feedback_text }}</p><p class="muted">{{ simple.coverage }}</p>
+</details>
+<details class="card validation-results"><summary>{{ simple.table }}</summary>
 <section class="card validation-results">
   <h2 class="validation-section-title">{{ p.table }}</h2>
   {% if result.top20 %}
@@ -64,6 +61,7 @@
   {% else %}<p class="empty">{{ p.empty }}</p>{% endif %}
   <p class="small muted">{{ p.zero }}</p>
 </section>
+</details>
 <section class="card validation-results">
   <h2 class="validation-section-title">{{ p.limits }}</h2>
   <ul class="validation-limits">

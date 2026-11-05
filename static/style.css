@@ -798,3 +798,8 @@ html { scroll-behavior: smooth; }
 .filter-summary p { font-weight: 600; }
 .filter-chips a { overflow-wrap: anywhere; max-width: 100%; }
 .filter-chips span { margin-left: 8px; color: var(--accent); }
+
+.validation-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 20px; }
+.validation-results > summary { cursor: pointer; font-weight: 600; min-height: 32px; }
+.validation-results[open] > summary { margin-bottom: 24px; }
+@media (max-width: 650px) { .validation-comparison { grid-template-columns: minmax(0, 1fr); } }
