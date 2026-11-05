@@ -620,3 +620,10 @@ T["fr"]["phase7"] = {
 }
 T["en"].update({"l_works_h2": "Checking the ranking against a reference list", "l_works_lead": "We compare the highest-ranked alerts with the IOTC IUU list and track officer feedback. Open Validation to see the baseline, sample sizes, matching limitations, and latest results."})
 T["fr"].update({"l_works_h2": "Comparer le classement à une liste de référence", "l_works_lead": "Nous comparons les premières alertes à la liste INN de la CTOI et suivons les retours des officiers. Consultez Validation pour voir la référence aléatoire, les effectifs, les limites et les derniers résultats."})
+
+
+# Use the same destination names throughout the primary navigation.
+T["en"].update({"tab_home": "Home", "tab_watch": "Live map"})
+T["fr"].update({"tab_home": "Accueil", "tab_watch": "Carte en direct"})
+T["en"]["detail"]["back"] = "← Back to live map"
+T["fr"]["detail"]["back"] = "← Retour à la carte"

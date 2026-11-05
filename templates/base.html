@@ -23,6 +23,7 @@
 
     <nav class="tabs mono" aria-label="{{ t.nav_label }}">
       {% for endpoint, label, href in [
+          ('landing', t.tab_home, url_for('landing', lang=lang)),
           ('watch', t.tab_watch, url_for('watch', lang=lang)),
           ('alerts', t.tab_alerts, url_for('alerts', lang=lang)),
           ('validation', t.tab_validation, url_for('validation', lang=lang)),
