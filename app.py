@@ -93,7 +93,20 @@ def watch(lang):
 @app.route("/alert/<vessel_id>", defaults={"lang": "en"})
 @app.route("/fr/alert/<vessel_id>", defaults={"lang": "fr"})
 def alert(lang, vessel_id):
-    return page("alert.html", lang, vessel_id=vessel_id)
+    matches = load_alerts()
+    matches = matches[matches["vessel_id"] == vessel_id]
+    if matches.empty:
+        return page("alert.html", lang, vessel=None), 404
+    vessel = matches.iloc[0].to_dict()
+    events_path = DATA / "events.csv"
+    events = []
+    if events_path.exists():
+        df = pd.read_csv(events_path)
+        df = df[df["vessel_id"] == vessel_id].sort_values("time", ascending=False)
+        events = df.to_dict("records")
+    reasons = [{"text": vessel[f"reason_{n}"], "points": vessel[f"reason_{n}_pts"]}
+               for n in range(1, 4) if pd.notna(vessel[f"reason_{n}"])]
+    return page("alert.html", lang, vessel=vessel, events=events, reasons=reasons)
 
 
 @app.route("/validation", defaults={"lang": "en"})

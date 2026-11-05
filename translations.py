@@ -283,6 +283,43 @@ T = {
 }
 
 
+# Vessel details labels. Timestamps are shown as recorded: the CSV has no timezone.
+T["en"]["detail"] = {
+    "back": "← Back to Watch", "why": "Why it was flagged", "score": "Risk score",
+    "points": "pts", "action": "Suggested action", "profile": "Vessel information",
+    "last_seen": "Last seen", "recorded": "Times shown as recorded; timezone not supplied.",
+    "position": "Last recorded position", "activity": "Recent activity", "when": "When",
+    "event": "Event", "coordinates": "Latitude / longitude", "gear": "Vessel type",
+    "flag": "Flag", "id": "Vessel ID", "mmsi": "MMSI · tracking identifier",
+    "unknown": "Unknown", "unidentified": "Unidentified radar contact", "no_mmsi": "No AIS match",
+    "flag_note": "Flag is shown for context only and does not change the score.",
+    "empty": "No activity events are available for this vessel.",
+    "map_label": "Last recorded vessel position and activity locations",
+    "map_note": "Markers show recorded locations, not a continuous vessel track.",
+    "map_error": "Map unavailable. Coordinates remain available below and in the activity list.",
+    "missing_title": "Vessel not found", "missing_text": "This vessel is not in the current dataset. Return to Watch to choose an available alert.",
+    "events": {"AIS gap": "AIS gap", "Encounter": "Encounter", "Loitering": "Loitering", "Fishing": "Fishing", "Port visit": "Port visit"},
+    "flags": {},
+}
+T["fr"]["detail"] = {
+    "back": "← Retour à la surveillance", "why": "Pourquoi cette alerte", "score": "Score de risque",
+    "points": "pts", "action": "Action suggérée", "profile": "Informations du navire",
+    "last_seen": "Dernière observation", "recorded": "Heures telles qu’enregistrées ; fuseau horaire non fourni.",
+    "position": "Dernière position enregistrée", "activity": "Activité récente", "when": "Date et heure",
+    "event": "Événement", "coordinates": "Latitude / longitude", "gear": "Type de navire",
+    "flag": "Pavillon", "id": "Identifiant du navire", "mmsi": "MMSI · identifiant de suivi",
+    "unknown": "Inconnu", "unidentified": "Contact radar non identifié", "no_mmsi": "Sans correspondance AIS",
+    "flag_note": "Le pavillon est affiché à titre indicatif et ne modifie pas le score.",
+    "empty": "Aucun événement disponible pour ce navire.",
+    "map_label": "Dernière position du navire et lieux des événements",
+    "map_note": "Les marqueurs indiquent des positions enregistrées, pas une trajectoire continue.",
+    "map_error": "Carte indisponible. Les coordonnées restent accessibles ci-dessous et dans la liste des événements.",
+    "missing_title": "Navire introuvable", "missing_text": "Ce navire ne figure pas dans les données actuelles. Retournez à la surveillance pour choisir une alerte disponible.",
+    "events": {"AIS gap": "Coupure AIS", "Encounter": "Rencontre", "Loitering": "Errance", "Fishing": "Pêche", "Port visit": "Escale"},
+    "flags": {"China": "Chine", "Taiwan": "Taïwan", "Mauritius": "Maurice", "Unknown": "Inconnu", "Spain": "Espagne", "Comoros": "Comores"},
+}
+
+
 # Guided tour copy stays with the rest of the interface translations.
 T["en"]["tour"] = {
     "replay": "Take a tour", "start": "Show me around", "explore": "Explore on my own",
@@ -294,7 +331,7 @@ T["en"]["tour"] = {
         {"target": ".map-card", "title": "Explore the map", "text": "Select a vessel marker to see its risk score and open its alert. Dashed rings mark radar contacts without an AIS match."},
         {"target": ".watch-search", "title": "Find a vessel", "text": "Search by vessel name, MMSI, or vessel ID. The search keeps your current filters."},
         {"target": ".filters", "title": "Focus your search", "text": "Adjust the minimum risk score or show only contacts without AIS. The map, counters, and list update together."},
-        {"target": ".ranked", "title": "Read the ranked alerts", "text": "Vessels are ranked by risk, with a reason and suggested action. Open a row to visit its alert page. Alert details and officer reviews are still being built; a high score is not proof of illegal activity."},
+        {"target": ".ranked", "title": "Read the ranked alerts", "text": "Vessels are ranked by risk, with a reason and suggested action. Open a row to visit its alert page. Open an alert to read its reasons, position, and activity. Officer reviews are still being built; a high score is not proof of illegal activity."},
     ],
 }
 T["fr"]["tour"] = {
@@ -307,7 +344,7 @@ T["fr"]["tour"] = {
         {"target": ".map-card", "title": "Explorer la carte", "text": "Sélectionnez un navire pour voir son score de risque et ouvrir son alerte. Les cercles pointillés indiquent les contacts radar sans correspondance AIS."},
         {"target": ".watch-search", "title": "Trouver un navire", "text": "Recherchez par nom, MMSI ou identifiant du navire. La recherche conserve vos filtres actuels."},
         {"target": ".filters", "title": "Affiner la recherche", "text": "Réglez le risque minimum ou affichez uniquement les contacts sans AIS. La carte, les compteurs et la liste se mettent à jour ensemble."},
-        {"target": ".ranked", "title": "Lire les alertes classées", "text": "Les navires sont classés par risque, avec une raison et une action suggérée. Ouvrez une ligne pour consulter son alerte. Les détails et les décisions des officiers sont encore en développement ; un score élevé ne prouve pas une activité illégale."},
+        {"target": ".ranked", "title": "Lire les alertes classées", "text": "Les navires sont classés par risque, avec une raison et une action suggérée. Ouvrez une ligne pour consulter son alerte. Consultez les raisons, la position et l’activité dans chaque alerte. Les décisions des officiers sont encore en développement ; un score élevé ne prouve pas une activité illégale."},
     ],
 }
 

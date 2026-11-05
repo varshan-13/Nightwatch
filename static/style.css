@@ -562,3 +562,35 @@ main.container { padding-top: 48px; padding-bottom: 72px; }
   .tour-card { padding: 20px; }
   .tour-actions > div { width: 100%; justify-content: flex-end; }
 }
+
+/* ---------- Vessel details ---------- */
+.detail-back { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); margin-bottom: 16px; }
+.detail-heading { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; }
+.detail-heading > div { flex: 1 1 420px; min-width: 0; }
+.detail-heading .page-title { overflow-wrap: anywhere; }
+.detail-score { flex: 0 1 320px; width: 100%; }
+.detail-row { display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+.detail-score-value { font: 800 64px var(--font-head); line-height: 1.2; margin-top: 10px; }
+.detail-score-value span { font-size: 24px; }
+.detail-score meter { width: 100%; height: 16px; accent-color: var(--accent); }
+.detail-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 24px; margin-top: 32px; }
+.detail-stack { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+.detail-profile { margin: 20px 0; }
+.detail-profile dt { color: var(--muted); font-size: 13px; margin-top: 18px; }
+.detail-profile dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+.detail-action-title { font: 800 36px/1.1 var(--font-head); margin: 16px 0; }
+.detail-action-high { background: var(--high); color: var(--ink); }
+.detail-action-high .tag { color: var(--ink); }
+.detail-action-med { border-color: var(--med); }
+.detail-action-low { border-color: var(--line-2); }
+.detail-map { height: 320px; border-radius: 16px; background: var(--map-bg); margin-top: 16px; }
+.activity-list { list-style: none; padding: 0 0 0 20px; margin: 24px 0 0; border-left: 2px solid var(--line-2); }
+.activity-list li { position: relative; padding: 0 0 24px 12px; }
+.activity-list li:last-child { padding-bottom: 0; }
+.activity-list li::before { content: ''; position: absolute; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); left: -26px; top: 6px; }
+.activity-list h3 { font: 600 18px var(--font-body); margin: 6px 0; }
+@media (max-width: 800px) {
+  .detail-grid { grid-template-columns: minmax(0, 1fr); }
+  .detail-score { flex-basis: 100%; }
+  .detail-grid .flag { flex-wrap: wrap; }
+}

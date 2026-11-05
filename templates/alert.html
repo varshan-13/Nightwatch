@@ -1,5 +1,90 @@
 {% extends "base.html" %}
-{% block title %}{{ t.title_alert }}{% endblock %}
+{% set d = t.detail %}
+{% block title %}{{ t.title_alert }}{% if vessel %} · {{ vessel.vessel_id }}{% endif %}{% endblock %}
+{% block head %}
+{% if vessel %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>
+{% endif %}
+{% endblock %}
 {% block content %}
-<h1 class="page-title">{{ vessel_id }}</h1>
+<a class="detail-back mono" href="{{ url_for('watch', lang=lang) }}">{{ d.back }}</a>
+{% if not vessel %}
+<h1 class="page-title">{{ d.missing_title }}</h1>
+<p class="section-lead">{{ d.missing_text }}</p>
+{% else %}
+<div class="detail-heading">
+  <div>
+    <div class="tag">{{ vessel.vessel_id }} · {{ t.l_sample_data }}</div>
+    <h1 class="page-title">{{ d.unidentified if vessel.dark else vessel.name }}</h1>
+    <p class="muted">{{ t.radar_contact if vessel.dark else t.get('gear_' ~ vessel.gear, vessel.gear) }}</p>
+  </div>
+  <section class="card detail-score" aria-label="{{ d.score }}">
+    <div class="detail-row"><span class="tag">{{ d.score }}</span><span class="chip chip-{{ vessel.level }}">{{ t['level_' ~ vessel.level] }}</span></div>
+    <div class="detail-score-value">{{ vessel.risk }}<span class="muted"> / 100</span></div>
+    <meter min="0" max="100" value="{{ vessel.risk }}" aria-label="{{ d.score }}">{{ vessel.risk }} / 100</meter>
+  </section>
+</div>
+<div class="detail-grid">
+  <div class="detail-stack">
+    <section class="card">
+      <h2 class="tag">{{ d.why }}</h2>
+      <ol class="flags">
+        {% for r in reasons %}
+        <li class="flag flag-{{ 'high' if r.points >= 25 else 'med' }}">
+          <span class="flag-num">{{ loop.index }}</span>
+          <div class="flag-body">{{ reason(r.text) }}</div>
+          <span class="flag-pts">+{{ r.points }} {{ d.points }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+      <p class="small muted">{{ t.f_note }}</p>
+    </section>
+    <section class="card">
+      <h2 class="tag">{{ d.position }}</h2>
+      <p><time datetime="{{ vessel.last_seen|replace(' ', 'T') }}">{{ vessel.last_seen }}</time></p>
+      <div id="vessel-map" class="detail-map" role="region" aria-label="{{ d.map_label }}"></div>
+      <p id="vessel-map-error" class="small muted" role="status">{{ d.map_error }}</p>
+      <p class="mono">{{ '%.3f'|format(vessel.lat) }}, {{ '%.3f'|format(vessel.lon) }}</p>
+      <p class="small muted">{{ d.map_note }}<br>{{ t.w_map_credit }}</p>
+    </section>
+    <section class="card">
+      <h2 class="tag">{{ d.activity }}</h2>
+      <p class="small muted">{{ d.recorded }}</p>
+      {% if events %}
+      <ol class="activity-list">
+        {% for event in events %}
+        <li>
+          <time class="small mono muted" datetime="{{ event.time|replace(' ', 'T') }}">{{ event.time }}</time>
+          <h3>{{ d.events.get(event.event, event.event) }}</h3>
+          <span class="small muted">{{ d.coordinates }}: {{ '%.3f'|format(event.lat) }}, {{ '%.3f'|format(event.lon) }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+      {% else %}<p class="empty">{{ d.empty }}</p>{% endif %}
+    </section>
+  </div>
+  <aside class="detail-stack">
+    <section class="card detail-action detail-action-{{ vessel.level }}">
+      <h2 class="tag">{{ d.action }}</h2>
+      <p class="detail-action-title">{{ t[vessel.action] }}</p>
+      <p>{{ t.l_person_decides }}</p>
+    </section>
+    <section class="card">
+      <h2 class="tag">{{ d.profile }}</h2>
+      <dl class="detail-profile">
+        <dt>{{ d.id }}</dt><dd>{{ vessel.vessel_id }}</dd>
+        <dt>{{ d.mmsi }}</dt><dd>{{ vessel.mmsi or d.no_mmsi }}</dd>
+        <dt>{{ d.gear }}</dt><dd>{{ t.get('gear_' ~ vessel.gear, vessel.gear) }}</dd>
+        <dt>{{ d.flag }}</dt><dd>{{ d.flags.get(vessel.flag, vessel.flag) }}</dd>
+        <dt>{{ d.last_seen }}</dt><dd><time datetime="{{ vessel.last_seen|replace(' ', 'T') }}">{{ vessel.last_seen }}</time></dd>
+      </dl>
+      <p class="small muted">{{ d.flag_note }}</p>
+      <p class="small muted">{{ d.recorded }}</p>
+    </section>
+  </aside>
+</div>
+<script id="vessel-map-config" type="application/json">{{ {'lat': vessel.lat, 'lon': vessel.lon, 'label': d.position, 'events': events, 'labels': d.events}|tojson }}</script>
+<script src="{{ url_for('static', filename='vessel-map.js') }}" defer></script>
+{% endif %}
 {% endblock %}
