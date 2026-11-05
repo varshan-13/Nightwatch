@@ -18,7 +18,6 @@
     </nav>
     <div class="land-actions mono">
       {{ m.lang_switch() }}
-      <a class="btn btn-ink btn-pill" href="{{ url_for('watch', lang=lang) }}">{{ t.l_open_dashboard }}</a>
     </div>
   </header>
 
@@ -167,7 +166,6 @@
     <h2>{{ t.l_cta_h2 }}</h2>
     <p>{{ t.l_cta_lead }}</p>
     <div class="cta-buttons">
-      <a class="btn btn-ink" href="{{ url_for('watch', lang=lang) }}">{{ t.l_cta_open }}</a>
       <a class="btn btn-ink-outline" href="#{{ t.how_anchor }}">{{ t.l_cta_how }}</a>
     </div>
   </section>
