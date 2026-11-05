@@ -2,6 +2,7 @@ from pathlib import Path
 from urllib.parse import urlsplit, parse_qs
 from datetime import datetime, timezone
 import os
+import shutil
 import json
 import secrets
 from threading import Lock
@@ -9,12 +10,24 @@ from threading import Lock
 import pandas as pd
 from flask import Flask, render_template, request, redirect, url_for, session, abort
 
-from pipeline.validate import fingerprints, write_validation
+from pipeline.validate import build_validation, fingerprints, write_validation
 
 from translations import T, reason_label, translate_reason
 
 app = Flask(__name__)
 DATA = Path(__file__).parent / "data"
+
+# Hosting on Vercel: the project folder is read-only there, and only /tmp can be
+# written. Copy the data to /tmp at start-up so officer decisions and the
+# validation snapshot can be saved. /tmp is per server instance and is wiped when
+# Vercel recycles it, so hosted decisions are for demos only.
+if os.environ.get("VERCEL"):
+    hosted = Path("/tmp/nightwatch-data")
+    hosted.mkdir(exist_ok=True)
+    for source in DATA.glob("*.*"):  # copy contents only, so the copies are writable
+        if not (hosted / source.name).exists():
+            shutil.copyfile(source, hosted / source.name)
+    DATA = hosted
 app.secret_key = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
 feedback_lock = Lock()
 
@@ -108,7 +121,12 @@ def load_validation():
             try:
                 result = write_validation(DATA)
             except OSError:
-                result = json.loads((DATA / "validation.json").read_text(encoding="utf-8"))
+                # Can't save the snapshot (read-only disk): use the saved one if there
+                # is one, otherwise work the results out in memory for this request.
+                try:
+                    result = json.loads((DATA / "validation.json").read_text(encoding="utf-8"))
+                except (FileNotFoundError, ValueError):
+                    result = build_validation(DATA)
         return result
 
 

@@ -17,6 +17,7 @@ English and French throughout (`/` and `/fr/`).
 
 1. [What it does](#what-it-does)
 2. [Setup](#setup)
+   - [Hosting on Vercel](#3-host-it-on-vercel)
 3. [Data](#data)
 4. [Models](#models)
 5. [APIs and external services](#apis-and-external-services)
@@ -89,6 +90,13 @@ https://globalfishingwatch.org/our-apis/, then put it in your shell profile (for
 export GFW_API_ACCESS_TOKEN="your-token"
 ```
 
+The pipeline needs two extra libraries (the GFW client and scikit-learn) that the
+website doesn't:
+
+```sh
+pip install -r pipeline/requirements.txt
+```
+
 Then run the pipeline from the project folder:
 
 ```sh
@@ -100,6 +108,29 @@ python3 pipeline/validate.py         # 4. compare with the IOTC IUU list -> data
 
 Steps 2–4 work offline from the files that step 1 saved. `data/raw/` is not committed,
 because of its size and GFW's non-commercial terms.
+
+### 3. Host it on Vercel
+
+Vercel detects the Flask app in `app.py` and installs only `requirements.txt` (Flask and
+pandas). The pipeline libraries stay out, so the app stays small.
+
+1. Import the GitHub repository in Vercel. No build settings are needed.
+2. In **Project → Settings → Environment Variables**, add **`SECRET_KEY`**. Use a long random
+   value, for example the output of `python3 -c "import secrets; print(secrets.token_hex(32))"`.
+   Without it, each server instance makes up its own key and officer decisions get rejected.
+3. Redeploy.
+
+How the hosted version differs:
+
+- **Read-only disk.** Vercel's project folder is read-only, so at start-up the app copies
+  `data/` to `/tmp` (the only writable place) and works from there.
+- **Decisions don't last.** `/tmp` belongs to one server instance and is wiped when Vercel
+  recycles it. Confirm and False alarm work, but hosted decisions are for **demos only**.
+  For real use, keep decisions in a database.
+- **Validation** is worked out from the committed data on first use. No pipeline run is
+  needed.
+
+`.vercelignore` keeps the design mockups and tests out of the upload.
 
 ---
 
@@ -239,9 +270,9 @@ decisions stay in `data/feedback.csv` on the machine running the site.
 |---|---|---|
 | Flask | 3.1 | Web app, routes, Jinja templates, decision form (with a per-session token against forged submissions) |
 | pandas | 2.3 | Reading and writing the CSV files, building profiles |
-| scikit-learn | 1.9 | `IsolationForest`, the anomaly model |
+| scikit-learn | 1.9 | `IsolationForest`, the anomaly model (pipeline only, in `pipeline/requirements.txt`) |
 | NumPy | (installed with pandas) | Feature maths in the pipeline and sample data |
-| gfw-api-python-client | 1.4.0 | Official Global Fishing Watch API client |
+| gfw-api-python-client | 1.4.0 | Official Global Fishing Watch API client (pipeline only) |
 | Leaflet | 1.9.4 | Interactive maps. Served from `static/vendor/leaflet/` (BSD-2-Clause), so it works offline. |
 
 Plain CSS, no CSS framework. The small scripts in `static/` (intro, animations, tabs, guided

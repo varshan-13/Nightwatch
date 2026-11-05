@@ -1,0 +1,5 @@
+# The data pipeline (pipeline/*.py) needs these on top of the website requirements.
+# Install with: pip install -r pipeline/requirements.txt
+-r ../requirements.txt
+gfw-api-python-client==1.4.0
+scikit-learn

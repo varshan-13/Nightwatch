@@ -1,0 +1,8 @@
+# Files Vercel does not need to run the website
+venv/
+__pycache__/
+data/raw/
+design-reference/
+tests/
+*.md
+!README.md

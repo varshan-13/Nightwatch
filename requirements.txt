@@ -1,4 +1,2 @@
 flask
 pandas
-gfw-api-python-client==1.4.0
-scikit-learn
