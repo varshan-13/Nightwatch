@@ -32,7 +32,7 @@ Checkpoint: the EN | FR switch moves between /watch and /fr/watch, and the heade
 
 ## Prompt 3: Landing page
 
-Build the landing page at / and /fr/ from Main.dc.html and Main-fr.dc.html: the sea-green hero with the chart grid, headline, command bar and radar graphic (inline SVG), the example alert card, How it decides, Does it work, Limits, the final call to action and the footer. All text from translations.py. The landing header has its own style (dark on sea green), with the EN | FR switch and an Open dashboard button.
+Build the landing page at / and /fr/ from Main.dc.html and Main-fr.dc.html: the sea-green hero with the chart grid, headline, command bar and radar graphic (inline SVG), the example alert card, How it decides, Does it work, Limits, the final call to action and the footer. All text from translations.py. The landing header has its own style (dark on sea green), with the EN | FR switch. Live map is the navigation link to Watch; do not add a separate dashboard button.
 
 Checkpoint: the page matches the reference at desktop width and stacks into one column at phone width (about 390px).
 

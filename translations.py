@@ -35,7 +35,6 @@ T = {
         "l_nav_how": "How it decides",
         "l_nav_works": "Does it work",
         "l_nav_limits": "Limits",
-        "l_open_dashboard": "Open dashboard",
         "l_eyebrow": "Mauritius Exclusive Economic Zone · 2.3M km²",
         "l_h1": "See the ships that go dark.",
         "l_lead": "Nightwatch combines satellite radar with ship tracking signals, ranks the vessels that look suspicious, and says why, in plain words, so patrols go where they matter.",
@@ -99,7 +98,6 @@ T = {
 
         "l_cta_h2": "Two million km². A handful of patrols.",
         "l_cta_lead": "Send them where the evidence points.",
-        "l_cta_open": "Open the dashboard →",
         "l_cta_how": "How it works",
         # Watch page
         "w_tag": "[ Last 72 hours · Sample data ]",
@@ -173,7 +171,6 @@ T = {
         "l_nav_how": "Comment ça décide",
         "l_nav_works": "Ça marche ?",
         "l_nav_limits": "Limites",
-        "l_open_dashboard": "Tableau de bord",
         "l_eyebrow": "Zone économique exclusive de Maurice · 2,3 M km²",
         "l_h1": "Repérez les navires qui s'éteignent.",
         "l_lead": "Nightwatch croise l'imagerie radar satellite avec les signaux de suivi des navires, classe ceux au comportement suspect et explique pourquoi, en mots simples, pour envoyer les patrouilles là où il le faut.",
@@ -237,7 +234,6 @@ T = {
 
         "l_cta_h2": "Deux millions de km². Une poignée de patrouilles.",
         "l_cta_lead": "Envoyez-les là où les preuves mènent.",
-        "l_cta_open": "Ouvrir le tableau de bord →",
         "l_cta_how": "Comment ça marche",
         # Watch page
         "w_tag": "[ 72 dernières heures · Données d'exemple ]",
