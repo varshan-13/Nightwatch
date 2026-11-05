@@ -8,7 +8,7 @@
 {% endif %}
 {% endblock %}
 {% block content %}
-<a class="detail-back mono" href="{{ url_for('watch', lang=lang) }}">{{ d.back }}</a>
+<a class="detail-back mono" href="{{ watch_back }}">{{ d.back }}</a>
 {% if not vessel %}
 <h1 class="page-title">{{ d.missing_title }}</h1>
 <p class="section-lead">{{ d.missing_text }}</p>

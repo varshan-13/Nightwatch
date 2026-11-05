@@ -99,7 +99,8 @@ def load_validation():
 def page(template, lang, **data):
     return render_template(template, lang=lang, t=T[lang],
                            reason=lambda text: translate_reason(text, lang),
-                           reason_label=lambda text: reason_label(text, lang), **data)
+                           reason_label=lambda text: reason_label(text, lang),
+                           watch_back=url_for("watch", lang=lang, **session.get("watch_filters", {})), **data)
 
 
 @app.route("/", defaults={"lang": "en"})
@@ -113,12 +114,19 @@ def landing(lang):
 @app.route("/fr/watch", defaults={"lang": "fr"})
 def watch(lang):
     # Filters come from the URL, e.g. /watch?min_risk=60&dark=1&q=014
-    min_risk = request.args.get("min_risk", 40, type=int)
+    min_risk = max(0, min(100, request.args.get("min_risk", 40, type=int)))
+    max_risk = max(min_risk, min(100, request.args.get("max_risk", 100, type=int)))
     dark_only = request.args.get("dark") == "1"
     q = request.args.get("q", "").strip()
 
     df = load_alerts()
-    df = df[df["risk"] >= min_risk]
+    total = len(df)
+    session["watch_filters"] = {"min_risk": min_risk, "max_risk": max_risk, "q": q, **({"dark": "1"} if dark_only else {})}
+    def filter_url(**changes):
+        args = {"min_risk": min_risk, "max_risk": max_risk, "q": q, **({"dark": "1"} if dark_only else {})}
+        args.update(changes)
+        return url_for("watch", lang=lang, **args)
+    df = df[df["risk"].between(min_risk, max_risk)]
     if dark_only:
         df = df[df["dark"]]
     if q:
@@ -140,7 +148,8 @@ def watch(lang):
                "lat": r["lat"], "lon": r["lon"], "risk": r["risk"],
                "level": r["level"], "dark": bool(r["dark"])} for r in rows]
     return page("watch.html", lang, rows=rows, points=points, counts=counts,
-                min_risk=min_risk, dark_only=dark_only, q=q)
+                min_risk=min_risk, max_risk=max_risk, dark_only=dark_only, q=q,
+                total=total, filter_url=filter_url)
 
 
 @app.route("/alert/<vessel_id>", defaults={"lang": "en"}, methods=["GET", "POST"])

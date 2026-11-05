@@ -627,3 +627,9 @@ T["en"].update({"tab_home": "Home", "tab_watch": "Live map"})
 T["fr"].update({"tab_home": "Accueil", "tab_watch": "Carte en direct"})
 T["en"]["detail"]["back"] = "← Back to live map"
 T["fr"]["detail"]["back"] = "← Retour à la carte"
+
+
+T["en"]["filter_ui"] = {"quick": "Risk shortcuts", "all": "All", "max": "Maximum risk", "clear": "Clear filters", "active": "Active filters", "results": "Showing {shown} of {total} vessels", "remove_range": "Remove risk filter", "remove_dark": "Remove no-AIS filter", "remove_search": "Remove search filter", "search": "Search", "empty": "Try a wider risk range or clear the filters."}
+T["fr"]["filter_ui"] = {"quick": "Raccourcis de risque", "all": "Tous", "max": "Risque maximum", "clear": "Effacer les filtres", "active": "Filtres actifs", "results": "{shown} navires affichés sur {total}", "remove_range": "Retirer le filtre de risque", "remove_dark": "Retirer le filtre sans AIS", "remove_search": "Retirer la recherche", "search": "Recherche", "empty": "Essayez une plage de risque plus large ou effacez les filtres."}
+T["en"].update({"w_search_short": "Name, MMSI or vessel ID…", "l_search_label": "Search by vessel name, MMSI or vessel ID", "l_search_placeholder": "Vessel name, MMSI or vessel ID…"})
+T["fr"].update({"w_search_short": "Nom, MMSI ou identifiant…", "l_search_label": "Rechercher par nom, MMSI ou identifiant du navire", "l_search_placeholder": "Nom du navire, MMSI ou identifiant…"})
