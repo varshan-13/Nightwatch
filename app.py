@@ -1,12 +1,47 @@
 from pathlib import Path
+from datetime import datetime, timezone
+import os
+import secrets
+from threading import Lock
 
 import pandas as pd
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session, abort
 
 from translations import T, translate_reason
 
 app = Flask(__name__)
 DATA = Path(__file__).parent / "data"
+app.secret_key = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
+feedback_lock = Lock()
+
+
+@app.context_processor
+def review_token():
+    if "review_token" not in session:
+        session["review_token"] = secrets.token_hex(32)
+    return {"review_token": session["review_token"]}
+
+
+def load_feedback():
+    path = DATA / "feedback.csv"
+    if not path.exists():
+        return pd.DataFrame(columns=["vessel_id", "label", "note", "time"])
+    return pd.read_csv(path, keep_default_na=False).drop_duplicates("vessel_id", keep="last")
+
+
+def save_decision(vessel_id, label, note):
+    # One current decision per vessel. Replace the file only after writing succeeds.
+    with feedback_lock:
+        feedback = load_feedback()
+        feedback = feedback[feedback["vessel_id"] != vessel_id].reset_index(drop=True)
+        if label != "undo":
+            feedback.loc[len(feedback)] = [vessel_id, label, note, datetime.now(timezone.utc).isoformat(timespec="seconds")]
+        temporary = DATA / "feedback.csv.tmp"
+        try:
+            feedback.to_csv(temporary, index=False)
+            temporary.replace(DATA / "feedback.csv")
+        finally:
+            temporary.unlink(missing_ok=True)
 
 
 # ---------- Data ----------
@@ -34,10 +69,7 @@ def load_alerts():
 
 def reviewed_ids():
     """Vessel ids that already have an officer decision in feedback.csv."""
-    path = DATA / "feedback.csv"
-    if not path.exists():
-        return set()
-    return set(pd.read_csv(path)["vessel_id"])
+    return set(load_feedback()["vessel_id"])
 
 
 # ---------- Pages ----------
@@ -90,13 +122,22 @@ def watch(lang):
                 min_risk=min_risk, dark_only=dark_only, q=q)
 
 
-@app.route("/alert/<vessel_id>", defaults={"lang": "en"})
-@app.route("/fr/alert/<vessel_id>", defaults={"lang": "fr"})
+@app.route("/alert/<vessel_id>", defaults={"lang": "en"}, methods=["GET", "POST"])
+@app.route("/fr/alert/<vessel_id>", defaults={"lang": "fr"}, methods=["GET", "POST"])
 def alert(lang, vessel_id):
     matches = load_alerts()
     matches = matches[matches["vessel_id"] == vessel_id]
     if matches.empty:
         return page("alert.html", lang, vessel=None), 404
+    if request.method == "POST":
+        if not session.get("review_token") or not secrets.compare_digest(session["review_token"], request.form.get("token", "")):
+            abort(400)
+        label = request.form.get("label", "")
+        note = request.form.get("note", "").strip()
+        if label not in {"confirmed", "false_alarm", "undo"} or len(note) > 2000:
+            abort(400)
+        save_decision(vessel_id, label, note)
+        return redirect(url_for("alert", lang=lang, vessel_id=vessel_id, saved=label), code=303)
     vessel = matches.iloc[0].to_dict()
     events_path = DATA / "events.csv"
     events = []
@@ -106,10 +147,28 @@ def alert(lang, vessel_id):
         events = df.to_dict("records")
     reasons = [{"text": vessel[f"reason_{n}"], "points": vessel[f"reason_{n}_pts"]}
                for n in range(1, 4) if pd.notna(vessel[f"reason_{n}"])]
-    return page("alert.html", lang, vessel=vessel, events=events, reasons=reasons)
+    feedback = load_feedback()
+    decisions = feedback[feedback["vessel_id"] == vessel_id].to_dict("records")
+    return page("alert.html", lang, vessel=vessel, events=events, reasons=reasons,
+                decision=decisions[0] if decisions else None)
 
 
 @app.route("/validation", defaults={"lang": "en"})
 @app.route("/fr/validation", defaults={"lang": "fr"})
 def validation(lang):
     return page("validation.html", lang)
+
+
+@app.route("/alerts", defaults={"lang": "en"})
+@app.route("/fr/alerts", defaults={"lang": "fr"})
+def alerts(lang):
+    status = request.args.get("status", "pending")
+    if status not in {"pending", "reviewed", "all"}:
+        status = "pending"
+    feedback = {row["vessel_id"]: row for row in load_feedback().to_dict("records")}
+    rows = load_alerts().to_dict("records")
+    counts = {"all": len(rows), "reviewed": sum(row["vessel_id"] in feedback for row in rows)}
+    counts["pending"] = counts["all"] - counts["reviewed"]
+    if status != "all":
+        rows = [row for row in rows if (row["vessel_id"] in feedback) == (status == "reviewed")]
+    return page("alerts.html", lang, rows=rows, feedback=feedback, counts=counts, status=status)

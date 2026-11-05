@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ t.review.title }} · Nightwatch{% endblock %}
+{% block content %}
+<div class="tag">{{ t.l_sample_data }}</div>
+<h1 class="page-title">{{ t.review.title }}</h1>
+<p class="section-lead">{{ t.review.lead }}</p>
+<nav class="tabs review-tabs" aria-label="{{ t.review.tabs }}">
+  {% for key in ['pending', 'reviewed', 'all'] %}
+  <a class="tab{% if status == key %} active{% endif %}" href="{{ url_for('alerts', lang=lang, status=key) }}" {% if status == key %}aria-current="page"{% endif %}>{{ t.review[key] }} ({{ counts[key] }})</a>
+  {% endfor %}
+</nav>
+<section class="card">
+  {% if rows %}
+  <div class="table-scroll">
+    <table class="table">
+      <thead><tr><th scope="col">{{ t.th_vessel }}</th><th scope="col">{{ t.th_risk }}</th><th scope="col">{{ t.th_reason }}</th><th scope="col">{{ t.review.decision }}</th><th scope="col">{{ t.open }}</th></tr></thead>
+      <tbody>
+      {% for row in rows %}
+      {% set decision = feedback.get(row.vessel_id) %}
+      <tr>
+        <td><b>{{ row.vessel_id if row.dark else row.name }}</b><div class="small muted">{{ t.radar_contact if row.dark else row.vessel_id }}</div></td>
+        <td><span class="chip chip-{{ row.level }}">{{ row.risk }} {{ t['level_' ~ row.level] }}</span></td>
+        <td>{{ reason(row.reason_1) }}</td>
+        <td>{{ t.review[decision.label] if decision else t.review.pending }}</td>
+        <td><a class="link-open" href="{{ url_for('alert', lang=lang, vessel_id=row.vessel_id) }}">{{ t.open_arrow }}<span class="sr-only"> {{ row.vessel_id }}</span></a></td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}<p class="empty">{{ t.review.empty }}</p>{% endif %}
+</section>
+{% endblock %}

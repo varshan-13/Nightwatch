@@ -286,7 +286,7 @@ T["en"]["validation"] = {
     "unavailable": "Not measured", "metrics": [
         {"title": "IOTC list matches", "text": "Planned check: count vessels in the top 20 alerts that also appear on the Indian Ocean Tuna Commission (IOTC) illegal fishing list."},
         {"title": "Random baseline", "text": "Planned comparison: repeat the list check on 20 randomly selected vessels from the same dataset."},
-        {"title": "Officer dismissals", "text": "Share of reviewed alerts marked as false alarms. Officer review forms and measured feedback are not available yet."},
+        {"title": "Officer dismissals", "text": "Share of reviewed alerts marked as false alarms. Review forms are available on vessel details; a real-data feedback evaluation has not been run yet."},
         {"title": "Radar coverage", "text": "Share of the Mauritius Exclusive Economic Zone imaged during the evaluation period. Coverage measurements are not connected yet."},
     ],
     "method": "How validation will work", "steps": [
@@ -309,7 +309,7 @@ T["fr"]["validation"] = {
     "unavailable": "Non mesuré", "metrics": [
         {"title": "Correspondances CTOI", "text": "Vérification prévue : compter les navires du top 20 figurant aussi sur la liste de pêche illicite de la Commission des thons de l’océan Indien (CTOI)."},
         {"title": "Référence aléatoire", "text": "Comparaison prévue : refaire cette vérification sur 20 navires tirés au hasard dans les mêmes données."},
-        {"title": "Rejets par les officiers", "text": "Part des alertes examinées classées comme fausses alertes. Le formulaire de décision et les retours mesurés ne sont pas encore disponibles."},
+        {"title": "Rejets par les officiers", "text": "Part des alertes examinées classées comme fausses alertes. Le formulaire est disponible sur la fiche du navire ; l’évaluation des retours sur données réelles n’a pas encore été réalisée."},
         {"title": "Couverture radar", "text": "Part de la zone économique exclusive de Maurice observée pendant la période d’évaluation. Les mesures de couverture ne sont pas encore connectées."},
     ],
     "method": "Comment la validation sera réalisée", "steps": [
@@ -376,7 +376,7 @@ T["en"]["tour"] = {
         {"target": ".map-card", "title": "Explore the map", "text": "Select a vessel marker to see its risk score and open its alert. Dashed rings mark radar contacts without an AIS match."},
         {"target": ".watch-search", "title": "Find a vessel", "text": "Search by vessel name, MMSI, or vessel ID. The search keeps your current filters."},
         {"target": ".filters", "title": "Focus your search", "text": "Adjust the minimum risk score or show only contacts without AIS. The map, counters, and list update together."},
-        {"target": ".ranked", "title": "Read the ranked alerts", "text": "Vessels are ranked by risk, with a reason and suggested action. Open a row to visit its alert page. Open an alert to read its reasons, position, and activity. Officer reviews are still being built; a high score is not proof of illegal activity."},
+        {"target": ".ranked", "title": "Read the ranked alerts", "text": "Vessels are ranked by risk, with a reason and suggested action. Open a row to visit its alert page. Open an alert to read its reasons, position, and activity. Officers can confirm a concern or dismiss it on the alert page; a high score is not proof of illegal activity."},
     ],
 }
 T["fr"]["tour"] = {
@@ -389,7 +389,7 @@ T["fr"]["tour"] = {
         {"target": ".map-card", "title": "Explorer la carte", "text": "Sélectionnez un navire pour voir son score de risque et ouvrir son alerte. Les cercles pointillés indiquent les contacts radar sans correspondance AIS."},
         {"target": ".watch-search", "title": "Trouver un navire", "text": "Recherchez par nom, MMSI ou identifiant du navire. La recherche conserve vos filtres actuels."},
         {"target": ".filters", "title": "Affiner la recherche", "text": "Réglez le risque minimum ou affichez uniquement les contacts sans AIS. La carte, les compteurs et la liste se mettent à jour ensemble."},
-        {"target": ".ranked", "title": "Lire les alertes classées", "text": "Les navires sont classés par risque, avec une raison et une action suggérée. Ouvrez une ligne pour consulter son alerte. Consultez les raisons, la position et l’activité dans chaque alerte. Les décisions des officiers sont encore en développement ; un score élevé ne prouve pas une activité illégale."},
+        {"target": ".ranked", "title": "Lire les alertes classées", "text": "Les navires sont classés par risque, avec une raison et une action suggérée. Ouvrez une ligne pour consulter son alerte. Consultez les raisons, la position et l’activité dans chaque alerte. Les officiers peuvent confirmer une préoccupation ou rejeter une alerte ; un score élevé ne prouve pas une activité illégale."},
     ],
 }
 
@@ -419,3 +419,19 @@ def translate_reason(text, lang):
         if match:
             return french.format(*match.groups())
     return text
+
+
+T["en"]["review"] = {
+    "title": "Alert reviews", "lead": "Review the evidence, then record whether the concern needs follow-up. Decisions are shared in this local workspace.",
+    "pending": "Pending", "reviewed": "Reviewed", "all": "All", "decision": "Officer decision", "note": "Note (optional, up to 2,000 characters)",
+    "confirmed": "Concern confirmed", "false_alarm": "False alarm", "confirm": "Confirm concern", "dismiss": "Mark as false alarm", "undo": "Undo decision",
+    "saved": "Decision saved.", "undone": "Decision removed. This alert is awaiting review again.", "empty": "No alerts in this view.",
+    "notice": "Confirming a concern records the need for follow-up; it does not establish illegal activity.", "back": "← Back to alert reviews", "time": "Reviewed at (UTC)", "tabs": "Filter alerts by review status",
+}
+T["fr"]["review"] = {
+    "title": "Examen des alertes", "lead": "Examinez les éléments, puis indiquez si une vérification est nécessaire. Les décisions sont partagées dans cet espace de travail local.",
+    "pending": "En attente", "reviewed": "Examinées", "all": "Toutes", "decision": "Décision de l’officier", "note": "Note (facultative, 2 000 caractères maximum)",
+    "confirmed": "Préoccupation confirmée", "false_alarm": "Fausse alerte", "confirm": "Confirmer la préoccupation", "dismiss": "Classer comme fausse alerte", "undo": "Annuler la décision",
+    "saved": "Décision enregistrée.", "undone": "Décision supprimée. Cette alerte est à nouveau en attente d’examen.", "empty": "Aucune alerte dans cette vue.",
+    "notice": "Confirmer une préoccupation indique un besoin de vérification ; cela ne prouve pas une activité illégale.", "back": "← Retour à l’examen des alertes", "time": "Examinée le (UTC)", "tabs": "Filtrer les alertes par état d’examen",
+}

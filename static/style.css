@@ -625,3 +625,12 @@ main.container { padding-top: 48px; padding-bottom: 72px; }
 
 /* Status phrases need smaller type than numerical statistics. */
 .stat-value.stat-status { font-size: clamp(26px, 3vw, 38px); overflow-wrap: anywhere; }
+
+/* ---------- Officer reviews ---------- */
+.review-tabs { margin: 28px 0 20px; flex-wrap: wrap; }
+.review-note-label { display: block; margin: 20px 0 8px; color: var(--text-2); }
+#review-note { width: 100%; resize: vertical; padding: 12px; background: var(--surface-2); color: var(--text); border: 1px solid var(--line-2); border-radius: 12px; font: inherit; }
+.review-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.review-buttons .btn { min-height: 44px; }
+.review-message { padding: 12px; background: var(--ok-bg); color: var(--accent); border-radius: 12px; }
+.review-note { white-space: pre-wrap; overflow-wrap: anywhere; }

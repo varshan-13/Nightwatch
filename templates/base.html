@@ -24,11 +24,11 @@
     <nav class="tabs mono" aria-label="{{ t.nav_label }}">
       {% for endpoint, label, href in [
           ('watch', t.tab_watch, url_for('watch', lang=lang)),
-          ('alert', t.tab_alerts, url_for('watch', lang=lang) ~ '#alerts'),
+          ('alerts', t.tab_alerts, url_for('alerts', lang=lang)),
           ('validation', t.tab_validation, url_for('validation', lang=lang)),
       ] %}
-      <a class="tab{% if request.endpoint == endpoint %} active{% endif %}" href="{{ href }}"
-         {% if request.endpoint == endpoint %}aria-current="page"{% endif %}>{{ label }}</a>
+      <a class="tab{% if (request.endpoint == endpoint or (endpoint == 'alerts' and request.endpoint == 'alert')) %} active{% endif %}" href="{{ href }}"
+         {% if (request.endpoint == endpoint or (endpoint == 'alerts' and request.endpoint == 'alert')) %}aria-current="page"{% endif %}>{{ label }}</a>
       {% endfor %}
     </nav>
 

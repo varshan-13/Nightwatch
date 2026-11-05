@@ -65,6 +65,33 @@
     </section>
   </div>
   <aside class="detail-stack">
+    <section class="card" aria-labelledby="review-heading">
+      <h2 id="review-heading" class="validation-section-title">{{ t.review.decision }}</h2>
+      {% if request.args.get('saved') in ['confirmed', 'false_alarm', 'undo'] %}
+      <p class="review-message" role="status">{{ t.review.undone if request.args.get('saved') == 'undo' else t.review.saved }}</p>
+      {% endif %}
+      {% if decision %}
+      <p class="chip chip-{{ 'med' if decision.label == 'confirmed' else 'low' }}">{{ t.review[decision.label] }}</p>
+      {% if decision.note %}<p class="review-note">{{ decision.note }}</p>{% endif %}
+      <p class="small muted">{{ t.review.time }}<br><time datetime="{{ decision.time }}">{{ decision.time }}</time></p>
+      <form method="post">
+        <input type="hidden" name="token" value="{{ review_token }}">
+        <button class="btn btn-secondary" name="label" value="undo">{{ t.review.undo }}</button>
+      </form>
+      {% else %}
+      <form method="post">
+        <input type="hidden" name="token" value="{{ review_token }}">
+        <label class="review-note-label" for="review-note">{{ t.review.note }}</label>
+        <textarea id="review-note" name="note" rows="4" maxlength="2000"></textarea>
+        <div class="review-buttons">
+          <button class="btn btn-primary" name="label" value="confirmed">{{ t.review.confirm }}</button>
+          <button class="btn btn-secondary" name="label" value="false_alarm">{{ t.review.dismiss }}</button>
+        </div>
+      </form>
+      {% endif %}
+      <p class="small muted">{{ t.review.notice }}</p>
+      <a class="detail-back mono" href="{{ url_for('alerts', lang=lang) }}">{{ t.review.back }}</a>
+    </section>
     <section class="card detail-action detail-action-{{ vessel.level }}">
       <h2 class="tag">{{ d.action }}</h2>
       <p class="detail-action-title">{{ t[vessel.action] }}</p>
