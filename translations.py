@@ -32,7 +32,6 @@ T = {
         # Landing page
         "how_anchor": "how",
         "l_nav_map": "Live map",
-        "l_open_dashboard": "Open dashboard →",
         "no_data_title": "No vessel data yet.",
         "no_data_text": "data/alerts.csv is missing. Run the pipeline in pipeline/, or create sample data with",
         "toc_label": "Contents",
@@ -227,7 +226,6 @@ T = {
         # Landing page
         "how_anchor": "comment",
         "l_nav_map": "Carte en direct",
-        "l_open_dashboard": "Ouvrir le tableau de bord →",
         "no_data_title": "Pas encore de données navires.",
         "no_data_text": "Le fichier data/alerts.csv est absent. Lancez le pipeline dans pipeline/, ou créez des données d'exemple avec",
         "toc_label": "Sommaire",
@@ -626,3 +624,16 @@ T["fr"]["phase7"] = {
 }
 T["en"].update({"l_works_h2": "Checking the ranking against a reference list", "l_works_lead": "We compare the highest-ranked alerts with the IOTC IUU list and track officer feedback. Open Validation to see the baseline, sample sizes, matching limitations, and latest results."})
 T["fr"].update({"l_works_h2": "Comparer le classement à une liste de référence", "l_works_lead": "Nous comparons les premières alertes à la liste INN de la CTOI et suivons les retours des officiers. Consultez Validation pour voir la référence aléatoire, les effectifs, les limites et les derniers résultats."})
+
+
+# Use the same destination names throughout the primary navigation.
+T["en"].update({"tab_home": "Home", "tab_watch": "Live map"})
+T["fr"].update({"tab_home": "Accueil", "tab_watch": "Carte en direct"})
+T["en"]["detail"]["back"] = "← Back to live map"
+T["fr"]["detail"]["back"] = "← Retour à la carte"
+
+
+T["en"]["filter_ui"] = {"quick": "Risk shortcuts", "all": "All", "max": "Maximum risk", "clear": "Clear filters", "active": "Active filters", "results": "Showing {shown} of {total} vessels", "remove_range": "Remove risk filter", "remove_dark": "Remove no-AIS filter", "remove_search": "Remove search filter", "search": "Search", "empty": "Try a wider risk range or clear the filters."}
+T["fr"]["filter_ui"] = {"quick": "Raccourcis de risque", "all": "Tous", "max": "Risque maximum", "clear": "Effacer les filtres", "active": "Filtres actifs", "results": "{shown} navires affichés sur {total}", "remove_range": "Retirer le filtre de risque", "remove_dark": "Retirer le filtre sans AIS", "remove_search": "Retirer la recherche", "search": "Recherche", "empty": "Essayez une plage de risque plus large ou effacez les filtres."}
+T["en"].update({"w_search_short": "Name, MMSI or vessel ID…", "l_search_label": "Search by vessel name, MMSI or vessel ID", "l_search_placeholder": "Vessel name, MMSI or vessel ID…"})
+T["fr"].update({"w_search_short": "Nom, MMSI ou identifiant…", "l_search_label": "Rechercher par nom, MMSI ou identifiant du navire", "l_search_placeholder": "Nom du navire, MMSI ou identifiant…"})

@@ -18,6 +18,7 @@
     <span class="command-prompt" aria-hidden="true">&gt;_</span>
     <input name="q" type="text" value="{{ q }}" aria-label="{{ t.l_search_label }}" placeholder="{{ t.w_search_short }}">
     <input type="hidden" name="min_risk" value="{{ min_risk }}">
+    <input type="hidden" name="max_risk" value="{{ max_risk }}">
     {% if dark_only %}<input type="hidden" name="dark" value="1">{% endif %}
     <button class="btn btn-primary" type="submit">{{ t.w_scan }}</button>
   </form>
@@ -56,6 +57,11 @@
   {# ---------- Filters: a plain GET form, so the page reloads with ?min_risk=..&dark=1 ---------- #}
   <aside class="card filters">
     <div class="tag">{{ t.f_tag }}</div>
+    <nav class="risk-shortcuts" aria-label="{{ t.filter_ui.quick }}">
+      {% for low, high, label in [(0, 100, t.filter_ui.all), (70, 100, t.level_high), (40, 69, t.level_med), (0, 39, t.level_low)] %}
+      <a class="risk-shortcut{% if min_risk == low and max_risk == high %} active{% endif %}" href="{{ filter_url(min_risk=low, max_risk=high) }}" {% if min_risk == low and max_risk == high %}aria-current="true"{% endif %}>{{ label }}</a>
+      {% endfor %}
+    </nav>
     <form id="filters" method="get">
       {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
       <div class="field">
@@ -65,15 +71,28 @@
         </div>
         <input id="min_risk" name="min_risk" type="range" min="0" max="100" value="{{ min_risk }}" class="range">
       </div>
+      <div class="field">
+        <label for="max_risk">{{ t.filter_ui.max }}</label>
+        <input id="max_risk" name="max_risk" type="number" min="{{ min_risk }}" max="100" value="{{ max_risk }}">
+      </div>
       <label class="check">
         <input type="checkbox" name="dark" value="1" {% if dark_only %}checked{% endif %}>{{ t.f_dark_only }}
       </label>
       <button class="btn btn-secondary" type="submit">{{ t.f_apply }}</button>
+      <a class="filter-clear" href="{{ url_for('watch', lang=lang, min_risk=0) }}">{{ t.filter_ui.clear }}</a>
     </form>
     <div class="filters-note">{{ t.f_note }}</div>
   </aside>
 </div>
 
+<section class="filter-summary" aria-label="{{ t.filter_ui.active }}">
+  <p>{{ t.filter_ui.results.format(shown=counts.alerts, total=total) }}</p>
+  <div class="filter-chips">
+    {% if min_risk != 0 or max_risk != 100 %}<a href="{{ filter_url(min_risk=0, max_risk=100) }}" aria-label="{{ t.filter_ui.remove_range }}">{{ t.risk }} {{ min_risk }}–{{ max_risk }} <span aria-hidden="true">×</span></a>{% endif %}
+    {% if dark_only %}<a href="{{ filter_url(dark=none) }}" aria-label="{{ t.filter_ui.remove_dark }}">{{ t.f_dark_only }} <span aria-hidden="true">×</span></a>{% endif %}
+    {% if q %}<a href="{{ filter_url(q='') }}" aria-label="{{ t.filter_ui.remove_search }}">{{ t.filter_ui.search }}: {{ q }} <span aria-hidden="true">×</span></a>{% endif %}
+  </div>
+</section>
 {# ---------- Ranked table ---------- #}
 <section id="alerts" class="card ranked">
   <div class="ranked-head">
@@ -111,7 +130,8 @@
     </table>
   </div>
   {% else %}
-  <p class="empty">{{ t.w_empty }}</p>
+  <p class="empty">{{ t.w_empty }} {{ t.filter_ui.empty }}</p>
+  <a class="btn btn-secondary" href="{{ url_for('watch', lang=lang, min_risk=0) }}">{{ t.filter_ui.clear }}</a>
   {% endif %}
 </section>
 
@@ -119,7 +139,12 @@
 // Show the slider number while dragging, and reload the page when it's released.
 const slider = document.getElementById('min_risk');
 slider.addEventListener('input', () => document.getElementById('min_risk_value').value = slider.value);
-slider.addEventListener('change', () => slider.form.submit());
+slider.addEventListener('change', () => {
+  const maximum = document.getElementById('max_risk');
+  maximum.value = Math.max(Number(maximum.value), Number(slider.value));
+  maximum.min = slider.value;
+  slider.form.requestSubmit();
+});
 document.querySelector('#filters input[type=checkbox]').addEventListener('change', e => e.target.form.submit());
 
 // ---------- Map ----------

@@ -6,6 +6,9 @@
 {% set other = 'fr' if lang == 'en' else 'en' %}
 {% set args = dict(request.view_args) %}
 {% set _ = args.update(lang=other) %}
+{% for key in (['min_risk', 'max_risk', 'dark', 'q'] if request.endpoint == 'watch' else (['status'] if request.endpoint == 'alerts' else [])) %}
+{% if key in request.args %}{% set _ = args.update({key: request.args[key]}) %}{% endif %}
+{% endfor %}
 {% set other_url = url_for(request.endpoint, **args) %}
 <div class="lang-switch" role="group" aria-label="{{ t.lang_label }}">
   {% if lang == 'en' %}

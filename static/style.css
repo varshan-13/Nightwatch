@@ -786,3 +786,15 @@ html { scroll-behavior: smooth; }
 
 .validation-results { margin-top: 20px; }
 .validation-warning { border-left: 3px solid var(--med); padding-left: 14px; }
+
+/* ---------- Dashboard filters ---------- */
+.risk-shortcuts, .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.risk-shortcuts { margin: 20px 0; }
+.risk-shortcut, .filter-chips a { padding: 9px 12px; border: 1px solid var(--line-2); border-radius: 999px; color: var(--text-2); font-size: 13px; }
+.risk-shortcut.active { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+.filter-clear { display: inline-block; color: var(--accent); margin: 12px 0 0 12px; padding: 8px 0; }
+#max_risk { display: block; width: 100%; margin-top: 8px; padding: 10px; font: inherit; background: var(--surface-2); color: var(--text); border: 1px solid var(--line-2); border-radius: 10px; }
+.filter-summary { margin: 24px 0; }
+.filter-summary p { font-weight: 600; }
+.filter-chips a { overflow-wrap: anywhere; max-width: 100%; }
+.filter-chips span { margin-left: 8px; color: var(--accent); }
