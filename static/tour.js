@@ -48,6 +48,8 @@
     back.textContent = copy.back;
     back.hidden = welcome;
     next.textContent = welcome ? copy.start : index === copy.steps.length - 1 ? copy.finish : copy.next;
+    // Let the page reveal the target first (the Watch page opens the right tab).
+    if (target) document.dispatchEvent(new CustomEvent('tour:target', {detail: target}));
     if (target) target.scrollIntoView({behavior: 'instant', block: 'center'});
     position();
     title.focus({preventScroll: true});
@@ -82,5 +84,12 @@
     url.searchParams.delete('tour');
     history.replaceState(null, '', url);
     open(0);
-  } else if ((page === 'landing' || page === 'watch') && !remembered()) open();
+  } else if ((page === 'landing' || page === 'watch') && !remembered()) {
+    // If the Home intro (static/intro.js) is playing, wait until it has finished.
+    const root = document.documentElement;
+    if (!root.classList.contains('intro-play')) open();
+    else new MutationObserver((_, observer) => {
+      if (!root.classList.contains('intro-play')) { observer.disconnect(); open(); }
+    }).observe(root, {attributes: true, attributeFilter: ['class']});
+  }
 })();

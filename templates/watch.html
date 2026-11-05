@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{{ t.title_watch }}{% endblock %}
+{% block main_class %}watch-main{% endblock %}
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='vendor/leaflet/leaflet.min.css') }}">
@@ -8,12 +9,46 @@
 {% endblock %}
 
 {% block content %}
+{# ---------- Full-screen live map ----------
+   The map fills the screen under the header. A panel floats over it with three
+   tabs: Alerts (search + ranked list), Filters, Summary (counters).
+   On phones the panel becomes a sheet along the bottom of the screen. #}
+<div class="watch-full">
 
-<div class="watch-top">
-  <div>
-    <div class="tag">{{ t.w_tag }}</div>
-    <h1 class="page-title">{{ t.h1_watch }}</h1>
-  </div>
+  <section id="live-map" class="map-card">
+    <div id="map" class="map" role="region" aria-label="{{ t.w_map_label }}"></div>
+
+    <div class="map-overlay map-overlay-top">
+        <div class="legend">
+        <span><i class="dot dot-high"></i>{{ t.level_high }}</span>
+        <span><i class="dot dot-med"></i>{{ t.level_med }}</span>
+        <span><i class="dot dot-low"></i>{{ t.level_low }}</span>
+        <span><i class="dot dot-dark"></i>{{ t.no_ais }}</span>
+      </div>
+    </div>
+    <div class="map-overlay map-overlay-bottom">
+      <div class="map-selection-bar">
+        <p id="map-selection" class="small" role="status">{{ t.map_none }}</p>
+        <button id="reset-map" type="button" class="btn btn-secondary" hidden>{{ t.reset_map }}</button>
+      </div>
+      <p id="tile-note" class="small muted" role="status" hidden>{{ t.w_tiles_offline }}</p>
+      <div class="small muted">{{ t.w_map_credit }}</div>
+    </div>
+  </section>
+
+  <aside class="watch-panel" aria-label="{{ t.h1_watch }}">
+    <div class="watch-panel-head">
+      <div class="tag">{{ t.w_tag }}</div>
+      <h1 class="watch-title">{{ t.h1_watch }}</h1>
+    </div>
+
+    <div class="watch-tabs" role="tablist" aria-label="{{ t.h1_watch }}">
+      <button type="button" role="tab" id="tab-alerts" aria-controls="panel-alerts" aria-selected="true">{{ t.c_alerts }} <span class="tab-count">{{ counts.alerts }}</span></button>
+      <button type="button" role="tab" id="tab-filters" aria-controls="panel-filters" aria-selected="false" tabindex="-1">{{ t.f_tag|replace('[ ', '')|replace(' ]', '') }}</button>
+      <button type="button" role="tab" id="tab-summary" aria-controls="panel-summary" aria-selected="false" tabindex="-1">{{ t.w_summary }}</button>
+    </div>
+
+    <div class="watch-panel-body" id="panel-alerts" role="tabpanel" aria-labelledby="tab-alerts">
   {# Search keeps the current filters by sending them along as hidden fields. #}
   <form class="command watch-search" method="get" role="search">
     <span class="command-prompt" aria-hidden="true">&gt;_</span>
@@ -23,69 +58,6 @@
     {% if dark_only %}<input type="hidden" name="dark" value="1">{% endif %}
     <button class="btn btn-primary" type="submit">{{ t.w_scan }}</button>
   </form>
-</div>
-
-{# ---------- Counters ---------- #}
-<div class="counters">
-  <div class="card counter"><div class="counter-label">{{ t.c_alerts }}</div><div class="counter-value">{{ counts.alerts }}</div></div>
-  <div class="card counter text-high"><div class="counter-label">{{ t.c_high }}</div><div class="counter-value">{{ counts.high }}</div></div>
-  <div class="card counter"><div class="counter-label">{{ t.c_dark }}</div><div class="counter-value">{{ counts.dark }}</div></div>
-  <div class="card counter accent"><div class="counter-label">{{ t.c_awaiting }}</div><div class="counter-value">{{ counts.awaiting }}</div></div>
-</div>
-
-<div class="watch-grid">
-
-  {# ---------- Map ---------- #}
-  <section id="live-map" class="card map-card">
-    <div class="map-head">
-      <div class="tag">{{ t.w_map_tag }}</div>
-      <div class="legend">
-        <span><i class="dot dot-high"></i>{{ t.level_high }}</span>
-        <span><i class="dot dot-med"></i>{{ t.level_med }}</span>
-        <span><i class="dot dot-low"></i>{{ t.level_low }}</span>
-        <span><i class="dot dot-dark"></i>{{ t.no_ais }}</span>
-      </div>
-    </div>
-    <div class="map-selection-bar">
-      <p id="map-selection" class="small" role="status">{{ t.map_none }}</p>
-      <button id="reset-map" type="button" class="btn btn-secondary" hidden>{{ t.reset_map }}</button>
-    </div>
-    <div id="map" class="map" role="region" aria-label="{{ t.w_map_label }}"></div>
-    <p id="tile-note" class="small muted" role="status" hidden>{{ t.w_tiles_offline }}</p>
-    <div class="small muted">{{ t.w_map_credit }}</div>
-  </section>
-
-  {# ---------- Filters: a plain GET form, so the page reloads with ?min_risk=..&dark=1 ---------- #}
-  <aside class="card filters">
-    <div class="tag">{{ t.f_tag }}</div>
-    <nav class="risk-shortcuts" aria-label="{{ t.filter_ui.quick }}">
-      {% for low, high, label in [(0, 100, t.filter_ui.all), (70, 100, t.level_high), (40, 69, t.level_med), (0, 39, t.level_low)] %}
-      <a class="risk-shortcut{% if min_risk == low and max_risk == high %} active{% endif %}" href="{{ filter_url(min_risk=low, max_risk=high) }}" {% if min_risk == low and max_risk == high %}aria-current="true"{% endif %}>{{ label }}</a>
-      {% endfor %}
-    </nav>
-    <form id="filters" method="get">
-      {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
-      <div class="field">
-        <div class="field-row">
-          <label for="min_risk">{{ t.f_min_risk }}</label>
-          <output id="min_risk_value" for="min_risk" class="mono accent">{{ min_risk }}</output>
-        </div>
-        <input id="min_risk" name="min_risk" type="range" min="0" max="100" value="{{ min_risk }}" class="range">
-      </div>
-      <div class="field">
-        <label for="max_risk">{{ t.filter_ui.max }}</label>
-        <input id="max_risk" name="max_risk" type="number" min="{{ min_risk }}" max="100" value="{{ max_risk }}">
-      </div>
-      <label class="check">
-        <input type="checkbox" name="dark" value="1" {% if dark_only %}checked{% endif %}>{{ t.f_dark_only }}
-      </label>
-      <button class="btn btn-secondary" type="submit">{{ t.f_apply }}</button>
-      <a class="filter-clear" href="{{ url_for('watch', lang=lang, min_risk=0) }}">{{ t.filter_ui.clear }}</a>
-    </form>
-    <div class="filters-note">{{ t.f_note }}</div>
-  </aside>
-</div>
-
 <section class="filter-summary" aria-label="{{ t.filter_ui.active }}">
   <p>{{ t.filter_ui.results.format(shown=counts.alerts, total=total) }}</p>
   <div class="filter-chips">
@@ -94,7 +66,6 @@
     {% if q %}<a href="{{ filter_url(q='') }}" aria-label="{{ t.filter_ui.remove_search }}">{{ t.filter_ui.search }}: {{ q }} <span aria-hidden="true">×</span></a>{% endif %}
   </div>
 </section>
-{# ---------- Ranked table ---------- #}
 <section id="alerts" class="card ranked">
   <div class="ranked-head">
     <div class="tag">{{ t.r_tag }}</div>
@@ -132,10 +103,54 @@
   </div>
   {% else %}
   <p class="empty">{{ t.w_empty }} {{ t.filter_ui.empty }}</p>
-  <a class="btn btn-secondary" href="{{ url_for('watch', lang=lang, min_risk=0) }}">{{ t.filter_ui.clear }}</a>
+  <a class="btn btn-secondary" href="{{ url_for('watch', lang=lang, min_risk=0) }}">{{ t.filter_ui['clear'] }}</a>
   {% endif %}
 </section>
+    </div>
 
+    <div class="watch-panel-body" id="panel-filters" role="tabpanel" aria-labelledby="tab-filters" hidden>
+      <div class="filters">
+    <nav class="risk-shortcuts" aria-label="{{ t.filter_ui.quick }}">
+      {% for low, high, label in [(0, 100, t.filter_ui.all), (70, 100, t.level_high), (40, 69, t.level_med), (0, 39, t.level_low)] %}
+      <a class="risk-shortcut{% if min_risk == low and max_risk == high %} active{% endif %}" href="{{ filter_url(min_risk=low, max_risk=high) }}" {% if min_risk == low and max_risk == high %}aria-current="true"{% endif %}>{{ label }}</a>
+      {% endfor %}
+    </nav>
+    <form id="filters" method="get">
+      {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
+      <div class="field">
+        <div class="field-row">
+          <label for="min_risk">{{ t.f_min_risk }}</label>
+          <output id="min_risk_value" for="min_risk" class="mono accent">{{ min_risk }}</output>
+        </div>
+        <input id="min_risk" name="min_risk" type="range" min="0" max="100" value="{{ min_risk }}" class="range">
+      </div>
+      <div class="field">
+        <label for="max_risk">{{ t.filter_ui.max }}</label>
+        <input id="max_risk" name="max_risk" type="number" min="{{ min_risk }}" max="100" value="{{ max_risk }}">
+      </div>
+      <label class="check">
+        <input type="checkbox" name="dark" value="1" {% if dark_only %}checked{% endif %}>{{ t.f_dark_only }}
+      </label>
+      <button class="btn btn-secondary" type="submit">{{ t.f_apply }}</button>
+      <a class="filter-clear" href="{{ url_for('watch', lang=lang, min_risk=0) }}">{{ t.filter_ui['clear'] }}</a>
+    </form>
+    <div class="filters-note">{{ t.f_note }}</div>
+      </div>
+    </div>
+
+    <div class="watch-panel-body" id="panel-summary" role="tabpanel" aria-labelledby="tab-summary" hidden>
+<div class="counters">
+  <div class="card counter"><div class="counter-label">{{ t.c_alerts }}</div><div class="counter-value">{{ counts.alerts }}</div></div>
+  <div class="card counter text-high"><div class="counter-label">{{ t.c_high }}</div><div class="counter-value">{{ counts.high }}</div></div>
+  <div class="card counter"><div class="counter-label">{{ t.c_dark }}</div><div class="counter-value">{{ counts.dark }}</div></div>
+  <div class="card counter accent"><div class="counter-label">{{ t.c_awaiting }}</div><div class="counter-value">{{ counts.awaiting }}</div></div>
+</div>
+      <p class="small muted panel-note">{{ t.f_note }}</p>
+    </div>
+  </aside>
+</div>
+
+<script src="{{ url_for('static', filename='watch-tabs.js') }}"></script>
 <script>
 // Show the slider number while dragging, and reload the page when it's released.
 const slider = document.getElementById('min_risk');
@@ -164,7 +179,11 @@ const style = {
   low:  {color: color('--dim'),  radius: 5},
 };
 
-const map = L.map('map', {scrollWheelZoom: false});
+// Full-screen map: mouse-wheel zoom on, zoom buttons top-right (the panel covers the left).
+const map = L.map('map', {zoomControl: false});
+L.control.zoom({position: 'topright'}).addTo(map);
+// On phones the panel covers the bottom of the map, so the attribution moves to the top.
+if (window.matchMedia('(max-width: 760px)').matches) map.attributionControl.setPosition('topright');
 const markers = new Map();
 const rowsById = new Map([...document.querySelectorAll('[data-vessel-id]')].map(row => [row.dataset.vesselId, row]));
 const reset = document.getElementById('reset-map');
@@ -198,18 +217,26 @@ function selectVessel(id, fromList) {
   if (fromList) {
     map.setView(entry.marker.getLatLng(), Math.max(map.getZoom(), 6), {animate: false});
     entry.marker.openPopup();
-    document.querySelector('.map-card').scrollIntoView({behavior: 'instant', block: 'center'});
     reset.focus({preventScroll: true});
   }
+}
+// The panel floats over part of the map. When framing the EEZ, leave room for it:
+// on the left on wide screens, along the bottom on phones.
+const eez = [[-26, 52], [-9, 66]];
+function fitEEZ() {
+  const panel = document.querySelector('.watch-panel').getBoundingClientRect();
+  const phone = window.matchMedia('(max-width: 760px)').matches;
+  map.fitBounds(eez, phone ? {paddingBottomRight: [0, panel.height], paddingTopLeft: [0, 40], animate: false}
+                           : {paddingTopLeft: [panel.right + 16, 16], paddingBottomRight: [16, 16], animate: false});
 }
 reset.hidden = false;
 reset.addEventListener('click', () => {
   clearSelection();
   map.closePopup();
-  map.fitBounds([[-26, 52], [-9, 66]], {animate: false});
+  fitEEZ();
 });
 // Whole Mauritius EEZ, from Agaléga in the north to south of Mauritius, east past Rodrigues.
-map.fitBounds([[-26, 52], [-9, 66]]);
+fitEEZ();
 // Dark basemap. DESIGN.md asks for CARTO Dark Matter, but CARTO tiles now need an
 // API key, so this uses Esri's keyless Dark Gray Canvas instead.
 const tiles = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
@@ -240,6 +267,7 @@ points.forEach(p => {
   listButton.textContent = listText;
   listButton.addEventListener('click', () => {
     selectVessel(p.id, false);
+    window.showWatchTab('alerts');
     const row = rowsById.get(p.id);
     row.scrollIntoView({behavior: 'instant', block: 'center'});
     row.querySelector('[data-map-vessel]').focus({preventScroll: true});

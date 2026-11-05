@@ -9,9 +9,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <script src="{{ url_for('static', filename='motion.js') }}" defer></script>
+<script src="{{ url_for('static', filename='intro.js') }}" defer></script>
 {% block head %}{% endblock %}
 </head>
 <body>
+{# ---------- Intro loading screen ----------
+   Clicking Home (or the logo) shows this full-screen loader straight away
+   (static/intro.js), then the home page plays it once more and slides it away
+   to reveal the page. This inline check runs before the page is drawn, so the
+   home page never flashes on screen before the loader. #}
+<script>
+try {
+  if ({{ (request.endpoint == 'landing')|tojson }} && sessionStorage.getItem('nightwatch-intro')
+      && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('intro-play');
+  }
+} catch (e) {}
+</script>
+<div class="intro" id="intro" aria-hidden="true" hidden>
+  <div class="intro-center">
+    <svg class="intro-radar" viewBox="0 0 120 120" width="120" height="120">
+      <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" stroke-width="3"/>
+      <circle cx="60" cy="60" r="34" fill="none" stroke="currentColor" stroke-width="2" stroke-opacity=".45"/>
+      <circle cx="60" cy="60" r="14" fill="none" stroke="currentColor" stroke-width="2" stroke-opacity=".45"/>
+      <g class="intro-sweep">
+        <path d="M60 60 L60 6 A54 54 0 0 1 98 22 Z" fill="currentColor" fill-opacity=".18"/>
+        <path d="M60 60 L98 22" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      <circle class="intro-blip" cx="84" cy="38" r="4" fill="currentColor"/>
+      <circle cx="60" cy="60" r="4" fill="currentColor"/>
+    </svg>
+    <div class="intro-name">Nightwatch</div>
+    <div class="intro-status mono">{{ t.intro_loading }}</div>
+    <div class="intro-bar"><span></span></div>
+  </div>
+</div>
 {% if data_missing %}
 {# Friendly notice when data/alerts.csv doesn't exist yet. #}
 <div class="data-notice" role="status">
@@ -24,7 +56,7 @@
 {% block page %}
 <header class="app-header">
   <div class="container">
-    <a class="logo" href="{{ url_for('landing', lang=lang) }}">
+    <a class="logo" href="{{ url_for('landing', lang=lang) }}" data-home-link>
       <span class="logo-tile">{{ m.logo_mark() }}</span>Nightwatch</a>
 
     <nav class="tabs mono" aria-label="{{ t.nav_label }}">
@@ -34,7 +66,7 @@
           ('alerts', t.tab_alerts, url_for('alerts', lang=lang)),
           ('validation', t.tab_validation, url_for('validation', lang=lang)),
       ] %}
-      <a class="tab{% if (request.endpoint == endpoint or (endpoint == 'alerts' and request.endpoint == 'alert')) %} active{% endif %}" href="{{ href }}"
+      <a class="tab{% if (request.endpoint == endpoint or (endpoint == 'alerts' and request.endpoint == 'alert')) %} active{% endif %}" href="{{ href }}"{% if endpoint == 'landing' %} data-home-link{% endif %}
          {% if (request.endpoint == endpoint or (endpoint == 'alerts' and request.endpoint == 'alert')) %}aria-current="page"{% endif %}>{{ label }}</a>
       {% endfor %}
     </nav>
@@ -46,7 +78,7 @@
   </div>
 </header>
 
-<main class="container">
+<main class="{% block main_class %}container{% endblock %}">
 {% block content %}{% endblock %}
 </main>
 {% endblock %}

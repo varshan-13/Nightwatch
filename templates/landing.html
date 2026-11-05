@@ -22,12 +22,12 @@
 
 <div class="band">
   <header class="container land-header">
-    <a class="logo" href="{{ url_for('landing', lang=lang) }}">
+    <a class="logo" href="{{ url_for('landing', lang=lang) }}" data-home-link>
       <span class="logo-tile">{{ m.logo_mark(22) }}</span>Nightwatch</a>
     <div class="land-actions mono">
       {{ m.lang_switch() }}
       {# Single entry to the map and vessel list. #}
-      <a class="btn btn-ink btn-pill" href="{{ url_for('watch', lang=lang) }}">{{ t.l_nav_map }}</a>
+      <a class="btn btn-ink btn-pill" href="{{ url_for('watch', lang=lang) }}">{{ t.l_open_app }}</a>
     </div>
   </header>
 
@@ -176,7 +176,7 @@
     <h2>{{ t.l_cta_h2 }}</h2>
     <p>{{ t.l_cta_lead }}</p>
     <div class="cta-buttons">
-      <a class="btn btn-ink-outline" href="#{{ t.how_anchor }}">{{ t.l_cta_how }}</a>
+      <a class="btn btn-ink-outline" href="{{ url_for('watch', lang=lang) }}">{{ t.l_open_app }} →</a>
     </div>
   </section>
 </div>
