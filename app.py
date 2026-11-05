@@ -105,7 +105,10 @@ def load_validation():
         except (FileNotFoundError, ValueError):
             result = {}
         if result.get("schema_version") != 1 or result.get("inputs") != fingerprints(DATA):
-            result = write_validation(DATA)
+            try:
+                result = write_validation(DATA)
+            except OSError:
+                result = json.loads((DATA / "validation.json").read_text(encoding="utf-8"))
         return result
 
 
