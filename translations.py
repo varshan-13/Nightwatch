@@ -283,6 +283,35 @@ T = {
 }
 
 
+# Guided tour copy stays with the rest of the interface translations.
+T["en"]["tour"] = {
+    "replay": "Take a tour", "start": "Show me around", "explore": "Explore on my own",
+    "next": "Next", "back": "Back", "skip": "Skip tour", "finish": "Finish", "step": "Step",
+    "welcome_title": "Welcome to Nightwatch",
+    "welcome_text": "Spot unusual vessel behaviour, understand the reasons, and decide what needs a closer look. Nightwatch ranks alerts; an officer makes the final decision. This prototype currently uses sample data.",
+    "steps": [
+        {"target": ".counters", "title": "Your watch at a glance", "text": "These counters summarize the vessels matching your filters: alerts, high risk, contacts without AIS, and alerts awaiting review."},
+        {"target": ".map-card", "title": "Explore the map", "text": "Select a vessel marker to see its risk score and open its alert. Dashed rings mark radar contacts without an AIS match."},
+        {"target": ".watch-search", "title": "Find a vessel", "text": "Search by vessel name, MMSI, or vessel ID. The search keeps your current filters."},
+        {"target": ".filters", "title": "Focus your search", "text": "Adjust the minimum risk score or show only contacts without AIS. The map, counters, and list update together."},
+        {"target": ".ranked", "title": "Read the ranked alerts", "text": "Vessels are ranked by risk, with a reason and suggested action. Open a row to visit its alert page. Alert details and officer reviews are still being built; a high score is not proof of illegal activity."},
+    ],
+}
+T["fr"]["tour"] = {
+    "replay": "Visite guidée", "start": "Me faire découvrir", "explore": "Explorer librement",
+    "next": "Suivant", "back": "Retour", "skip": "Passer la visite", "finish": "Terminer", "step": "Étape",
+    "welcome_title": "Bienvenue sur Nightwatch",
+    "welcome_text": "Repérez les comportements inhabituels des navires, comprenez les raisons et choisissez les alertes à examiner. Nightwatch classe les alertes ; un officier prend la décision finale. Ce prototype utilise actuellement des données fictives.",
+    "steps": [
+        {"target": ".counters", "title": "Votre surveillance en bref", "text": "Ces compteurs résument les navires correspondant aux filtres : alertes, risque élevé, contacts sans AIS et alertes en attente d’examen."},
+        {"target": ".map-card", "title": "Explorer la carte", "text": "Sélectionnez un navire pour voir son score de risque et ouvrir son alerte. Les cercles pointillés indiquent les contacts radar sans correspondance AIS."},
+        {"target": ".watch-search", "title": "Trouver un navire", "text": "Recherchez par nom, MMSI ou identifiant du navire. La recherche conserve vos filtres actuels."},
+        {"target": ".filters", "title": "Affiner la recherche", "text": "Réglez le risque minimum ou affichez uniquement les contacts sans AIS. La carte, les compteurs et la liste se mettent à jour ensemble."},
+        {"target": ".ranked", "title": "Lire les alertes classées", "text": "Les navires sont classés par risque, avec une raison et une action suggérée. Ouvrez une ligne pour consulter son alerte. Les détails et les décisions des officiers sont encore en développement ; un score élevé ne prouve pas une activité illégale."},
+    ],
+}
+
+
 # Reasons are stored in English in alerts.csv, often with a number inside
 # ("AIS off for 31 hours near EEZ edge"). Each pattern below matches one kind of
 # sentence; (\d+) captures the number so the French sentence can reuse it.

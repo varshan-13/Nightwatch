@@ -50,10 +50,12 @@
   <div class="container">
     <span>{{ t.footer_credit }}<br>{{ t.footer_notice }}</span>
     <span class="footer-links">
+      <button type="button" class="tour-replay" data-tour-replay>{{ t.tour.replay }}</button>
       <a href="{{ url_for('landing', lang=lang) }}#{{ t.ethics_anchor }}">{{ t.footer_ethics }}</a>
     </span>
   </div>
 </footer>
 
+{% include "tour.html" %}
 </body>
 </html>
