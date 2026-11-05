@@ -634,3 +634,14 @@ main.container { padding-top: 48px; padding-bottom: 72px; }
 .review-buttons .btn { min-height: 44px; }
 .review-message { padding: 12px; background: var(--ok-bg); color: var(--accent); border-radius: 12px; }
 .review-note { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+
+/* ---------- Linked map and vessel list ---------- */
+.map-selection-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin: 12px 0; }
+.map-selection-bar p { flex: 1 1 220px; margin: 0; color: var(--text-2); }
+.show-on-map { display: block; background: transparent; color: var(--accent); border: 1px solid var(--line-2); border-radius: 10px; padding: 10px; margin-bottom: 10px; font: inherit; cursor: pointer; white-space: nowrap; }
+.show-on-map[hidden], #reset-map[hidden] { display: none; }
+.show-on-map[aria-pressed="true"] { background: var(--ok-bg); border-color: var(--accent); }
+.table tbody tr.selected-vessel { background: var(--ok-bg); box-shadow: inset 4px 0 var(--accent); }
+.table tbody tr[data-vessel-id] { cursor: pointer; }
+.popup-list-button { background: transparent; border: 0; color: inherit; text-decoration: underline; padding: 8px 0; cursor: pointer; font: inherit; }

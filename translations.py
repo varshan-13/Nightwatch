@@ -435,3 +435,7 @@ T["fr"]["review"] = {
     "saved": "Décision enregistrée.", "undone": "Décision supprimée. Cette alerte est à nouveau en attente d’examen.", "empty": "Aucune alerte dans cette vue.",
     "notice": "Confirmer une préoccupation indique un besoin de vérification ; cela ne prouve pas une activité illégale.", "back": "← Retour à l’examen des alertes", "time": "Examinée le (UTC)", "tabs": "Filtrer les alertes par état d’examen",
 }
+
+
+T["en"].update({"show_on_map": "Show on map", "reset_map": "Reset map", "map_selection": "Selected vessel", "map_none": "Select a vessel marker or use Show on map in the list.", "view_in_list": "Find in list"})
+T["fr"].update({"show_on_map": "Voir sur la carte", "reset_map": "Réinitialiser la carte", "map_selection": "Navire sélectionné", "map_none": "Sélectionnez un marqueur ou utilisez Voir sur la carte dans la liste.", "view_in_list": "Voir dans la liste"})
