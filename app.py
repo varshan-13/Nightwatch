@@ -19,6 +19,12 @@ feedback_lock = Lock()
 
 
 @app.context_processor
+def data_status():
+    # True when there is no alerts.csv yet; base.html shows a friendly notice.
+    return {"data_missing": not (DATA / "alerts.csv").exists()}
+
+
+@app.context_processor
 def review_token():
     if "review_token" not in session:
         session["review_token"] = secrets.token_hex(32)
@@ -61,9 +67,20 @@ def level_of(risk):
 ACTION = {"high": "send_patrol", "med": "keep_watching", "low": "no_action"}
 
 
+ALERT_COLUMNS = ["vessel_id", "name", "mmsi", "flag", "gear", "dark", "lat", "lon", "risk",
+                 "reason_1", "reason_1_pts", "reason_2", "reason_2_pts",
+                 "reason_3", "reason_3_pts", "last_seen"]
+
+
 def load_alerts():
-    """Read alerts.csv and add the computed level and action to each row."""
-    df = pd.read_csv(DATA / "alerts.csv", dtype={"mmsi": str})
+    """Read alerts.csv and add the computed level and action to each row.
+    If the file is missing, use an empty table so every page still opens
+    (base.html then shows a notice saying how to create the data)."""
+    path = DATA / "alerts.csv"
+    if not path.exists():
+        df = pd.DataFrame(columns=ALERT_COLUMNS).astype({"risk": int, "dark": bool})
+    else:
+        df = pd.read_csv(path, dtype={"mmsi": str})
     df["mmsi"] = df["mmsi"].fillna("")
     # A low-risk vessel may have fewer than three reasons; empty slots are blank.
     for i in (1, 2, 3):
@@ -106,7 +123,9 @@ def page(template, lang, **data):
 @app.route("/fr/", defaults={"lang": "fr"})
 def landing(lang):
     # "Open a sample alert" goes to whichever vessel currently ranks highest.
-    return page("landing.html", lang, top_id=load_alerts().iloc[0]["vessel_id"], validation=load_validation())
+    alerts = load_alerts()
+    top_id = alerts.iloc[0]["vessel_id"] if len(alerts) else None
+    return page("landing.html", lang, top_id=top_id, validation=load_validation())
 
 
 @app.route("/watch", defaults={"lang": "en"})

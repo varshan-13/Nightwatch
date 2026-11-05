@@ -2,8 +2,8 @@
 {% block title %}{{ t.title_watch }}{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/leaflet/leaflet.min.css') }}">
+<script src="{{ url_for('static', filename='vendor/leaflet/leaflet.min.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -49,6 +49,7 @@
       <button id="reset-map" type="button" class="btn btn-secondary" hidden>{{ t.reset_map }}</button>
     </div>
     <div id="map" class="map" role="region" aria-label="{{ t.w_map_label }}"></div>
+    <p id="tile-note" class="small muted" role="status" hidden>{{ t.w_tiles_offline }}</p>
     <div class="small muted">{{ t.w_map_credit }}</div>
   </section>
 
@@ -185,10 +186,15 @@ reset.addEventListener('click', () => {
 map.fitBounds([[-26, 52], [-9, 66]]);
 // Dark basemap. DESIGN.md asks for CARTO Dark Matter, but CARTO tiles now need an
 // API key, so this uses Esri's keyless Dark Gray Canvas instead.
-L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+const tiles = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
   attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors',
   maxZoom: 12,
 }).addTo(map);
+// Offline (no Wi-Fi), the background tiles can't load: the dots still show on a
+// plain dark background, and this note explains why the coastline is missing.
+const tileNote = document.getElementById('tile-note');
+tiles.on('tileerror', () => { tileNote.hidden = false; });
+tiles.on('tileload', () => { tileNote.hidden = true; });
 
 points.forEach(p => {
   const s = style[p.level];

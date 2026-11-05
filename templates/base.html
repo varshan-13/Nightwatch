@@ -12,6 +12,12 @@
 {% block head %}{% endblock %}
 </head>
 <body>
+{% if data_missing %}
+{# Friendly notice when data/alerts.csv doesn't exist yet. #}
+<div class="data-notice" role="status">
+  <div class="container"><b>{{ t.no_data_title }}</b> {{ t.no_data_text }} <code>python3 make_sample_data.py</code></div>
+</div>
+{% endif %}
 
 {% import "macros.html" as m with context %}
 

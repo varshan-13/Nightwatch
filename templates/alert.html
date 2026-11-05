@@ -3,8 +3,8 @@
 {% block title %}{{ t.title_alert }}{% if vessel %} · {{ vessel.vessel_id }}{% endif %}{% endblock %}
 {% block head %}
 {% if vessel %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/leaflet/leaflet.min.css') }}">
+<script src="{{ url_for('static', filename='vendor/leaflet/leaflet.min.js') }}" defer></script>
 {% endif %}
 {% endblock %}
 {% block content %}

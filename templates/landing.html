@@ -46,7 +46,7 @@
         </form>
 
         <div class="hero-links">
-          <a href="{{ url_for('alert', lang=lang, vessel_id=top_id) }}">{{ t.l_sample_link }}</a>
+          <a href="{{ (url_for('alert', lang=lang, vessel_id=top_id) if top_id else url_for('watch', lang=lang)) }}">{{ t.l_sample_link }}</a>
           <span class="mono">{{ t.l_person_decides }}</span>
         </div>
       </div>
@@ -124,7 +124,7 @@
         <span class="mono muted">{{ t.l_ex_risk }}</span>
         <div class="example-action">{{ t.l_ex_action }}</div>
       </div>
-      <a class="btn btn-outline-accent" href="{{ url_for('alert', lang=lang, vessel_id=top_id) }}">{{ t.l_ex_open }}</a>
+      <a class="btn btn-outline-accent" href="{{ (url_for('alert', lang=lang, vessel_id=top_id) if top_id else url_for('watch', lang=lang)) }}">{{ t.l_ex_open }}</a>
     </div>
   </div>
 </section>

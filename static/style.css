@@ -462,6 +462,11 @@ main.container:has(.back-link) { padding-top: 40px; }
 .decision-false_alarm { background: var(--surface-2); color: var(--text); }
 .btn-undo { margin-top: 12px; min-height: 44px; color: var(--muted); }
 
+/* ---------- Missing-data notice ---------- */
+.data-notice { background: var(--med-bg); color: var(--med); border-bottom: 1px solid var(--med); font-size: 14px; }
+.data-notice .container { padding-top: 12px; padding-bottom: 12px; }
+.data-notice code { font-family: var(--font-mono); font-size: 13px; color: var(--text); }
+
 /* ---------- Landing contents menu (fixed on the left) ---------- */
 html { scroll-behavior: smooth; }
 #top, #example, #works, #start, #how, #comment, #ethics, #ethique { scroll-margin-top: 24px; }
