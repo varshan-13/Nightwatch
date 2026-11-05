@@ -1,11 +1,14 @@
 from pathlib import Path
 from datetime import datetime, timezone
 import os
+import json
 import secrets
 from threading import Lock
 
 import pandas as pd
 from flask import Flask, render_template, request, redirect, url_for, session, abort
+
+from pipeline.validate import fingerprints, write_validation
 
 from translations import T, reason_label, translate_reason
 
@@ -75,6 +78,19 @@ def reviewed_ids():
     return set(load_feedback()["vessel_id"])
 
 
+def load_validation():
+    # Refresh whenever rankings, reference identities, or local decisions change.
+    with feedback_lock:
+        path = DATA / "validation.json"
+        try:
+            result = json.loads(path.read_text())
+        except (FileNotFoundError, ValueError):
+            result = {}
+        if result.get("schema_version") != 1 or result.get("inputs") != fingerprints(DATA):
+            result = write_validation(DATA)
+        return result
+
+
 # ---------- Pages ----------
 # Each page has two URLs: English (/watch) and French (/fr/watch).
 # `defaults` tells Flask which language each URL means, so the view gets `lang`
@@ -90,7 +106,7 @@ def page(template, lang, **data):
 @app.route("/fr/", defaults={"lang": "fr"})
 def landing(lang):
     # "Open a sample alert" goes to whichever vessel currently ranks highest.
-    return page("landing.html", lang, top_id=load_alerts().iloc[0]["vessel_id"])
+    return page("landing.html", lang, top_id=load_alerts().iloc[0]["vessel_id"], validation=load_validation())
 
 
 @app.route("/watch", defaults={"lang": "en"})
@@ -161,7 +177,7 @@ def alert(lang, vessel_id):
 @app.route("/validation", defaults={"lang": "en"})
 @app.route("/fr/validation", defaults={"lang": "fr"})
 def validation(lang):
-    return page("validation.html", lang)
+    return page("validation.html", lang, validation=load_validation())
 
 
 @app.route("/alerts", defaults={"lang": "en"})

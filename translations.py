@@ -482,7 +482,7 @@ T["en"]["tour"] = {
     "replay": "Take a tour", "start": "Show me around", "explore": "Explore on my own",
     "next": "Next", "back": "Back", "skip": "Skip tour", "finish": "Finish", "step": "Step",
     "welcome_title": "Welcome to Nightwatch",
-    "welcome_text": "Spot unusual vessel behaviour, understand the reasons, and decide what needs a closer look. Nightwatch ranks alerts; an officer makes the final decision. This prototype currently uses sample data.",
+    "welcome_text": "Spot unusual vessel behaviour, understand the reasons, and decide what needs a closer look. Nightwatch ranks alerts; an officer makes the final decision. The current dashboard uses Global Fishing Watch data.",
     "steps": [
         {"target": ".counters", "title": "Your watch at a glance", "text": "These counters summarize the vessels matching your filters: alerts, high risk, contacts without AIS, and alerts awaiting review."},
         {"target": ".map-card", "title": "Explore the map", "text": "Select a vessel marker to see its risk score and open its alert. Dashed rings mark radar contacts without an AIS match."},
@@ -495,7 +495,7 @@ T["fr"]["tour"] = {
     "replay": "Visite guidée", "start": "Me faire découvrir", "explore": "Explorer librement",
     "next": "Suivant", "back": "Retour", "skip": "Passer la visite", "finish": "Terminer", "step": "Étape",
     "welcome_title": "Bienvenue sur Nightwatch",
-    "welcome_text": "Repérez les comportements inhabituels des navires, comprenez les raisons et choisissez les alertes à examiner. Nightwatch classe les alertes ; un officier prend la décision finale. Ce prototype utilise actuellement des données fictives.",
+    "welcome_text": "Repérez les comportements inhabituels des navires, comprenez les raisons et choisissez les alertes à examiner. Nightwatch classe les alertes ; un officier prend la décision finale. Le tableau de bord utilise les données de Global Fishing Watch.",
     "steps": [
         {"target": ".counters", "title": "Votre surveillance en bref", "text": "Ces compteurs résument les navires correspondant aux filtres : alertes, risque élevé, contacts sans AIS et alertes en attente d’examen."},
         {"target": ".map-card", "title": "Explorer la carte", "text": "Sélectionnez un navire pour voir son score de risque et ouvrir son alerte. Les cercles pointillés indiquent les contacts radar sans correspondance AIS."},
@@ -588,3 +588,35 @@ T["fr"]["review"] = {
 
 T["en"].update({"show_on_map": "Show on map", "reset_map": "Reset map", "map_selection": "Selected vessel", "map_none": "Select a vessel marker or use Show on map in the list.", "view_in_list": "Find in list"})
 T["fr"].update({"show_on_map": "Voir sur la carte", "reset_map": "Réinitialiser la carte", "map_selection": "Navire sélectionné", "map_none": "Sélectionnez un marqueur ou utilisez Voir sur la carte dans la liste.", "view_in_list": "Voir dans la liste"})
+
+# Phase 7: measured results and explicit unavailable states.
+T["en"]["phase7"] = {
+    "tag": "Ranking validation", "lead": "Compare the highest-ranked vessels with the IOTC IUU reference list and a repeatable random baseline. These are list matches, not proof of current illegal fishing or a measurement of overall accuracy.",
+    "status": "Latest evaluation", "pending": "Reference list needed", "pending_text": "Add a non-empty IOTC list to run the list comparison. Missing results are not zero hits.",
+    "generated": "Evaluated at (UTC)", "vessels": "Vessels evaluated", "list_rows": "Reference-list rows", "list_date": "Reference-list date", "source": "Official IOTC list",
+    "no_imo": "IMO profiles are unavailable locally. This run uses MMSI and exact normalized vessel names only; additional matches may be missed.",
+    "imo_coverage": "Vessels with an IMO available for matching", "unavailable": "Not available", "hits": "Top-ranked list matches", "baseline": "Random baseline", "false_alarms": "Officer dismissal rate", "coverage": "Radar coverage",
+    "hits_text": "Reference-list matches among the highest-ranked vessels. The denominator is capped at 20, or the dataset size if smaller.",
+    "baseline_text": "Same-sized sample drawn without replacement from all evaluated vessels. Fixed seed: 42. A single random comparison does not establish statistical significance.",
+    "feedback_text": "False alarms divided by reviewed vessels in this dataset; only the latest decision per vessel counts. This is officer feedback, not verified accuracy.",
+    "no_feedback": "No reviewed alerts in this dataset yet.", "reviewed": "Reviewed", "dismissed": "False alarms", "coverage_text": "Coverage measurements are not connected. Vessel counts cannot tell us how much of the EEZ was imaged.",
+    "table": "Top-ranked vessels and reference-list matches", "rank": "Rank", "match": "IOTC list match", "method": "Matched by", "yes": "Match", "no": "No match", "unchecked": "Not checked", "ambiguous": "Ambiguous identity", "conflict": "Conflicting identity", "name": "Name (needs identity review)", "imo": "IMO", "mmsi": "MMSI", "empty": "No vessels to evaluate.",
+    "limits": "Known limits", "landing_hits": "IOTC reference-list matches among the highest-ranked alerts (up to 20)", "landing_feedback": "Share of reviewed alerts marked as false alarms; see Validation for the review count",
+    "zero": "Few or zero list matches can reflect limited list coverage, renamed vessels, or vessels absent from AIS data. This does not establish whether the ranking works or fails.",
+}
+T["fr"]["phase7"] = {
+    "tag": "Validation du classement", "lead": "Comparez les navires les mieux classés à la liste INN de la CTOI et à une sélection aléatoire reproductible. Il s’agit de correspondances, pas de preuves d’infractions actuelles ni d’une mesure de précision globale.",
+    "status": "Dernière évaluation", "pending": "Liste de référence nécessaire", "pending_text": "Ajoutez une liste CTOI non vide pour effectuer la comparaison. Un résultat absent ne signifie pas zéro correspondance.",
+    "generated": "Évaluation le (UTC)", "vessels": "Navires évalués", "list_rows": "Lignes de la liste de référence", "list_date": "Date de la liste de référence", "source": "Liste officielle de la CTOI",
+    "no_imo": "Les profils IMO ne sont pas disponibles localement. Cette évaluation utilise uniquement les MMSI et les noms normalisés exacts ; des correspondances peuvent manquer.",
+    "imo_coverage": "Navires avec un numéro IMO disponible", "unavailable": "Indisponible", "hits": "Correspondances en tête du classement", "baseline": "Référence aléatoire", "false_alarms": "Taux de rejet par les officiers", "coverage": "Couverture radar",
+    "hits_text": "Correspondances parmi les navires les mieux classés. Le dénominateur est limité à 20, ou à la taille des données si elle est inférieure.",
+    "baseline_text": "Échantillon de même taille, sans remise, parmi tous les navires évalués. Graine fixe : 42. Une comparaison aléatoire unique ne démontre pas une significativité statistique.",
+    "feedback_text": "Fausses alertes divisées par les navires examinés dans ces données ; seule la dernière décision par navire compte. Ce retour ne mesure pas une précision vérifiée.",
+    "no_feedback": "Aucune alerte de ces données n’a encore été examinée.", "reviewed": "Examinées", "dismissed": "Fausses alertes", "coverage_text": "Les mesures de couverture ne sont pas connectées. Le nombre de navires ne permet pas de calculer la surface observée.",
+    "table": "Navires en tête et correspondances avec la liste", "rank": "Rang", "match": "Correspondance CTOI", "method": "Critère", "yes": "Correspondance", "no": "Aucune correspondance", "unchecked": "Non vérifié", "ambiguous": "Identité ambiguë", "conflict": "Identité contradictoire", "name": "Nom (identité à vérifier)", "imo": "IMO", "mmsi": "MMSI", "empty": "Aucun navire à évaluer.",
+    "limits": "Limites connues", "landing_hits": "Correspondances CTOI parmi les premières alertes (20 au maximum)", "landing_feedback": "Part des alertes examinées classées comme fausses alertes ; voir le nombre d’examens dans Validation",
+    "zero": "Peu ou aucune correspondance peut refléter les limites de la liste, les changements de noms ou l’absence de navires dans les données AIS. Cela ne démontre ni le succès ni l’échec du classement.",
+}
+T["en"].update({"l_works_h2": "Checking the ranking against a reference list", "l_works_lead": "We compare the highest-ranked alerts with the IOTC IUU list and track officer feedback. Open Validation to see the baseline, sample sizes, matching limitations, and latest results."})
+T["fr"].update({"l_works_h2": "Comparer le classement à une liste de référence", "l_works_lead": "Nous comparons les premières alertes à la liste INN de la CTOI et suivons les retours des officiers. Consultez Validation pour voir la référence aléatoire, les effectifs, les limites et les derniers résultats."})
