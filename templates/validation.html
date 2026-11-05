@@ -1,43 +1,79 @@
 {% extends "base.html" %}
 {% set v = t.validation %}
+{% set p = t.phase7 %}
+{% set result = validation %}
 {% block title %}{{ t.title_validation }}{% endblock %}
 {% block content %}
-<div class="tag">{{ v.tag }}</div>
+<div class="tag">{{ p.tag }}</div>
 <h1 class="page-title">{{ t.h1_validation }}</h1>
-<p class="section-lead validation-lead">{{ v.lead }}</p>
+<p class="section-lead validation-lead">{{ p.lead }}</p>
 <section class="card validation-status" aria-labelledby="validation-status-title">
-  <h2 id="validation-status-title">{{ v.status }}</h2>
-  <p>{{ v.status_text }}</p>
+  <h2 id="validation-status-title">{{ p.status if result.list_available else p.pending }}</h2>
+  {% if not result.list_available %}<p>{{ p.pending_text }}</p>{% endif %}
+  <p>{{ p.generated }}: <time datetime="{{ result.generated_at }}">{{ result.generated_at }}</time><br>
+    {{ p.vessels }}: {{ result.vessel_count }} · {{ p.list_rows }}: {{ result.list_rows }}<br>
+    {{ p.imo_coverage }}: {{ result.imo_vessels }} / {{ result.vessel_count }}</p>
+  {% if result.list_dates %}<p>{{ p.list_date }}: {{ result.list_dates|join(', ') }}</p>{% endif %}
+  <a class="detail-back mono" href="https://iotc.org/node/37" target="_blank" rel="noopener">{{ p.source }} ↗</a>
+  {% if not result.imo_profiles_available %}<p class="validation-warning">{{ p.no_imo }}</p>{% endif %}
 </section>
 <div class="validation-metrics">
-  {% for metric in v.metrics %}
   <section class="card">
-    <h2 class="tag">{{ metric.title }}</h2>
-    <p class="validation-value">{{ v.unavailable }}</p>
-    <p class="muted">{{ metric.text }}</p>
-  </section>
-  {% endfor %}
-</div>
-<div class="validation-columns">
-  <section class="card">
-    <h2 class="validation-section-title">{{ v.method }}</h2>
-    <ol class="validation-steps">
-      {% for step in v.steps %}
-      <li><h3>{{ step.title }}</h3><p class="muted">{{ step.text }}</p></li>
-      {% endfor %}
-    </ol>
+    <h2 class="tag">{{ p.hits }}</h2>
+    <p class="validation-value">{{ (result.top20_hits ~ ' / ' ~ result.sample_size) if result.top20_hits is not none else p.unavailable }}</p>
+    <p class="muted">{{ p.hits_text }}</p>
   </section>
   <section class="card">
-    <h2 class="validation-section-title">{{ v.limits }}</h2>
-    <ul class="validation-limits">
-      {% for limit in v.limitations %}
-      <li><h3>{{ limit.title }}</h3><p class="muted">{{ limit.text }}</p></li>
-      {% endfor %}
-    </ul>
+    <h2 class="tag">{{ p.baseline }}</h2>
+    <p class="validation-value">{{ (result.random_hits ~ ' / ' ~ result.sample_size) if result.random_hits is not none else p.unavailable }}</p>
+    <p class="muted">{{ p.baseline_text }}</p>
+  </section>
+  <section class="card">
+    <h2 class="tag">{{ p.false_alarms }}</h2>
+    <p class="validation-value">{{ ('%.1f'|format(result.false_alarm_rate * 100) ~ '%') if result.false_alarm_rate is not none else p.unavailable }}</p>
+    <p class="muted">{{ p.feedback_text }}</p>
+    <p class="small muted">{{ p.reviewed }}: {{ result.reviewed_count }} · {{ p.dismissed }}: {{ result.false_alarm_count }}</p>
+    {% if not result.reviewed_count %}<p class="small muted">{{ p.no_feedback }}</p>{% endif %}
+  </section>
+  <section class="card">
+    <h2 class="tag">{{ p.coverage }}</h2>
+    <p class="validation-value">{{ p.unavailable }}</p>
+    <p class="muted">{{ p.coverage_text }}</p>
   </section>
 </div>
+<section class="card validation-results">
+  <h2 class="validation-section-title">{{ p.table }}</h2>
+  {% if result.top20 %}
+  <div class="table-scroll">
+    <table class="table">
+      <thead><tr><th scope="col">{{ p.rank }}</th><th scope="col">{{ t.th_vessel }}</th><th scope="col">{{ t.th_risk }}</th><th scope="col">{{ p.match }}</th><th scope="col">{{ p.method }}</th><th scope="col">{{ t.review.decision }}</th></tr></thead>
+      <tbody>
+      {% for row in result.top20 %}
+        <tr>
+          <td class="mono muted">{{ row.rank }}</td>
+          <td><a class="link-open" href="{{ url_for('alert', lang=lang, vessel_id=row.vessel_id) }}">{{ row.name }}</a></td>
+          <td>{{ '%g'|format(row.risk) }} / 100</td>
+          <td>{{ p.unchecked if row.on_iotc is none else (p.yes if row.on_iotc else p.no) }}</td>
+          <td>{{ p[row.match_method] if row.match_method else '—' }}</td>
+          <td>{{ t.review[row.decision] if row.decision else t.review.pending }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}<p class="empty">{{ p.empty }}</p>{% endif %}
+  <p class="small muted">{{ p.zero }}</p>
+</section>
+<section class="card validation-results">
+  <h2 class="validation-section-title">{{ p.limits }}</h2>
+  <ul class="validation-limits">
+    {% for limit in v.limitations %}
+    <li><h3>{{ limit.title }}</h3><p class="muted">{{ limit.text }}</p></li>
+    {% endfor %}
+  </ul>
+</section>
 <section class="card validation-cta">
-  <div><h2 class="validation-section-title">{{ v.cta_title }}</h2><p class="muted">{{ v.cta_text }}</p></div>
+  <div><h2 class="validation-section-title">{{ v.cta_title }}</h2><p class="muted">{{ t.f_note }}</p></div>
   <a class="btn btn-primary" href="{{ url_for('watch', lang=lang) }}">{{ v.cta }}</a>
 </section>
 {% endblock %}

@@ -706,3 +706,6 @@ main.container:has(.back-link) { padding-top: 40px; }
 .table tbody tr.selected-vessel { background: var(--ok-bg); box-shadow: inset 4px 0 var(--accent); }
 .table tbody tr[data-vessel-id] { cursor: pointer; }
 .popup-list-button { background: transparent; border: 0; color: inherit; text-decoration: underline; padding: 8px 0; cursor: pointer; font: inherit; }
+
+.validation-results { margin-top: 20px; }
+.validation-warning { border-left: 3px solid var(--med); padding-left: 14px; }

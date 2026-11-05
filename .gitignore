@@ -4,3 +4,6 @@ __pycache__/
 .DS_Store
 data/feedback.csv
 data/raw/
+
+data/validation.json
+data/validation.json.tmp
