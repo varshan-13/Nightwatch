@@ -401,6 +401,97 @@ main.container { padding-top: 48px; padding-bottom: 72px; }
 .cell-right { text-align: right; }
 .empty { color: var(--muted); margin: 24px 0 8px; }
 
+/* ---------- Motion ---------- */
+/* All of this is switched off by the prefers-reduced-motion block at the end. */
+
+/* Radar sweep: the wedge and arm rotate around the radar centre (260, 260). */
+.radar-sweep {
+  transform-box: view-box;
+  transform-origin: 260px 260px;
+  animation: sweep 6s linear infinite;
+}
+@keyframes sweep { to { transform: rotate(360deg); } }
+
+/* Flagged contact: the dashed ring turns slowly, and a ping ring grows and fades. */
+.radar-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spin 12s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.radar-ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: ping 2.4s ease-out infinite;
+}
+@keyframes ping {
+  0%   { transform: scale(.6); opacity: .7; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+/* Other contacts blink faintly, each starting at a different moment (--d). */
+.blip { animation: blip 4s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes blip { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+/* Scroll reveal: motion.js adds .reveal, then .is-visible when in view. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Pulsing ring around high-risk map dots (Leaflet adds this class to an SVG path). */
+.pulse-ring { animation: map-pulse 2.2s ease-out infinite; }
+@keyframes map-pulse {
+  0%   { stroke-width: 2;  stroke-opacity: .8; }
+  100% { stroke-width: 18; stroke-opacity: 0; }
+}
+
+/* Hover and press states */
+.btn, .tab, .lang-switch a, .footer-links a, .link-open, .hero-links a, .land-nav a {
+  transition: transform .18s ease, background-color .18s ease, color .18s ease,
+              border-color .18s ease, filter .18s ease, box-shadow .18s ease;
+}
+.btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.btn:active { transform: translateY(0) scale(.97); filter: brightness(.95); }
+.btn-primary:hover { box-shadow: 0 8px 20px rgba(95, 224, 200, .25); }
+.btn-secondary:hover, .footer-links a:hover { border-color: var(--accent); color: var(--accent); }
+.btn-outline-accent:hover { background: var(--accent); color: var(--ink); }
+.btn-ink-outline:hover { background: var(--ink); color: var(--accent); }
+.link-open, .hero-links a { display: inline-block; }
+.link-open:hover, .hero-links a:hover { transform: translateX(4px); }
+.land-nav a:hover { opacity: .7; }
+.lang-switch a:not([aria-current]):hover { color: var(--text); }
+.band .lang-switch a:not([aria-current]):hover { color: var(--ink); background: rgba(10,15,18,.12); }
+
+.card-row > .card, .stats > .card, .example, .counter {
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease,
+              opacity .7s ease;
+}
+.card-row > .card:hover, .stats > .card:hover, .example:hover, .counter:hover {
+  transform: translateY(-4px);
+  border-color: var(--line-2);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, .3);
+}
+/* While a card is still waiting to be revealed, keep the reveal transition. */
+.card.reveal { transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1),
+                           border-color .25s ease, box-shadow .25s ease; }
+.card.reveal.is-visible:hover { transform: translateY(-4px); }
+
+.table tbody tr { transition: background-color .15s ease; }
+.table tbody tr:hover { background: var(--surface-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .btn:hover, .card:hover, .counter:hover, .link-open:hover, .hero-links a:hover { transform: none; }
+}
+
 /* ---------- Small screens ---------- */
 @media (max-width: 600px) {
   .container { padding: 0 16px; }

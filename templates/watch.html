@@ -156,6 +156,11 @@ points.forEach(p => {
   const link = popup.querySelector('a');
   link.textContent = text.open;
   link.href = alertUrl.replace('__ID__', encodeURIComponent(p.id));
+  // High-risk dots get a soft pulsing ring (animated in style.css, .pulse-ring).
+  if (p.level === 'high') {
+    L.circleMarker([p.lat, p.lon], {radius: s.radius, color: s.color, weight: 2, fill: false,
+      interactive: false, className: 'pulse-ring'}).addTo(map);
+  }
   L.circleMarker([p.lat, p.lon], {radius: s.radius, color: s.color, fillColor: s.color,
     fillOpacity: 1, weight: 0}).bindPopup(popup).addTo(map);
 });
