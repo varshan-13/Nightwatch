@@ -6,20 +6,33 @@
    The shared footer (with the prototype notice) still comes from base.html. #}
 {% block page %}
 
+{# ---------- Contents panel, fixed on the left ----------
+   Hidden over the hero; slides out once you scroll past it (script at the end
+   of this page). Sections are listed in grey; the one on screen lights up. #}
+<nav class="toc" id="toc" aria-label="{{ t.toc_nav }}">
+  <div class="toc-title mono">{{ t.toc_label }}</div>
+  <ol class="toc-list">
+    {% for id, label in [('top', t.toc_top), ('example', t.toc_example),
+                         (t.how_anchor, t.l_nav_how), ('works', t.l_nav_works),
+                         (t.ethics_anchor, t.l_nav_limits), ('start', t.toc_start)] %}
+    <li><a href="#{{ id }}" data-section="{{ id }}"><span class="toc-num mono">{{ '%02d' % loop.index }}</span><span class="toc-label">{{ label }}</span></a></li>
+    {% endfor %}
+  </ol>
+</nav>
+
 <div class="band">
   <header class="container land-header">
     <a class="logo" href="{{ url_for('landing', lang=lang) }}">
       <span class="logo-tile">{{ m.logo_mark(22) }}</span>Nightwatch</a>
-    <nav class="land-nav mono" aria-label="{{ t.nav_label }}">
-      <a href="{{ url_for('watch', lang=lang) }}">{{ t.l_nav_map }}</a>
-    </nav>
     <div class="land-actions mono">
       {{ m.lang_switch() }}
+      {# Opens the dashboard and jumps straight to the live map (#live-map on the Watch page). #}
+      <a class="btn btn-ink btn-pill" href="{{ url_for('watch', lang=lang) }}#live-map">{{ t.l_open_dashboard }}</a>
     </div>
   </header>
 
   <main>
-    <section class="container hero">
+    <section id="top" class="container hero">
       <div class="hero-text">
         <div class="mono">{{ t.l_eyebrow }}</div>
         <h1>{{ t.l_h1 }}</h1>
@@ -75,7 +88,7 @@
 </div>
 
 {# ---------- 01 Example alert ---------- #}
-<section class="container section split">
+<section id="example" class="container section split">
   <div>
     <div class="tag">{{ t.l_ex_tag }}</div>
     <h2>{{ t.l_ex_h2 }}</h2>
@@ -132,7 +145,7 @@
 </section>
 
 {# ---------- 03 Does it work ---------- #}
-<section class="container section split">
+<section id="works" class="container section split">
   <div>
     <div class="tag">{{ t.l_works_tag }}</div>
     <h2>{{ t.l_works_h2 }}</h2>
@@ -159,7 +172,7 @@
 
 {# ---------- Final call to action ---------- #}
 <div class="band">
-  <section class="container cta">
+  <section id="start" class="container cta">
     <h2>{{ t.l_cta_h2 }}</h2>
     <p>{{ t.l_cta_lead }}</p>
     <div class="cta-buttons">
@@ -167,5 +180,32 @@
     </div>
   </section>
 </div>
+
+<script>
+// Contents panel: show it once the hero has scrolled away, and light up the
+// section that is crossing the middle of the screen.
+(() => {
+  const toc = document.getElementById('toc');
+  const links = [...toc.querySelectorAll('a[data-section]')];
+  if (!('IntersectionObserver' in window)) { toc.classList.add('is-visible'); return; }
+
+  // Pop out when less than 30% of the hero is still on screen.
+  new IntersectionObserver(([entry]) => {
+    toc.classList.toggle('is-visible', entry.intersectionRatio < 0.3);
+  }, {threshold: [0, 0.3, 1]}).observe(document.getElementById('top'));
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      links.forEach(a => a.toggleAttribute('aria-current',
+        a.dataset.section === entry.target.id));
+    });
+  }, {rootMargin: '-45% 0px -50% 0px'});
+  links.forEach(a => {
+    const section = document.getElementById(a.dataset.section);
+    if (section) observer.observe(section);
+  });
+})();
+</script>
 
 {% endblock %}

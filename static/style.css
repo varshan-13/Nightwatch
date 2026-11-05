@@ -462,6 +462,77 @@ main.container:has(.back-link) { padding-top: 40px; }
 .decision-false_alarm { background: var(--surface-2); color: var(--text); }
 .btn-undo { margin-top: 12px; min-height: 44px; color: var(--muted); }
 
+/* ---------- Landing contents menu (fixed on the left) ---------- */
+html { scroll-behavior: smooth; }
+#top, #example, #works, #start, #how, #comment, #ethics, #ethique { scroll-margin-top: 24px; }
+#live-map { scroll-margin-top: 24px; }
+
+.toc {
+  /* Hidden (slid left, transparent) until motion script adds .is-visible. */
+  position: fixed;
+  left: 16px;
+  top: 50%;
+  z-index: 50;
+  transform: translate(-24px, -50%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .35s ease, transform .45s cubic-bezier(.2, .7, .2, 1), visibility 0s linear .45s;
+  padding: 12px 10px;
+  border-radius: 14px;
+  background: rgba(10, 15, 18, .55);  /* faint backdrop so it stays readable over the green band */
+  backdrop-filter: blur(6px);
+}
+.toc.is-visible {
+  transform: translate(0, -50%);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .35s ease, transform .45s cubic-bezier(.2, .7, .2, 1), visibility 0s;
+}
+.toc-title {
+  font-size: 10px; color: var(--dim);
+  padding: 0 8px 8px;
+}
+.toc-list { list-style: none; margin: 0; padding: 0; }
+.toc-list a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  color: var(--muted);          /* greyed out */
+  font-size: 13px;
+  transition: color .2s ease;
+}
+.toc-list a::before {           /* a short grey line that grows for the current section */
+  content: ""; flex: none;
+  width: 12px; height: 2px; border-radius: 2px;
+  background: currentColor; opacity: .5;
+  transition: width .25s ease, background-color .2s ease, opacity .2s ease;
+}
+.toc-num { font-size: 10px; color: var(--dim); }
+.toc-list a:hover { color: var(--text); }
+.toc-list a[aria-current] { color: var(--text); }
+.toc-list a[aria-current]::before { width: 24px; background: var(--accent); opacity: 1; }
+.toc-list a[aria-current] .toc-num { color: var(--accent); }
+
+/* Not enough empty margin for the labels: show only the grey numbers and
+   lines, and reveal the labels when the pointer or keyboard focus is on it. */
+@media (max-width: 1599px) {
+  .toc { left: 6px; padding: 10px 4px; }
+  .toc-title, .toc-label { display: none; }
+  .toc-list a { gap: 6px; padding: 6px 4px; }
+  .toc:hover, .toc:focus-within { padding: 12px 10px; background: var(--surface); box-shadow: 0 16px 40px rgba(0, 0, 0, .45); }
+  .toc:hover .toc-title, .toc:focus-within .toc-title { display: block; }
+  .toc:hover .toc-label, .toc:focus-within .toc-label { display: inline; }
+  .toc:hover .toc-list a, .toc:focus-within .toc-list a { gap: 10px; padding: 6px 8px; }
+}
+/* ...and push the page content right a little so the numbers never cover text. */
+@media (min-width: 701px) and (max-width: 1379px) {
+  body:has(.toc) .container { padding-left: 76px; }
+}
+/* Phones: no room for a fixed panel, so it stays hidden. */
+@media (max-width: 700px) {
+  .toc { display: none; }
+}
+
 /* ---------- Motion ---------- */
 /* All of this is switched off by the prefers-reduced-motion block at the end. */
 
@@ -545,6 +616,7 @@ main.container:has(.back-link) { padding-top: 40px; }
 .table tbody tr:hover { background: var(--surface-2); }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation: none !important;
     transition: none !important;
