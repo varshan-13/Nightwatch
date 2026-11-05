@@ -1,0 +1,61 @@
+vessel_id,name,mmsi,flag,gear,dark,lat,lon,risk,reason_1,reason_1_pts,reason_2,reason_2_pts,reason_3,reason_3_pts,last_seen
+V000,Vessel 000,329382628,China,Purse seiner,False,-13.233,62.533,25,AIS off for 6 hours near EEZ edge,10,Met a refrigerated carrier at sea,6,Fishing close to a protected area,5,2026-10-31 05:00
+V001,Vessel 001,638496599,Seychelles,Longliner,False,-23.955,63.131,31,Met a refrigerated carrier at sea,14,Loitered 1 days far from port,8,Fishing close to a protected area,5,2026-10-31 19:00
+V002,Vessel 002,144249588,Taiwan,Purse seiner,False,-22.84,64.646,18,Changed name or ID 3 times this year,9,Fishing close to a protected area,4,AIS off for 26 hours near EEZ edge,1,2026-10-29 15:00
+V003,Vessel 003,862417905,Seychelles,Carrier,False,-18.861,59.761,82,Loitered 4 days far from port,38,No port visit in 57 days,29,AIS off for 39 hours near EEZ edge,6,2026-10-29 20:00
+V004,Vessel 004,379008912,Mauritius,Longliner,False,-17.814,59.733,39,Met a refrigerated carrier at sea,16,Changed name or ID 4 times this year,11,No port visit in 37 days,6,2026-10-30 09:00
+V005,Vessel 005,736046830,Taiwan,Carrier,False,-21.793,54.681,32,No port visit in 78 days,16,AIS off for 44 hours near EEZ edge,11,Changed name or ID 3 times this year,0,2026-10-31 16:00
+V006,Vessel 006,814425134,Panama,Purse seiner,False,-13.752,54.558,11,Changed name or ID 4 times this year,4,Met a refrigerated carrier at sea,3,Loitered 4 days far from port,1,2026-10-30 07:00
+V007,Unidentified,,Unknown,Unknown,True,-23.68,61.159,99,Radar detection with no AIS signal,47,No port visit in 89 days,36,AIS off for 30 hours near EEZ edge,4,2026-10-30 06:00
+V008,Unidentified,,Unknown,Unknown,True,-13.123,56.962,53,Radar detection with no AIS signal,24,Loitered 5 days far from port,21,Changed name or ID 3 times this year,1,2026-10-30 02:00
+V009,Unidentified,,Unknown,Unknown,True,-21.789,62.795,64,Radar detection with no AIS signal,34,Changed name or ID 3 times this year,18,AIS off for 19 hours near EEZ edge,4,2026-10-31 05:00
+V010,Vessel 010,776272918,Taiwan,Carrier,False,-22.346,62.364,13,AIS off for 40 hours near EEZ edge,4,Changed name or ID 4 times this year,3,Loitered 1 days far from port,3,2026-10-29 23:00
+V011,Unidentified,,Unknown,Unknown,True,-12.056,63.776,81,Radar detection with no AIS signal,35,Fishing close to a protected area,27,Met a refrigerated carrier at sea,9,2026-10-31 11:00
+V012,Unidentified,,Unknown,Unknown,True,-12.361,56.286,69,Radar detection with no AIS signal,28,Loitered 5 days far from port,22,No port visit in 52 days,11,2026-10-29 15:00
+V013,Vessel 013,216835726,Panama,Carrier,False,-17.095,62.84,49,AIS off for 39 hours near EEZ edge,23,Changed name or ID 3 times this year,17,Loitered 4 days far from port,2,2026-10-30 02:00
+V014,Vessel 014,361833121,Seychelles,Longliner,False,-21.334,56.151,41,Changed name or ID 4 times this year,13,Loitered 3 days far from port,12,Met a refrigerated carrier at sea,11,2026-10-30 01:00
+V015,Vessel 015,379717425,Spain,Carrier,False,-16.997,58.627,29,Fishing close to a protected area,12,Loitered 2 days far from port,9,Met a refrigerated carrier at sea,4,2026-10-30 05:00
+V016,Vessel 016,426564093,China,Purse seiner,False,-18.316,62.447,67,AIS off for 18 hours near EEZ edge,45,Loitered 4 days far from port,9,Changed name or ID 4 times this year,4,2026-10-31 03:00
+V017,Unidentified,,Unknown,Unknown,True,-18.925,62.49,53,Radar detection with no AIS signal,37,Fishing close to a protected area,5,Met a refrigerated carrier at sea,4,2026-11-01 00:00
+V018,Unidentified,,Unknown,Unknown,True,-22.019,59.218,76,Radar detection with no AIS signal,48,Fishing close to a protected area,19,AIS off for 23 hours near EEZ edge,0,2026-10-29 20:00
+V019,Vessel 019,866332980,Comoros,Carrier,False,-23.611,63.14,48,No port visit in 75 days,28,Fishing close to a protected area,8,Changed name or ID 3 times this year,5,2026-10-31 23:00
+V020,Vessel 020,732165289,Spain,Longliner,False,-19.161,54.036,47,Met a refrigerated carrier at sea,20,AIS off for 14 hours near EEZ edge,18,No port visit in 38 days,3,2026-10-31 16:00
+V021,Vessel 021,873899343,China,Longliner,False,-19.461,61.974,24,Met a refrigerated carrier at sea,13,Fishing close to a protected area,6,AIS off for 17 hours near EEZ edge,0,2026-10-31 16:00
+V022,Vessel 022,784037825,Mauritius,Carrier,False,-17.919,54.826,58,Loitered 3 days far from port,29,Changed name or ID 3 times this year,17,No port visit in 45 days,5,2026-10-29 08:00
+V023,Vessel 023,590451274,Seychelles,Carrier,False,-14.973,60.482,35,Loitered 4 days far from port,22,Fishing close to a protected area,4,No port visit in 29 days,3,2026-10-31 17:00
+V024,Unidentified,,Unknown,Unknown,True,-21.945,59.357,65,Radar detection with no AIS signal,34,Fishing close to a protected area,20,No port visit in 76 days,3,2026-10-31 07:00
+V025,Vessel 025,841252815,Spain,Carrier,False,-14.938,56.814,36,Changed name or ID 4 times this year,18,Loitered 2 days far from port,10,Fishing close to a protected area,3,2026-10-31 20:00
+V026,Vessel 026,547830282,Comoros,Carrier,False,-23.195,60.255,36,No port visit in 63 days,19,Fishing close to a protected area,8,Changed name or ID 4 times this year,4,2026-10-31 03:00
+V027,Vessel 027,767136881,Seychelles,Carrier,False,-14.372,56.531,15,Met a refrigerated carrier at sea,9,AIS off for 26 hours near EEZ edge,3,Loitered 1 days far from port,0,2026-10-30 12:00
+V028,Unidentified,,Unknown,Unknown,True,-17.746,60.614,63,Radar detection with no AIS signal,34,Loitered 3 days far from port,21,Met a refrigerated carrier at sea,0,2026-10-30 12:00
+V029,Unidentified,,Unknown,Unknown,True,-22.131,63.931,52,Radar detection with no AIS signal,30,Met a refrigerated carrier at sea,15,Loitered 5 days far from port,0,2026-10-30 12:00
+V030,Unidentified,,Unknown,Unknown,True,-23.576,63.365,92,Radar detection with no AIS signal,42,Changed name or ID 2 times this year,37,Met a refrigerated carrier at sea,2,2026-10-29 21:00
+V031,Vessel 031,274905653,Taiwan,Purse seiner,False,-12.585,64.436,38,Loitered 5 days far from port,23,Fishing close to a protected area,6,Changed name or ID 4 times this year,4,2026-10-31 06:00
+V032,Vessel 032,642341503,Comoros,Purse seiner,False,-21.923,63.973,57,No port visit in 40 days,30,Changed name or ID 4 times this year,14,Loitered 4 days far from port,6,2026-10-29 18:00
+V033,Vessel 033,213292637,Taiwan,Longliner,False,-14.321,55.957,25,Changed name or ID 3 times this year,12,Met a refrigerated carrier at sea,9,No port visit in 40 days,0,2026-10-30 01:00
+V034,Vessel 034,184922956,Spain,Longliner,False,-19.21,59.098,48,Met a refrigerated carrier at sea,19,No port visit in 55 days,12,Loitered 4 days far from port,11,2026-10-30 05:00
+V035,Vessel 035,789803238,Mauritius,Purse seiner,False,-14.346,60.183,47,Fishing close to a protected area,21,AIS off for 22 hours near EEZ edge,18,Loitered 4 days far from port,2,2026-10-29 15:00
+V036,Vessel 036,395972274,Seychelles,Carrier,False,-16.741,54.812,1,Met a refrigerated carrier at sea,0,Fishing close to a protected area,0,AIS off for 40 hours near EEZ edge,0,2026-10-29 08:00
+V037,Vessel 037,808406119,Comoros,Longliner,False,-15.075,63.425,29,Loitered 1 days far from port,15,No port visit in 81 days,8,Met a refrigerated carrier at sea,2,2026-10-30 07:00
+V038,Vessel 038,897751557,Spain,Longliner,False,-13.438,60.58,33,AIS off for 30 hours near EEZ edge,22,Fishing close to a protected area,5,Loitered 2 days far from port,2,2026-11-01 01:00
+V039,Vessel 039,816568939,Comoros,Carrier,False,-23.209,64.617,42,Changed name or ID 3 times this year,22,AIS off for 11 hours near EEZ edge,7,Met a refrigerated carrier at sea,7,2026-10-31 23:00
+V040,Unidentified,,Unknown,Unknown,True,-19.349,64.588,69,Radar detection with no AIS signal,46,AIS off for 25 hours near EEZ edge,13,Loitered 5 days far from port,1,2026-10-29 18:00
+V041,Vessel 041,592103026,Seychelles,Carrier,False,-16.111,60.783,20,Loitered 5 days far from port,8,Met a refrigerated carrier at sea,8,Fishing close to a protected area,0,2026-10-30 00:00
+V042,Unidentified,,Unknown,Unknown,True,-22.218,58.842,63,Radar detection with no AIS signal,36,No port visit in 45 days,18,Loitered 3 days far from port,1,2026-10-30 07:00
+V043,Unidentified,,Unknown,Unknown,True,-23.266,62.7,61,Radar detection with no AIS signal,31,No port visit in 75 days,14,Met a refrigerated carrier at sea,8,2026-10-31 12:00
+V044,Vessel 044,646779921,Panama,Purse seiner,False,-15.634,58.174,70,Met a refrigerated carrier at sea,26,Fishing close to a protected area,24,Loitered 2 days far from port,11,2026-10-31 11:00
+V045,Vessel 045,621922377,Comoros,Longliner,False,-22.531,57.981,90,Met a refrigerated carrier at sea,62,Changed name or ID 4 times this year,15,AIS off for 39 hours near EEZ edge,2,2026-10-31 23:00
+V046,Vessel 046,924043645,Mauritius,Carrier,False,-21.196,61.256,47,Loitered 4 days far from port,36,Fishing close to a protected area,3,AIS off for 25 hours near EEZ edge,1,2026-10-30 02:00
+V047,Vessel 047,736125126,Spain,Carrier,False,-22.134,59.407,92,Loitered 4 days far from port,46,Fishing close to a protected area,32,Changed name or ID 2 times this year,4,2026-10-29 21:00
+V048,Vessel 048,270627404,Mauritius,Longliner,False,-18.866,56.17,19,Fishing close to a protected area,10,AIS off for 29 hours near EEZ edge,5,No port visit in 51 days,1,2026-10-30 01:00
+V049,Vessel 049,364066671,Spain,Carrier,False,-21.189,55.126,30,Loitered 4 days far from port,12,Met a refrigerated carrier at sea,12,Fishing close to a protected area,2,2026-10-30 16:00
+V050,Vessel 050,162515611,Taiwan,Purse seiner,False,-19.814,57.906,40,Met a refrigerated carrier at sea,16,Fishing close to a protected area,14,Changed name or ID 4 times this year,4,2026-10-31 08:00
+V051,Vessel 051,841635724,Taiwan,Carrier,False,-19.649,62.986,49,Changed name or ID 4 times this year,26,AIS off for 17 hours near EEZ edge,9,No port visit in 80 days,8,2026-10-29 07:00
+V052,Vessel 052,105136006,Spain,Longliner,False,-15.243,61.449,40,Met a refrigerated carrier at sea,25,Fishing close to a protected area,7,AIS off for 19 hours near EEZ edge,3,2026-10-31 22:00
+V053,Vessel 053,332052176,Comoros,Carrier,False,-17.842,59.042,54,Met a refrigerated carrier at sea,25,No port visit in 30 days,11,Loitered 2 days far from port,10,2026-10-31 06:00
+V054,Unidentified,,Unknown,Unknown,True,-17.534,57.783,64,Radar detection with no AIS signal,30,Loitered 2 days far from port,17,Fishing close to a protected area,8,2026-10-30 13:00
+V055,Unidentified,,Unknown,Unknown,True,-12.276,57.231,68,Radar detection with no AIS signal,34,AIS off for 41 hours near EEZ edge,26,No port visit in 71 days,0,2026-10-30 04:00
+V056,Vessel 056,893552647,Seychelles,Purse seiner,False,-20.521,64.921,57,Met a refrigerated carrier at sea,36,Loitered 5 days far from port,14,AIS off for 35 hours near EEZ edge,0,2026-10-31 08:00
+V057,Vessel 057,867374929,Seychelles,Longliner,False,-21.022,62.611,16,Loitered 2 days far from port,6,No port visit in 55 days,4,Met a refrigerated carrier at sea,3,2026-10-30 03:00
+V058,Unidentified,,Unknown,Unknown,True,-13.309,55.133,74,Radar detection with no AIS signal,31,Loitered 1 days far from port,25,No port visit in 24 days,8,2026-10-29 09:00
+V059,Vessel 059,285032317,Panama,Carrier,False,-13.193,64.372,23,AIS off for 8 hours near EEZ edge,10,Changed name or ID 2 times this year,6,No port visit in 27 days,4,2026-10-31 09:00

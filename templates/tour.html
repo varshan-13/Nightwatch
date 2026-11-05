@@ -1,0 +1,17 @@
+<dialog id="tour" aria-labelledby="tour-title" aria-describedby="tour-description">
+  <div id="tour-highlight" aria-hidden="true" hidden></div>
+  <section class="tour-card">
+    <p id="tour-progress" class="tag" aria-live="polite"></p>
+    <h2 id="tour-title" tabindex="-1"></h2>
+    <p id="tour-description"></p>
+    <div class="tour-actions">
+      <button type="button" class="btn btn-secondary" id="tour-skip"></button>
+      <div>
+        <button type="button" class="btn btn-secondary" id="tour-back"></button>
+        <button type="button" class="btn btn-primary" id="tour-next"></button>
+      </div>
+    </div>
+  </section>
+</dialog>
+<script id="tour-config" type="application/json">{{ {'copy': t.tour, 'watchUrl': url_for('watch', lang=lang), 'page': request.endpoint}|tojson }}</script>
+<script src="{{ url_for('static', filename='tour.js') }}" defer></script>

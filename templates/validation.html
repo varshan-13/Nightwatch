@@ -1,5 +1,43 @@
 {% extends "base.html" %}
+{% set v = t.validation %}
 {% block title %}{{ t.title_validation }}{% endblock %}
 {% block content %}
+<div class="tag">{{ v.tag }}</div>
 <h1 class="page-title">{{ t.h1_validation }}</h1>
+<p class="section-lead validation-lead">{{ v.lead }}</p>
+<section class="card validation-status" aria-labelledby="validation-status-title">
+  <h2 id="validation-status-title">{{ v.status }}</h2>
+  <p>{{ v.status_text }}</p>
+</section>
+<div class="validation-metrics">
+  {% for metric in v.metrics %}
+  <section class="card">
+    <h2 class="tag">{{ metric.title }}</h2>
+    <p class="validation-value">{{ v.unavailable }}</p>
+    <p class="muted">{{ metric.text }}</p>
+  </section>
+  {% endfor %}
+</div>
+<div class="validation-columns">
+  <section class="card">
+    <h2 class="validation-section-title">{{ v.method }}</h2>
+    <ol class="validation-steps">
+      {% for step in v.steps %}
+      <li><h3>{{ step.title }}</h3><p class="muted">{{ step.text }}</p></li>
+      {% endfor %}
+    </ol>
+  </section>
+  <section class="card">
+    <h2 class="validation-section-title">{{ v.limits }}</h2>
+    <ul class="validation-limits">
+      {% for limit in v.limitations %}
+      <li><h3>{{ limit.title }}</h3><p class="muted">{{ limit.text }}</p></li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
+<section class="card validation-cta">
+  <div><h2 class="validation-section-title">{{ v.cta_title }}</h2><p class="muted">{{ v.cta_text }}</p></div>
+  <a class="btn btn-primary" href="{{ url_for('watch', lang=lang) }}">{{ v.cta }}</a>
+</section>
 {% endblock %}

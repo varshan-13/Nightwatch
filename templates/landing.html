@@ -12,13 +12,9 @@
       <span class="logo-tile">{{ m.logo_mark(22) }}</span>Nightwatch</a>
     <nav class="land-nav mono" aria-label="{{ t.nav_label }}">
       <a href="{{ url_for('watch', lang=lang) }}">{{ t.l_nav_map }}</a>
-      <a href="#{{ t.how_anchor }}">{{ t.l_nav_how }}</a>
-      <a href="{{ url_for('validation', lang=lang) }}">{{ t.l_nav_works }}</a>
-      <a href="#{{ t.ethics_anchor }}">{{ t.l_nav_limits }}</a>
     </nav>
     <div class="land-actions mono">
       {{ m.lang_switch() }}
-      <a class="btn btn-ink btn-pill" href="{{ url_for('watch', lang=lang) }}">{{ t.l_open_dashboard }}</a>
     </div>
   </header>
 
@@ -144,9 +140,9 @@
     <a class="btn btn-primary btn-pill" style="margin-top:28px" href="{{ url_for('validation', lang=lang) }}">{{ t.l_works_cta }}</a>
   </div>
   <div class="stats">
-    {# Placeholders until Phase 7 computes the real numbers. #}
-    <div class="card"><div class="stat-value accent">{{ t.l_stat_1_value }}</div><p>{{ t.l_stat_1_text }}</p></div>
-    <div class="card"><div class="stat-value">{{ t.l_stat_2_value }}</div><p>{{ t.l_stat_2_text }}</p></div>
+    {# Validation is not measured yet; show the current status rather than placeholder numbers. #}
+    <div class="card"><div class="stat-value stat-status accent">{{ t.l_stat_1_value }}</div><p>{{ t.l_stat_1_text }}</p></div>
+    <div class="card"><div class="stat-value stat-status">{{ t.l_stat_2_value }}</div><p>{{ t.l_stat_2_text }}</p></div>
   </div>
 </section>
 
@@ -167,7 +163,6 @@
     <h2>{{ t.l_cta_h2 }}</h2>
     <p>{{ t.l_cta_lead }}</p>
     <div class="cta-buttons">
-      <a class="btn btn-ink" href="{{ url_for('watch', lang=lang) }}">{{ t.l_cta_open }}</a>
       <a class="btn btn-ink-outline" href="#{{ t.how_anchor }}">{{ t.l_cta_how }}</a>
     </div>
   </section>

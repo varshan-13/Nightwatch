@@ -570,3 +570,128 @@ main.container:has(.back-link) { padding-top: 40px; }
   .counter-value { font-size: 38px; }
   .map { height: 360px; }
 }
+
+/* ---------- Guided tour ---------- */
+.tour-replay {
+  font: inherit;
+  color: var(--accent);
+  background: transparent;
+  border: 0;
+  padding: 8px;
+  cursor: pointer;
+}
+#tour {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  overflow: hidden;
+}
+#tour::backdrop { background: rgb(0 0 0 / .66); }
+.tour-card {
+  position: fixed;
+  z-index: 1;
+  width: min(460px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding: 26px;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 24px;
+  box-shadow: 0 16px 60px rgb(0 0 0 / .45);
+}
+.tour-card h2 { font-size: 28px; line-height: 1.1; margin-top: 12px; }
+.tour-card p { color: var(--text-2); }
+.tour-card .tag { color: var(--accent); margin: 0; }
+.tour-actions, .tour-actions > div { display: flex; gap: 10px; flex-wrap: wrap; }
+.tour-actions { justify-content: space-between; margin-top: 24px; }
+#tour-highlight {
+  position: fixed;
+  border: 3px solid var(--accent);
+  border-radius: 18px;
+  pointer-events: none;
+}
+#tour [hidden] { display: none; }
+@media (max-width: 480px) {
+  .tour-card { padding: 20px; }
+  .tour-actions > div { width: 100%; justify-content: flex-end; }
+}
+
+/* ---------- Vessel details ---------- */
+.detail-back { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); margin-bottom: 16px; }
+.detail-heading { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; }
+.detail-heading > div { flex: 1 1 420px; min-width: 0; }
+.detail-heading .page-title { overflow-wrap: anywhere; }
+.detail-score { flex: 0 1 320px; width: 100%; }
+.detail-row { display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+.detail-score-value { font: 800 64px var(--font-head); line-height: 1.2; margin-top: 10px; }
+.detail-score-value span { font-size: 24px; }
+.detail-score meter { width: 100%; height: 16px; accent-color: var(--accent); }
+.detail-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 24px; margin-top: 32px; }
+.detail-stack { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+.detail-profile { margin: 20px 0; }
+.detail-profile dt { color: var(--muted); font-size: 13px; margin-top: 18px; }
+.detail-profile dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+.detail-action-title { font: 800 36px/1.1 var(--font-head); margin: 16px 0; }
+.detail-action-high { background: var(--high); color: var(--ink); }
+.detail-action-high .tag { color: var(--ink); }
+.detail-action-med { border-color: var(--med); }
+.detail-action-low { border-color: var(--line-2); }
+.detail-map { height: 320px; border-radius: 16px; background: var(--map-bg); margin-top: 16px; }
+.activity-list { list-style: none; padding: 0 0 0 20px; margin: 24px 0 0; border-left: 2px solid var(--line-2); }
+.activity-list li { position: relative; padding: 0 0 24px 12px; }
+.activity-list li:last-child { padding-bottom: 0; }
+.activity-list li::before { content: ''; position: absolute; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); left: -26px; top: 6px; }
+.activity-list h3 { font: 600 18px var(--font-body); margin: 6px 0; }
+@media (max-width: 800px) {
+  .detail-grid { grid-template-columns: minmax(0, 1fr); }
+  .detail-score { flex-basis: 100%; }
+  .detail-grid .flag { flex-wrap: wrap; }
+}
+
+/* ---------- Validation ---------- */
+.validation-lead { max-width: 780px; }
+.validation-status { margin: 28px 0 20px; border-left: 4px solid var(--med); }
+.validation-status h2 { color: var(--med); font-size: 24px; }
+.validation-status p { margin-bottom: 0; max-width: 860px; color: var(--text-2); }
+.validation-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.validation-value { font: 700 28px/1.15 var(--font-head); margin: 20px 0 12px; color: var(--text-2); }
+.validation-metrics .muted { margin-bottom: 0; }
+.validation-columns { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; margin-top: 20px; }
+.validation-section-title { font-size: 28px; line-height: 1.15; }
+.validation-steps { padding-left: 26px; }
+.validation-steps li { padding: 16px 0 8px 10px; }
+.validation-steps li::marker { font-family: var(--font-mono); color: var(--accent); }
+.validation-steps h3, .validation-limits h3 { font: 600 18px var(--font-body); }
+.validation-steps p, .validation-limits p { margin: 8px 0; }
+.validation-limits { list-style: none; padding: 0; }
+.validation-limits li { padding: 18px 0; border-bottom: 1px solid var(--line); }
+.validation-limits li:last-child { border-bottom: 0; padding-bottom: 0; }
+.validation-limits h3 { color: var(--med); }
+.validation-cta { display: flex; gap: 24px; align-items: center; justify-content: space-between; margin-top: 20px; }
+.validation-cta > div { max-width: 760px; }
+.validation-cta .btn { flex-shrink: 0; }
+@media (max-width: 1100px) { .validation-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) {
+  .validation-metrics, .validation-columns { grid-template-columns: minmax(0, 1fr); }
+  .validation-cta { flex-direction: column; align-items: flex-start; }
+}
+
+/* Status phrases need smaller type than numerical statistics. */
+.stat-value.stat-status { font-size: clamp(26px, 3vw, 38px); overflow-wrap: anywhere; }
+
+/* ---------- Officer reviews ---------- */
+.review-tabs { margin: 28px 0 20px; flex-wrap: wrap; }
+.review-note-label { display: block; margin: 20px 0 8px; color: var(--text-2); }
+#review-note { width: 100%; resize: vertical; padding: 12px; background: var(--surface-2); color: var(--text); border: 1px solid var(--line-2); border-radius: 12px; font: inherit; }
+.review-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.review-buttons .btn { min-height: 44px; }
+.review-message { padding: 12px; background: var(--ok-bg); color: var(--accent); border-radius: 12px; }
+.review-note { white-space: pre-wrap; overflow-wrap: anywhere; }
