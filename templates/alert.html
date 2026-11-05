@@ -1,5 +1,185 @@
 {% extends "base.html" %}
 {% block title %}{{ t.title_alert }}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+{% endblock %}
+
 {% block content %}
-<h1 class="page-title">{{ vessel_id }}</h1>
+{# "12.34°S 56.78°E" from a latitude and longitude #}
+{% macro position(lat, lon) -%}
+{{ '%.2f' % (lat|abs) }}°{{ 'S' if lat < 0 else 'N' }} {{ '%.2f' % (lon|abs) }}°{{ 'W' if lon < 0 else 'E' }}
+{%- endmacro %}
+
+{% set age = (t.age_h if hours_ago < 48 else t.age_d).format(n=hours_ago if hours_ago < 48 else hours_ago // 24) %}
+{% set seen = (t.last_seen_h if hours_ago < 48 else t.last_seen_d).format(n=hours_ago if hours_ago < 48 else hours_ago // 24) %}
+
+<a class="back-link mono" href="{{ url_for('watch', lang=lang) }}">{{ t.a_back }}</a>
+
+{# ---------- Title and risk score ---------- #}
+<div class="alert-top">
+  <div class="alert-title">
+    <div class="tag">[ {{ t.a_tag }} #{{ a.vessel_id[:8]|upper }} · {{ t.sample_data }} ]</div>
+    {% if a.dark %}
+    <h1 class="page-title">{{ a.vessel_id }}</h1>
+    <p class="alert-meta">{{ t.radar_contact }} · {{ seen }}</p>
+    {% else %}
+    <h1 class="page-title">{{ a.name }}</h1>
+    <p class="alert-meta">{{ t['gear_' ~ a.gear] or a.gear }} · {{ t.mmsi }} {{ a.mmsi }} · {{ seen }}</p>
+    {% endif %}
+  </div>
+
+  <div class="card score-card">
+    <div class="score-head">
+      <span class="mono muted">{{ t.a_risk_score }}</span>
+      <span class="chip chip-{{ a.level }}">{{ t['level_' ~ a.level] }}</span>
+    </div>
+    <div class="score-value text-{{ a.level }}">{{ a.risk }}<span class="score-max"> / 100</span></div>
+    <div class="progress" role="progressbar" aria-label="{{ t.a_risk_score }}"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ a.risk }}">
+      <div class="progress-bar bg-{{ a.level }}" style="width: {{ a.risk }}%"></div>
+    </div>
+  </div>
+</div>
+
+<div class="alert-grid">
+  <div class="alert-main">
+
+    {# ---------- Why it was flagged ---------- #}
+    <section class="card">
+      <div class="tag">{{ t.a_why }}</div>
+      {% if not reasons %}<p class="empty">{{ t.a_no_reasons }}</p>{% endif %}
+      <ol class="flags">
+        {% for r in reasons %}
+        <li class="flag flag-{{ r.level }}">
+          <span class="flag-num">{{ loop.index }}</span>
+          <div class="flag-body">
+            <div class="flag-head">
+              <span class="flag-label">{{ reason_label(r.text) }}</span>
+              <span class="flag-pts">{{ t.pts.format(n=r.pts) }}</span>
+            </div>
+            <div class="flag-text">{{ reason(r.text) }}</div>
+          </div>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+
+    {# ---------- Track map ---------- #}
+    <section class="card map-card">
+      <div class="map-head">
+        <div class="tag">{{ t.a_track }}</div>
+        <div class="legend">
+          <span><i class="line line-on"></i>{{ t.ais_on }}</span>
+          <span><i class="line line-off"></i>{{ t.ais_off }}</span>
+        </div>
+      </div>
+      <div id="track" class="map map-small" role="region" aria-label="{{ t.a_track_label }}"></div>
+      <div class="small muted">{{ t.w_map_credit }}</div>
+    </section>
+
+    {# ---------- Recent activity, newest first ---------- #}
+    <section class="card">
+      <div class="tag">{{ t.a_activity }}</div>
+      {% if events %}
+      <div class="table-scroll">
+        <table class="table table-compact">
+          <thead><tr><th>{{ t.th_when }}</th><th>{{ t.th_event }}</th><th>{{ t.th_detail }}</th></tr></thead>
+          <tbody>
+            {% for e in events %}
+            <tr>
+              <td class="mono muted">{{ fmt_time(e.time) }}</td>
+              <td{% if e.event == 'AIS gap' %} class="text-high"{% endif %}>{{ t['ev_' ~ e.event] or e.event }}</td>
+              <td class="cell-text">{{ position(e.lat, e.lon) }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="empty">{{ t.a_no_events }}</p>
+      {% endif %}
+    </section>
+  </div>
+
+  <aside class="alert-side">
+
+    {# ---------- Suggested action ---------- #}
+    <section class="card action-card action-{{ a.level }}">
+      <div class="mono">{{ t.a_suggested }}</div>
+      <div class="action-title">{{ t[a.action] }}</div>
+      <p>{{ t['a_why_' ~ a.level].format(age=age) }}</p>
+    </section>
+
+    {# ---------- Vessel info ---------- #}
+    <section class="card">
+      <div class="tag">{{ t.a_vessel }}</div>
+      <dl class="info">
+        <dt>{{ t.a_gear }}</dt><dd>{{ t['gear_' ~ a.gear] or a.gear }}</dd>
+        <dt>{{ t.a_flag }}</dt><dd>{{ t.unknown if a.flag == 'Unknown' else a.flag }}</dd>
+        <dt>{{ t.mmsi }}</dt><dd>{{ a.mmsi or '—' }}</dd>
+        <dt>{{ t.a_position }}</dt><dd>{{ position(a.lat, a.lon) }}</dd>
+      </dl>
+      <p class="info-note">{{ t.a_flag_note }}</p>
+    </section>
+
+    {# ---------- Decision ---------- #}
+    <section class="card" id="decision">
+      <div class="tag">{{ t.a_decision }}</div>
+      {% if decision %}
+      <div class="decision-done decision-{{ decision }}" role="status">{{ t['a_done_' ~ decision] }}</div>
+      <form method="post" action="{{ url_for('undo', lang=lang, vessel_id=a.vessel_id) }}">
+        <button class="btn btn-secondary btn-undo" type="submit">{{ t.a_undo }}</button>
+      </form>
+      {% else %}
+      <form method="post" action="{{ url_for('decide', lang=lang, vessel_id=a.vessel_id) }}">
+        <label class="note-label" for="note">{{ t.a_note }}</label>
+        <textarea class="input note" id="note" name="note" rows="3" placeholder="{{ t.a_note_ph }}"></textarea>
+        <div class="decision-buttons">
+          <button class="btn btn-primary" type="submit" name="label" value="confirmed">{{ t.a_confirm }}</button>
+          <button class="btn btn-outline" type="submit" name="label" value="false_alarm">{{ t.a_false_alarm }}</button>
+        </div>
+      </form>
+      {% endif %}
+    </section>
+  </aside>
+</div>
+
+<script>
+// ---------- Track map ----------
+// `track` is this vessel's events plus its last position, oldest first (from app.py).
+const track = {{ track|tojson }};
+const names = {{ {'AIS gap': t['ev_AIS gap'], 'Encounter': t.ev_Encounter, 'Loitering': t.ev_Loitering,
+                  'Fishing': t.ev_Fishing, 'Port visit': t['ev_Port visit'], 'Last seen': t['ev_Last seen']}|tojson }};
+const css = getComputedStyle(document.documentElement);
+const color = name => css.getPropertyValue(name).trim();
+
+const map = L.map('track', {scrollWheelZoom: false});
+L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors',
+  maxZoom: 12,
+}).addTo(map);
+
+// Join each point to the next. After an "AIS gap" the line is dashed red:
+// we don't know the real path while the AIS was off, so it's an estimate.
+for (let i = 0; i < track.length - 1; i++) {
+  const off = track[i].event === 'AIS gap';
+  L.polyline([[track[i].lat, track[i].lon], [track[i + 1].lat, track[i + 1].lon]], {
+    color: off ? color('--high') : color('--accent'), weight: 3,
+    dashArray: off ? '8 7' : null, interactive: false,
+  }).addTo(map);
+}
+
+// A dot for each point; the last known position is bigger.
+track.forEach((p, i) => {
+  const last = i === track.length - 1;
+  L.circleMarker([p.lat, p.lon], {
+    radius: last ? 8 : 5, weight: last ? 3 : 0,
+    color: color('--text'), fillColor: last ? color('--map-bg') : color('--text'), fillOpacity: 1,
+  }).bindPopup(`${names[p.event] || p.event}<br>${p.time}`).addTo(map);
+});
+
+map.fitBounds(L.latLngBounds(track.map(p => [p.lat, p.lon])).pad(0.3), {maxZoom: 9});
+</script>
 {% endblock %}

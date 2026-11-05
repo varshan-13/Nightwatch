@@ -96,7 +96,7 @@
             <b>{{ r.name }}</b><div class="small muted">{{ t['gear_' ~ r.gear] or r.gear }}</div>
             {% endif %}
           </td>
-          <td class="cell-text">{{ reason(r.reason_1) }}</td>
+          <td class="cell-text">{{ reason(r.reason_1) or '—' }}</td>
           <td><span class="chip chip-{{ r.level }}">{{ r.risk }} {{ t['level_' ~ r.level] }}</span></td>
           <td>{{ t[r.action] }}</td>
           <td class="cell-right"><a class="link-open" href="{{ url_for('alert', lang=lang, vessel_id=r.vessel_id) }}">{{ t.open_arrow }}<span class="sr-only"> {{ r.name }}</span></a></td>

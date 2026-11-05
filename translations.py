@@ -102,7 +102,7 @@ T = {
         "l_cta_open": "Open the dashboard →",
         "l_cta_how": "How it works",
         # Watch page
-        "w_tag": "[ Last 72 hours · Sample data ]",
+        "w_tag": "[ Last 12 months · Global Fishing Watch data ]",
         "w_search_short": "Vessel, MMSI or area...",
         "w_scan": "Scan",
         "c_alerts": "Alerts",
@@ -141,6 +141,56 @@ T = {
         "gear_Purse seiner": "Purse seiner",
         "gear_Carrier": "Carrier",
         "gear_Unknown": "Unknown",
+        "gear_Trawler": "Trawler",
+        "gear_Fishing vessel": "Fishing vessel",
+
+        # Alert page
+        "a_back": "← Back to watch",
+        "a_tag": "Alert",
+        "sample_data": "GFW data",
+        "mmsi": "MMSI",
+        "last_seen_h": "last seen {n} hours ago",
+        "last_seen_d": "last seen {n} days ago",
+        "a_risk_score": "Risk score",
+        "a_why": "[ Why it was flagged ]",
+        "pts": "+{n} pts",
+        "a_track": "[ Track · recent events ]",
+        "a_track_label": "Map of this vessel's recent events, joined in time order",
+        "ais_on": "AIS on",
+        "ais_off": "AIS off (estimated)",
+        "a_activity": "[ Recent activity ]",
+        "th_when": "When",
+        "th_event": "Event",
+        "th_detail": "Detail",
+        "a_no_events": "No recorded events for this vessel.",
+        "a_no_reasons": "Nothing in this vessel's behaviour stands out from normal.",
+        "a_suggested": "Suggested action",
+        "a_why_high": "Strong signals together. Last position is {age} old.",
+        "a_why_med": "Some unusual signals. Last position is {age} old.",
+        "a_why_low": "Nothing stands out. Last position is {age} old.",
+        "age_h": "{n} hours",
+        "age_d": "{n} days",
+        "a_vessel": "[ Vessel ]",
+        "a_gear": "Gear",
+        "a_flag": "Flag",
+        "a_position": "Last position",
+        "a_flag_note": "Flag is shown for context only. It does not change the score.",
+        "a_decision": "[ Your decision ]",
+        "a_note": "Note (optional)",
+        "a_note_ph": "What did the patrol find?",
+        "a_confirm": "Confirm",
+        "a_false_alarm": "False alarm",
+        "a_done_confirmed": "Marked as confirmed. Logged for validation.",
+        "a_done_false_alarm": "Marked as a false alarm. Logged for validation.",
+        "a_undo": "Undo",
+        "unknown": "Unknown",
+        "ev_AIS gap": "AIS gap",
+        "ev_Encounter": "Encounter",
+        "ev_Loitering": "Loitering",
+        "ev_Fishing": "Fishing",
+        "ev_Port visit": "Port visit",
+        "ev_Last seen": "Last seen",
+        "months": ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
     },
     "fr": {
         # Header
@@ -240,7 +290,7 @@ T = {
         "l_cta_open": "Ouvrir le tableau de bord →",
         "l_cta_how": "Comment ça marche",
         # Watch page
-        "w_tag": "[ 72 dernières heures · Données d'exemple ]",
+        "w_tag": "[ 12 derniers mois · Données Global Fishing Watch ]",
         "w_search_short": "Navire, MMSI ou zone...",
         "w_scan": "Analyser",
         "c_alerts": "Alertes",
@@ -279,6 +329,56 @@ T = {
         "gear_Purse seiner": "Senneur",
         "gear_Carrier": "Transporteur",
         "gear_Unknown": "Inconnu",
+        "gear_Trawler": "Chalutier",
+        "gear_Fishing vessel": "Navire de pêche",
+
+        # Alert page
+        "a_back": "← Retour à la surveillance",
+        "a_tag": "Alerte",
+        "sample_data": "Données GFW",
+        "mmsi": "MMSI",
+        "last_seen_h": "vu il y a {n} heures",
+        "last_seen_d": "vu il y a {n} jours",
+        "a_risk_score": "Score de risque",
+        "a_why": "[ Pourquoi cette alerte ]",
+        "pts": "+{n} pts",
+        "a_track": "[ Trajet · événements récents ]",
+        "a_track_label": "Carte des événements récents de ce navire, reliés dans l'ordre",
+        "ais_on": "AIS actif",
+        "ais_off": "AIS coupé (estimé)",
+        "a_activity": "[ Activité récente ]",
+        "th_when": "Quand",
+        "th_event": "Événement",
+        "th_detail": "Détail",
+        "a_no_events": "Aucun événement enregistré pour ce navire.",
+        "a_no_reasons": "Rien dans le comportement de ce navire ne sort de l'ordinaire.",
+        "a_suggested": "Action suggérée",
+        "a_why_high": "Plusieurs signaux forts. Dernière position vieille de {age}.",
+        "a_why_med": "Quelques signaux inhabituels. Dernière position vieille de {age}.",
+        "a_why_low": "Rien de particulier. Dernière position vieille de {age}.",
+        "age_h": "{n} heures",
+        "age_d": "{n} jours",
+        "a_vessel": "[ Navire ]",
+        "a_gear": "Engin",
+        "a_flag": "Pavillon",
+        "a_position": "Dernière position",
+        "a_flag_note": "Le pavillon est affiché pour le contexte uniquement. Il ne change pas le score.",
+        "a_decision": "[ Votre décision ]",
+        "a_note": "Note (facultative)",
+        "a_note_ph": "Qu'a trouvé la patrouille ?",
+        "a_confirm": "Confirmer",
+        "a_false_alarm": "Fausse alerte",
+        "a_done_confirmed": "Alerte confirmée. Enregistrée pour la validation.",
+        "a_done_false_alarm": "Classée fausse alerte. Enregistrée pour la validation.",
+        "a_undo": "Annuler",
+        "unknown": "Inconnu",
+        "ev_AIS gap": "Coupure AIS",
+        "ev_Encounter": "Rencontre",
+        "ev_Loitering": "Errance",
+        "ev_Fishing": "Pêche",
+        "ev_Port visit": "Escale",
+        "ev_Last seen": "Dernière position",
+        "months": ["JANV", "FÉVR", "MARS", "AVR", "MAI", "JUIN", "JUIL", "AOÛT", "SEPT", "OCT", "NOV", "DÉC"],
     },
 }
 
@@ -288,23 +388,60 @@ T = {
 # sentence; (\d+) captures the number so the French sentence can reuse it.
 # The pipeline (Phase 6) must write sentences in these same shapes.
 
-REASONS_FR = [
-    (r"AIS off for (\d+) hours near EEZ edge", "AIS coupé pendant {0} heures près de la limite de la ZEE"),
-    (r"Met a refrigerated carrier at sea", "Rencontre avec un cargo frigorifique en mer"),
-    (r"Loitered (\d+) days far from port", "{0} jours d'errance loin du port"),
-    (r"No port visit in (\d+) days", "Aucune escale depuis {0} jours"),
-    (r"Changed name or ID (\d+) times this year", "{0} changements de nom ou d'identifiant cette année"),
-    (r"Fishing close to a protected area", "Pêche près d'une aire marine protégée"),
-    (r"Radar detection with no AIS signal", "Détection radar sans signal AIS"),
+# Each row: the English sentence pattern, the French sentence, and a short label
+# in English and French (the coloured heading above the sentence on the alert page).
+REASONS = [
+    (r"AIS off for (\d+) hours near EEZ edge", "AIS coupé pendant {0} heures près de la limite de la ZEE",
+     "Went dark near the border", "Signal coupé près de la limite"),
+    (r"Met a refrigerated carrier at sea", "Rencontre avec un cargo frigorifique en mer",
+     "Met a carrier at sea", "Rencontre avec un transporteur"),
+    (r"Loitered (\d+) days far from port", "{0} jours d'errance loin du port",
+     "Loitering far from port", "Errance loin du port"),
+    (r"No port visit in (\d+) days", "Aucune escale depuis {0} jours",
+     "Long time away from port", "Longtemps loin du port"),
+    (r"Changed name or ID (\d+) times this year", "{0} changements de nom ou d'identifiant cette année",
+     "Changing identity", "Changements d'identité"),
+    (r"Fishing close to a protected area", "Pêche près d'une aire marine protégée",
+     "Near a protected area", "Près d'une aire protégée"),
+    (r"Radar detection with no AIS signal", "Détection radar sans signal AIS",
+     "Seen by radar, not by AIS", "Vu au radar, pas en AIS"),
+
+    # Sentences written by the real-data pipeline (pipeline/score.py)
+    (r"AIS off for (\d+) hours in total", "AIS coupé pendant {0} heures au total",
+     "Long AIS silences", "Longs silences AIS"),
+    (r"AIS switched off (\d+) times? near the EEZ edge", "AIS coupé {0} fois près de la limite de la ZEE",
+     "Went dark near the border", "Signal coupé près de la limite"),
+    (r"Met a refrigerated carrier (\d+) times? at sea", "A rencontré un transporteur frigorifique {0} fois en mer",
+     "Met a carrier at sea", "Rencontre avec un transporteur"),
+    (r"Loitered (\d+) hours far from port", "{0} heures d'errance loin du port",
+     "Loitering far from port", "Errance loin du port"),
+    (r"Changed name or ID (\d+) times? this year", "A changé de nom ou d'identifiant {0} fois cette année",
+     "Changing identity", "Changements d'identité"),
+    (r"Fished (\d+) hours inside a protected area", "{0} heures de pêche dans une aire marine protégée",
+     "Fishing in a protected area", "Pêche en aire protégée"),
+    (r"Seen by radar (\d+) times? here this year", "Vu {0} fois au radar ici cette année",
+     "Repeated radar sightings", "Détections radar répétées"),
 ]
+FALLBACK_LABEL = {"en": "Unusual behaviour", "fr": "Comportement inhabituel"}
+
+
+def _find_reason(text):
+    for pattern, french, label_en, label_fr in REASONS:
+        match = re.fullmatch(pattern, text)
+        if match:
+            return match, french, {"en": label_en, "fr": label_fr}
+    return None, None, None
 
 
 def translate_reason(text, lang):
     """Show a stored English reason in the page language. Unknown sentences stay in English."""
-    if lang == "en":
+    match, french, _ = _find_reason(text)
+    if lang == "en" or not match:
         return text
-    for pattern, french in REASONS_FR:
-        match = re.fullmatch(pattern, text)
-        if match:
-            return french.format(*match.groups())
-    return text
+    return french.format(*match.groups())
+
+
+def reason_label(text, lang):
+    """Short heading for a reason, e.g. 'Went dark near the border'."""
+    _, _, labels = _find_reason(text)
+    return labels[lang] if labels else FALLBACK_LABEL[lang]
