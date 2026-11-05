@@ -143,9 +143,9 @@
     <a class="btn btn-primary btn-pill" style="margin-top:28px" href="{{ url_for('validation', lang=lang) }}">{{ t.l_works_cta }}</a>
   </div>
   <div class="stats">
-    {# Placeholders until Phase 7 computes the real numbers. #}
-    <div class="card"><div class="stat-value accent">{{ t.l_stat_1_value }}</div><p>{{ t.l_stat_1_text }}</p></div>
-    <div class="card"><div class="stat-value">{{ t.l_stat_2_value }}</div><p>{{ t.l_stat_2_text }}</p></div>
+    {# Validation is not measured yet; show the current status rather than placeholder numbers. #}
+    <div class="card"><div class="stat-value stat-status accent">{{ t.l_stat_1_value }}</div><p>{{ t.l_stat_1_text }}</p></div>
+    <div class="card"><div class="stat-value stat-status">{{ t.l_stat_2_value }}</div><p>{{ t.l_stat_2_text }}</p></div>
   </div>
 </section>
 

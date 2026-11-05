@@ -622,3 +622,6 @@ main.container { padding-top: 48px; padding-bottom: 72px; }
   .validation-metrics, .validation-columns { grid-template-columns: minmax(0, 1fr); }
   .validation-cta { flex-direction: column; align-items: flex-start; }
 }
+
+/* Status phrases need smaller type than numerical statistics. */
+.stat-value.stat-status { font-size: clamp(26px, 3vw, 38px); overflow-wrap: anywhere; }
