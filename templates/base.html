@@ -26,7 +26,6 @@
           ('watch', t.tab_watch, url_for('watch', lang=lang)),
           ('alert', t.tab_alerts, url_for('watch', lang=lang) ~ '#alerts'),
           ('validation', t.tab_validation, url_for('validation', lang=lang)),
-          ('method', t.tab_method, url_for('landing', lang=lang) ~ '#' ~ t.how_anchor),
       ] %}
       <a class="tab{% if request.endpoint == endpoint %} active{% endif %}" href="{{ href }}"
          {% if request.endpoint == endpoint %}aria-current="page"{% endif %}>{{ label }}</a>
