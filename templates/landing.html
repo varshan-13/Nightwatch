@@ -22,8 +22,11 @@
 
 <div class="band">
   <header class="container land-header">
-    <a class="logo" href="{{ url_for('landing', lang=lang) }}" data-home-link>
-      <span class="logo-tile">{{ m.logo_mark(22) }}</span>Nightwatch</a>
+    <div class="brand">
+      <a class="logo" href="{{ url_for('landing', lang=lang) }}" data-home-link>
+        <span class="logo-tile">{{ m.logo_mark(22) }}</span>Nightwatch</a>
+      <a class="about-link mono" href="{{ url_for('about', lang=lang) }}"{% if request.endpoint == 'about' %} aria-current="page"{% endif %}>{{ t.about.nav }}</a>
+    </div>
     <div class="land-actions mono">
       {{ m.lang_switch() }}
       {# Single entry to the map and vessel list. #}

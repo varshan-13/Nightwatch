@@ -255,6 +255,31 @@ def alert(lang, vessel_id):
                 decision=decisions[0] if decisions else None)
 
 
+# Browsers ask for /favicon.ico on their own; answer with the Nightwatch logo icon.
+@app.route("/favicon.ico")
+def favicon():
+    return app.send_static_file("apple-touch-icon.png")
+
+
+# ---------- About the developers ----------
+# Names and links don't change with the language; roles and text are in translations.py.
+# Paste each LinkedIn profile URL below; the LinkedIn button only shows once it's filled in.
+# Photos are 400x400 crops in static/team/; leave "photo" empty to show the initials instead.
+TEAM = [
+    {"key": "varshan", "name": "Varshan", "initials": "V", "photo": "team/varshan.jpg",
+     "linkedin": "https://www.linkedin.com/in/logavarshan-sakthivel-978601395/"},
+    {"key": "neha", "name": "Neha Lenchu", "initials": "NL", "photo": "team/neha.jpg",
+     "linkedin": "https://www.linkedin.com/in/neha-lenchu-8a5a42390"},
+]
+REPO_URL = "https://github.com/varshan-13/Nightwatch"
+
+
+@app.route("/about", defaults={"lang": "en"})
+@app.route("/fr/about", defaults={"lang": "fr"})
+def about(lang):
+    return page("about.html", lang, team=TEAM, repo_url=REPO_URL)
+
+
 @app.route("/validation", defaults={"lang": "en"})
 @app.route("/fr/validation", defaults={"lang": "fr"})
 def validation(lang):

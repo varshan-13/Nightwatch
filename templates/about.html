@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% set a = t.about %}
+{% block title %}{{ a.title }}{% endblock %}
+
+{% block content %}
+<div class="tag">{{ a.tag }}</div>
+<h1 class="page-title about-title">{{ a.h1 }}</h1>
+<p class="section-lead about-lead">{{ a.lead }}</p>
+
+{# One card per developer. Roles and "what they built" come from translations.py;
+   names and LinkedIn links come from TEAM in app.py. #}
+<div class="about-team">
+  {% for person in team %}
+  {% set info = a.people[person.key] %}
+  <section class="card about-person" aria-labelledby="dev-{{ person.key }}">
+    <div class="about-head">
+      {% if person.photo %}
+      <img class="about-avatar about-photo" src="{{ url_for('static', filename=person.photo) }}"
+           alt="{{ a.photo_alt.format(name=person.name) }}" width="400" height="400" loading="lazy">
+      {% else %}
+      <span class="about-avatar" aria-hidden="true">{{ person.initials }}</span>
+      {% endif %}
+      <div>
+        <h2 id="dev-{{ person.key }}" class="about-name">{{ person.name }}</h2>
+        <p class="about-role mono">{{ info.role }}</p>
+      </div>
+    </div>
+    <h3 class="tag about-built">{{ a.built }}</h3>
+    <ul class="about-list">
+      {% for line in info.built_list %}<li>{{ line }}</li>{% endfor %}
+    </ul>
+    {% if person.linkedin %}
+    <a class="btn btn-secondary about-link-out" href="{{ person.linkedin }}" rel="noopener" target="_blank">{{ a.linkedin }} ↗<span class="sr-only"> {{ person.name }}</span></a>
+    {% endif %}
+  </section>
+  {% endfor %}
+</div>
+
+<section class="card about-project" aria-labelledby="about-project">
+  <h2 id="about-project" class="tag">{{ a.project }}</h2>
+  <p class="about-event">{{ a.event }}</p>
+  <p class="muted small">{{ a.credit }}</p>
+  <a class="btn btn-primary btn-pill" href="{{ repo_url }}" rel="noopener" target="_blank">{{ a.repo }} ↗</a>
+</section>
+{% endblock %}

@@ -676,6 +676,45 @@ html.intro-play .points li:nth-child(1) { --i: 6; }
 html.intro-play .points li:nth-child(2) { --i: 7; }
 html.intro-play .points li:nth-child(3) { --i: 8; }
 
+/* ---------- About link (next to the logo) and About page ---------- */
+.brand { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.about-link {
+  padding: 7px 12px; border-radius: 999px;
+  border: 1px solid var(--line-2); color: var(--muted);
+  font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+  transition: color .15s ease, border-color .15s ease, background-color .15s ease;
+}
+.about-link:hover { color: var(--text); border-color: var(--text); }
+.about-link[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+/* On the green home-page header: dark outline instead */
+.band .about-link { border-color: var(--ink); color: var(--ink); }
+.band .about-link:hover { background: var(--ink); color: var(--accent); }
+
+.about-title { max-width: 900px; }
+.about-lead { max-width: 680px; }
+.about-team { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 40px; }
+.about-person { padding: 28px; display: flex; flex-direction: column; gap: 14px; }
+.about-head { display: flex; align-items: center; gap: 16px; }
+.about-avatar {
+  flex: none; width: 56px; height: 56px; border-radius: 16px;
+  background: var(--accent); color: var(--ink);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-head); font-weight: 800; font-size: 20px; letter-spacing: -.02em;
+}
+.about-photo {                        /* round portrait in place of the initials */
+  width: 88px; height: 88px; border-radius: 50%;
+  object-fit: cover; background: var(--surface-2);
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 4px var(--accent);   /* thin sea-green ring */
+}
+.about-name { font-size: 30px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; }
+.about-role { margin: 6px 0 0; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.about-built { margin: 8px 0 0; font-weight: 500; }
+.about-list { margin: 0; padding-left: 18px; color: var(--text-2); line-height: 1.6; }
+.about-list li + li { margin-top: 4px; }
+.about-link-out { align-self: flex-start; margin-top: auto; }
+.about-project { margin-top: 20px; padding: 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.about-event { margin: 4px 0 0; font-size: 18px; }
+
 /* ---------- Missing-data notice ---------- */
 .data-notice { background: var(--med-bg); color: var(--med); border-bottom: 1px solid var(--med); font-size: 14px; }
 .data-notice .container { padding-top: 12px; padding-bottom: 12px; }

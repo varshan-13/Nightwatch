@@ -7,6 +7,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+{# Browser-tab icon: the Nightwatch logo tile. PNG fallback for Safari and phone home screens.
+   ?v=2 makes browsers fetch the icon again instead of a saved older copy; bump it when the icon changes. #}
+<link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}?v=2">
+<link rel="icon" type="image/png" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}?v=2">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}?v=2">
+<meta name="theme-color" content="#0A0F12">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <script src="{{ url_for('static', filename='motion.js') }}" defer></script>
 <script src="{{ url_for('static', filename='intro.js') }}" defer></script>
@@ -56,8 +62,11 @@ try {
 {% block page %}
 <header class="app-header">
   <div class="container">
-    <a class="logo" href="{{ url_for('landing', lang=lang) }}" data-home-link>
-      <span class="logo-tile">{{ m.logo_mark() }}</span>Nightwatch</a>
+    <div class="brand">
+      <a class="logo" href="{{ url_for('landing', lang=lang) }}" data-home-link>
+        <span class="logo-tile">{{ m.logo_mark() }}</span>Nightwatch</a>
+      <a class="about-link mono" href="{{ url_for('about', lang=lang) }}"{% if request.endpoint == 'about' %} aria-current="page"{% endif %}>{{ t.about.nav }}</a>
+    </div>
 
     <nav class="tabs mono" aria-label="{{ t.nav_label }}">
       {% for endpoint, label, href in [

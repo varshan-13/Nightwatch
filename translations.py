@@ -653,3 +653,62 @@ T["en"]["freshness"] = {"latest": "Latest vessel record", "period": "Recorded pe
 T["fr"]["freshness"] = {"latest": "Dernière observation d’un navire", "period": "Période enregistrée", "unknown": "Date indisponible", "snapshot": "Instantané des données · pas de suivi en direct", "note": "Les dates proviennent des observations, pas du téléchargement. Les activités plus récentes peuvent manquer.", "months": ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."]}
 T["en"]["w_tag"] = "Global Fishing Watch · Data snapshot"
 T["fr"]["w_tag"] = "Global Fishing Watch · Instantané des données"
+
+# ---------- About the developers (/about) ----------
+# What each person built comes from the project's git history.
+T["en"]["about"] = {
+    "title": "About the developers · Nightwatch",
+    "nav": "About",
+    "tag": "[ About the developers ]",
+    "h1": "Built by two developers in Mauritius.",
+    "lead": "Nightwatch started at the Tech Wave AI Hackathon 2026.",
+    "built": "What they built",
+    "linkedin": "LinkedIn",
+    "photo_alt": "Photo of {name}",
+    "people": {
+        "varshan": {"role": "Data pipeline & interface", "built_list": [
+            "Project setup, design system and the home page",
+            "Global Fishing Watch data pipeline and the anomaly risk score",
+            "Full-screen Live map, animations and the loading intro",
+            "Offline demo, Vercel hosting and the README",
+        ]},
+        "neha": {"role": "Validation & review workflow", "built_list": [
+            "Alert detail page and saved officer decisions",
+            "Alert review list, dashboard filters and map–list linking",
+            "Bilingual guided tour and navigation",
+            "Validation against the IOTC illegal-fishing list",
+        ]},
+    },
+    "project": "[ The project ]",
+    "repo": "Source code on GitHub",
+    "event": "Tech Wave AI Hackathon · Mauritius · Track 2: illegal fishing",
+    "credit": "Vessel data: Global Fishing Watch. Reference list: IOTC IUU Vessels List.",
+}
+T["fr"]["about"] = {
+    "title": "À propos des développeurs · Nightwatch",
+    "nav": "À propos",
+    "tag": "[ À propos des développeurs ]",
+    "h1": "Conçu par deux développeurs à Maurice.",
+    "lead": "Nightwatch est né au Tech Wave AI Hackathon 2026.",
+    "built": "Ce qu'ils ont réalisé",
+    "linkedin": "LinkedIn",
+    "photo_alt": "Photo de {name}",
+    "people": {
+        "varshan": {"role": "Pipeline de données et interface", "built_list": [
+            "Mise en place du projet, système de design et page d'accueil",
+            "Pipeline de données Global Fishing Watch et score de risque par anomalies",
+            "Carte en direct plein écran, animations et écran de chargement",
+            "Démo hors ligne, hébergement Vercel et README",
+        ]},
+        "neha": {"role": "Validation et examen des alertes", "built_list": [
+            "Page de détail d'alerte et décisions des agents enregistrées",
+            "Liste d'examen, filtres du tableau de bord et lien carte–liste",
+            "Visite guidée bilingue et navigation",
+            "Validation avec la liste de pêche illicite de la CTOI",
+        ]},
+    },
+    "project": "[ Le projet ]",
+    "repo": "Code source sur GitHub",
+    "event": "Tech Wave AI Hackathon · Maurice · Volet 2 : pêche illicite",
+    "credit": "Données navires : Global Fishing Watch. Liste de référence : liste INN de la CTOI.",
+}
