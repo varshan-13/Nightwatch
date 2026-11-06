@@ -39,6 +39,7 @@
   <aside class="watch-panel" aria-label="{{ t.h1_watch }}">
     <div class="watch-panel-head">
       <div class="tag">{{ t.w_tag }}</div>
+      {% set compact_freshness = true %}{% include "freshness.html" %}
       <h1 class="watch-title">{{ t.h1_watch }}</h1>
     </div>
 
@@ -139,6 +140,7 @@
     </div>
 
     <div class="watch-panel-body" id="panel-summary" role="tabpanel" aria-labelledby="tab-summary" hidden>
+{% set compact_freshness = false %}{% include "freshness.html" %}
 <div class="counters">
   <div class="card counter"><div class="counter-label">{{ t.c_alerts }}</div><div class="counter-value">{{ counts.alerts }}</div></div>
   <div class="card counter text-high"><div class="counter-label">{{ t.c_high }}</div><div class="counter-value">{{ counts.high }}</div></div>

@@ -7,6 +7,7 @@
 {% block content %}
 <div class="tag">{{ p.tag }}</div>
 <h1 class="page-title">{{ simple.title }}</h1>
+{% include "freshness.html" %}
 <p class="section-lead validation-lead">{{ simple.intro }}</p>
 <section class="card validation-status">
   <h2>{{ simple.meaning }}</h2>

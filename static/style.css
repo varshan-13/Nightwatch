@@ -1017,3 +1017,9 @@ html { scroll-behavior: smooth; }
 .validation-results > summary { cursor: pointer; font-weight: 600; min-height: 32px; }
 .validation-results[open] > summary { margin-bottom: 24px; }
 @media (max-width: 650px) { .validation-comparison { grid-template-columns: minmax(0, 1fr); } }
+
+/* Record freshness is independent of the current filters and evaluation time. */
+.data-freshness { margin: 20px 0; padding: 16px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--text-2); }
+.data-freshness p { margin: 4px 0; overflow-wrap: anywhere; }
+.data-freshness .small { margin-top: 10px; }
+.data-freshness-compact { padding: 0; margin: 10px 0 0; border: 0; font-size: 12px; background: transparent; }

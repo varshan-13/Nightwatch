@@ -1,0 +1,10 @@
+{% macro record_date(value) -%}
+{% if value %}<time datetime="{{ value.isoformat() }}">{{ value.day }} {{ t.freshness.months[value.month - 1] }} {{ value.year }}</time>{% else %}{{ t.freshness.unknown }}{% endif %}
+{%- endmacro %}
+<div class="data-freshness{% if compact_freshness|default(false) %} data-freshness-compact{% endif %}">
+  <p><strong>{{ t.freshness.latest }}:</strong> {{ record_date(freshness.latest) }}</p>
+  {% if not compact_freshness|default(false) %}
+  <p><strong>{{ t.freshness.period }}:</strong> {% if freshness.start %}{{ record_date(freshness.start) }} – {{ record_date(freshness.end) }}{% else %}{{ t.freshness.unknown }}{% endif %}</p>
+  <p class="small muted">{{ t.freshness.snapshot }}<br>{{ t.freshness.note }}</p>
+  {% endif %}
+</div>

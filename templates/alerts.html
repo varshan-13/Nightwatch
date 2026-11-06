@@ -3,6 +3,7 @@
 {% block content %}
 <div class="tag">{{ t.sample_data }}</div>
 <h1 class="page-title">{{ t.review.title }}</h1>
+{% include "freshness.html" %}
 <p class="section-lead">{{ t.review.lead }}</p>
 <nav class="tabs review-tabs" aria-label="{{ t.review.tabs }}">
   {% for key in ['pending', 'reviewed', 'all'] %}

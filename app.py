@@ -145,11 +145,32 @@ def watch_return(lang):
     return url_for("watch", lang=lang, **args)
 
 
+def data_freshness():
+    """Dates in the records, never the file modification/download time."""
+    def dates(filename, column):
+        path = DATA / filename
+        if not path.exists():
+            return pd.Series(dtype="datetime64[ns, UTC]")
+        frame = pd.read_csv(path)
+        if column not in frame:
+            return pd.Series(dtype="datetime64[ns, UTC]")
+        return pd.to_datetime(frame[column], errors="coerce", format="mixed", utc=True).dropna()
+    vessel_dates = dates("alerts.csv", "last_seen")
+    events = dates("events.csv", "time")
+    all_dates = pd.concat([vessel_dates, events])
+    return {
+        "latest": vessel_dates.max().date() if len(vessel_dates) else None,
+        "start": all_dates.min().date() if len(all_dates) else None,
+        "end": all_dates.max().date() if len(all_dates) else None,
+    }
+
+
 def page(template, lang, **data):
     return render_template(template, lang=lang, t=T[lang],
                            reason=lambda text: translate_reason(text, lang),
                            reason_label=lambda text: reason_label(text, lang),
-                           watch_back=watch_return(lang), **data)
+                           watch_back=watch_return(lang),
+                           freshness=data_freshness() if template in {"watch.html", "alerts.html", "validation.html"} else None, **data)
 
 
 @app.route("/", defaults={"lang": "en"})
