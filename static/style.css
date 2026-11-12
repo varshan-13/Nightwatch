@@ -972,6 +972,7 @@ html { scroll-behavior: smooth; }
 .detail-action-title { font: 800 36px/1.1 var(--font-head); margin: 16px 0; }
 .detail-action-high { background: var(--high); color: var(--ink); }
 .detail-action-high .tag { color: var(--ink); }
+.detail-action-high p { color: var(--ink); }
 .detail-action-med { border-color: var(--med); }
 .detail-action-low { border-color: var(--line-2); }
 .detail-map { height: 320px; border-radius: 16px; background: var(--map-bg); margin-top: 16px; }
