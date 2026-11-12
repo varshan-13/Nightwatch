@@ -1,0 +1,35 @@
+# Pulls fresh Global Fishing Watch data every morning, re-scores every vessel,
+# and commits the new data/alerts.csv and data/events.csv. Vercel redeploys on the push.
+name: Daily data refresh
+
+on:
+  schedule:
+    - cron: "17 2 * * *"   # 02:17 UTC = 06:17 in Mauritius
+  workflow_dispatch:        # adds a "Run workflow" button in the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r pipeline/requirements.txt
+      - name: Fetch, profile and score
+        env:
+          GFW_API_ACCESS_TOKEN: ${{ secrets.GFW_API_ACCESS_TOKEN }}
+        run: |
+          python pipeline/fetch_gfw.py
+          python pipeline/build_profiles.py
+          python pipeline/score.py
+      - name: Commit new data
+        run: |
+          git config user.name "nightwatch-bot"
+          git config user.email "nightwatch-bot@users.noreply.github.com"
+          git add data/alerts.csv data/events.csv
+          git diff --cached --quiet || git commit -m "Daily data refresh $(date -u +%F)"
+          git push
