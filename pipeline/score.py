@@ -2,7 +2,7 @@
 
 Run:  python3 pipeline/score.py   (after build_profiles.py)
 
-Writes data/alerts.csv and data/events.csv with exactly the columns in CLAUDE.md,
+Writes data/alerts.csv and data/events.csv with the columns in CLAUDE.md,
 so the website works with no changes.
 
 How the score works, in plain English:
@@ -27,7 +27,7 @@ ROOT = Path(__file__).parent.parent
 RAW, DATA = ROOT / "data" / "raw", ROOT / "data"
 COLUMNS = ["vessel_id", "name", "mmsi", "flag", "gear", "dark", "lat", "lon", "risk",
            "reason_1", "reason_1_pts", "reason_2", "reason_2_pts",
-           "reason_3", "reason_3_pts", "last_seen"]
+           "reason_3", "reason_3_pts", "last_seen", "imo"]
 
 
 def plural(n, word):
@@ -88,7 +88,7 @@ def score_vessels():
             "mmsi": r["mmsi"], "flag": r["flag"] or "Unknown", "gear": r["gear"],
             "dark": False, "lat": r["lat"], "lon": r["lon"], "risk": int(risk[i]),
             **explain(above.loc[i], features.loc[i], int(risk[i])),
-            "last_seen": r["last_seen"],
+            "last_seen": r["last_seen"], "imo": r["imo"],
         })
     return rows
 
@@ -129,6 +129,9 @@ def main():
 
     events = pd.read_csv(RAW / "vessel_events.csv")
     events = events[events["vessel_id"].isin(alerts["vessel_id"])]
+    # Same 12-month window as fetch_gfw.py: drop older history (mostly old port visits).
+    cutoff = (pd.Timestamp.today() - pd.Timedelta(days=365)).strftime("%Y-%m-%d")
+    events = events[events["time"] >= cutoff]
     events.sort_values("time", ascending=False).to_csv(DATA / "events.csv", index=False)
 
     levels = pd.cut(alerts["risk"], [-1, 39, 69, 100], labels=["Low", "Medium", "High"])

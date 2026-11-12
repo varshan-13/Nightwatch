@@ -26,9 +26,10 @@ design-reference/      the approved design screens (read the markup for layout a
 
 ## Data contract (the website only reads these files)
 `data/alerts.csv`, one row per vessel or radar contact:
-`vessel_id, name, mmsi, flag, gear, dark, lat, lon, risk, reason_1, reason_1_pts, reason_2, reason_2_pts, reason_3, reason_3_pts, last_seen`
+`vessel_id, name, mmsi, flag, gear, dark, lat, lon, risk, reason_1, reason_1_pts, reason_2, reason_2_pts, reason_3, reason_3_pts, last_seen, imo`
 - `dark` is True for a radar contact with no AIS match (name "Unidentified", no MMSI)
 - `risk` is 0 to 100
+- `imo` is the vessel's IMO number when GFW has one (blank for radar contacts); used to match the IOTC list
 
 `data/events.csv`, one row per event:
 `vessel_id, event, time, lat, lon`

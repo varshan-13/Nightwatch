@@ -70,6 +70,15 @@ class ValidationTests(unittest.TestCase):
         self.assertIsNone(result['top20'][0]['on_iotc'])
         self.assertFalse(result['imo_profiles_available'])
 
+    def test_imo_from_alerts_csv_matches_without_profiles(self):
+        (self.data / 'raw/profiles.csv').unlink()
+        self.alerts[0]['imo'] = '7826233'
+        self.write('alerts.csv', self.alerts)
+        result = build_validation(self.data)
+        self.assertTrue(result['imo_profiles_available'])
+        self.assertEqual(result['imo_vessels'], 1)
+        self.assertEqual(result['top20'][0]['match_method'], 'imo')
+
     def test_small_dataset_uses_actual_denominator(self):
         self.write('alerts.csv', self.alerts[:2])
         result = build_validation(self.data)

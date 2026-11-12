@@ -162,7 +162,7 @@ works with sample or real data unchanged.
 
 | File | Written by | Columns |
 |---|---|---|
-| `data/alerts.csv` | `score.py` | `vessel_id, name, mmsi, flag, gear, dark, lat, lon, risk, reason_1, reason_1_pts, reason_2, reason_2_pts, reason_3, reason_3_pts, last_seen` |
+| `data/alerts.csv` | `score.py` | `vessel_id, name, mmsi, flag, gear, dark, lat, lon, risk, reason_1, reason_1_pts, reason_2, reason_2_pts, reason_3, reason_3_pts, last_seen, imo` |
 | `data/events.csv` | `score.py` | `vessel_id, event, time, lat, lon`. `event` is one of: AIS gap, Encounter, Loitering, Fishing, Port visit |
 | `data/feedback.csv` | the website | `vessel_id, label, note, time`. `label` is `confirmed` or `false_alarm`. One current decision per vessel. Not committed. |
 | `data/validation.json` | `validate.py` | Top-20 and random-baseline matches, false-alarm rate, input hashes. Not committed. |

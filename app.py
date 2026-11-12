@@ -83,7 +83,7 @@ ACTION = {"high": "send_patrol", "med": "keep_watching", "low": "no_action"}
 
 ALERT_COLUMNS = ["vessel_id", "name", "mmsi", "flag", "gear", "dark", "lat", "lon", "risk",
                  "reason_1", "reason_1_pts", "reason_2", "reason_2_pts",
-                 "reason_3", "reason_3_pts", "last_seen"]
+                 "reason_3", "reason_3_pts", "last_seen", "imo"]
 
 
 def load_alerts():

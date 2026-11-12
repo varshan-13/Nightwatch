@@ -87,10 +87,12 @@ def build_validation(data=DATA):
     if entries and not any(vessel_name(e.get('name')) or identifier(e.get('imo'), 7) or identifier(e.get('mmsi'), 9) for e in entries):
         raise ValueError('IOTC CSV needs usable name, imo or mmsi columns')
     profiles = {r['vessel_id']: r for r in read_csv(data / 'raw/profiles.csv')}
+    # The IMO now ships in alerts.csv; raw/profiles.csv only exists where the pipeline ran.
+    imo_of = lambda r: r.get('imo') or profiles.get(r['vessel_id'], {}).get('imo')
     # Last decision wins; ignore stale feedback for vessels outside this dataset.
     feedback = {r['vessel_id']: r for r in read_csv(data / 'feedback.csv')
                 if r.get('label') in {'confirmed', 'false_alarm'} and r.get('vessel_id') in set(ids)}
-    matches = {r['vessel_id']: match_vessel(r, profiles.get(r['vessel_id'], {}).get('imo'), entries)
+    matches = {r['vessel_id']: match_vessel(r, imo_of(r), entries)
                for r in alerts} if entries else {}
     size = min(20, len(alerts))
     # Sort before sampling so CSV row order cannot change the baseline.
@@ -108,8 +110,8 @@ def build_validation(data=DATA):
         'list_available': bool(entries), 'list_rows': len(entries),
         'list_dates': sorted({r['list_date'] for r in entries if r.get('list_date')}),
         'source_urls': sorted({r['source_url'] for r in entries if r.get('source_url')}),
-        'imo_profiles_available': bool(profiles),
-        'imo_vessels': sum(bool(identifier(profiles.get(r['vessel_id'], {}).get('imo'), 7)) for r in alerts),
+        'imo_profiles_available': bool(profiles) or any(r.get('imo') for r in alerts),
+        'imo_vessels': sum(bool(identifier(imo_of(r), 7)) for r in alerts),
         'top20_hits': sum(r['on_iotc'] for r in top) if entries and size else None,
         'random_hits': sum(matches[r['vessel_id']]['on_iotc'] for r in baseline) if entries and size else None,
         'baseline_ids': [r['vessel_id'] for r in baseline],
